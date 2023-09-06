@@ -1,3 +1,8 @@
+package com.wcci.criticfusion.entity;
 
+import jakarta.persistence.Entity;
 
-// @Entity
+@Entity
+public class Movie {
+    
+}
