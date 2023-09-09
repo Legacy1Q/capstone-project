@@ -1,5 +1,6 @@
 import './Nav.css';
 import SearchIcon from '@mui/icons-material/Search';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 function Nav() {
   return (
@@ -40,6 +41,14 @@ function Nav() {
           <a href="/tv">TV</a>
           <a href="/games">Games</a>
           <a href="/deals">Deals</a>
+        </div>
+
+        {/* Additional Links */}
+        <div className='nav__login'>
+          <a href="/login">Login</a>
+          <a href="/cart">
+            <ShoppingBagIcon />
+          </a>
         </div>
     </div>
   )
