@@ -30,10 +30,16 @@ public class TVService {
     tvRepository.save(tv);
   }
 
- public TV updateTV (long id, TV updatedDetails) {
-  TV existingTV = findTVById(id);
-  existingTV.setTitle(updatedDetails.getTitle() == null? existingTV.getTitle() : updatedDetails.getTitle());
-  existingTV.setDescription(updatedDetails.getDescription() == null? existingTV.getDescription() : updatedDetails.getDescription());
+  public TV updateTV (long id, TV updatedTV) {
+    TV existingTV = findTVById(id);
+    existingTV.setTitle(updatedTV.getTitle() == null? existingTV.getTitle() : updatedTV.getTitle());
+    existingTV.setDescription(updatedTV.getDescription() == null? existingTV.getDescription() : updatedTV.getDescription());
+    existingTV.setGenre(updatedTV.getGenre() == null ? existingTV.getGenre() : updatedTV.getGenre());
+    existingTV.setAgeRating(updatedTV.getAgeRating() == null ? existingTV.getAgeRating() : updatedTV.getAgeRating());
+    existingTV.setTvViewing(updatedTV.getTvViewing() == null ? existingTV.getTvViewing() : updatedTV.getTvViewing());
+    existingTV.setBrowseByLanguage(updatedTV.getBrowseByLanguage() == null ? existingTV.getBrowseByLanguage() : updatedTV.getBrowseByLanguage());
+    existingTV.setActor(updatedTV.getActor() == null ? existingTV.getActor() : updatedTV.getActor());
+    existingTV.setReleaseDate(updatedTV.getReleaseDate() == 0 ? existingTV.getReleaseDate() : updatedTV.getReleaseDate());
   this.tvRepository.save(existingTV);
   return existingTV;
  }
