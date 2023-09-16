@@ -21,6 +21,22 @@ public class Games {
     private String byTopic;
     private String gameSystem;
 
+  public Games() {
+  }
+
+  public Games(String title, String description, String genre, String ageRating, String studio, String actor, int releaseDate, String byTopic, String gameSystem) {
+    this.title = title;
+    this.description = description;
+    this.genre = genre;
+    this.ageRating = ageRating;
+    this.studio = studio;
+    this.actor = actor;
+    this.releaseDate = releaseDate;
+    this.byTopic = byTopic;
+    this.gameSystem = gameSystem;
+  }
+
+
     public Long getId() {
       return Id;
     }

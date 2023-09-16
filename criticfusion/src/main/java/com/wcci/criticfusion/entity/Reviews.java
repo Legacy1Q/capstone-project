@@ -11,6 +11,16 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+
+  public Reviews() {
+  }
+
+  public Reviews(String title, String review, int rating) {
+    this.title = title;
+    this.review = review;
+    this.rating = rating;
+  }
+
     private String title;
     private String review;
     private int rating;

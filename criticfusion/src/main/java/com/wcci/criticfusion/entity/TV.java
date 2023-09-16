@@ -21,6 +21,21 @@ public class TV {
     private String tvViewing;
     private String browseByLanguage;
 
+  public TV() {
+  }
+
+  public TV(String title, String description, String genre, String ageRating, int byDecade, String actor, int releaseDate, String tvViewing, String browseByLanguage) {
+    this.title = title;
+    this.description = description;
+    this.genre = genre;
+    this.ageRating = ageRating;
+    this.byDecade = byDecade;
+    this.actor = actor;
+    this.releaseDate = releaseDate;
+    this.tvViewing = tvViewing;
+    this.browseByLanguage = browseByLanguage;
+  }
+
     public Long getId() {
       return Id;
     }

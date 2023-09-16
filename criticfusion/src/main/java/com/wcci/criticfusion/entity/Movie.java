@@ -21,6 +21,21 @@ public class Movie {
     private String movieSystem;
     private String browseByLanguage;
 
+  public Movie() {
+  }
+
+  public Movie(String title, String description, String genre, String ageRating, String studio, String actor, int releaseDate, String movieSystem, String browseByLanguage) {
+    this.title = title;
+    this.description = description;
+    this.genre = genre;
+    this.ageRating = ageRating;
+    this.studio = studio;
+    this.actor = actor;
+    this.releaseDate = releaseDate;
+    this.movieSystem = movieSystem;
+    this.browseByLanguage = browseByLanguage;
+  }
+
 
     public Long getId() {
       return Id;
