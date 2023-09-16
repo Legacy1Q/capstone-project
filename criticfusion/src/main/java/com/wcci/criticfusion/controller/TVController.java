@@ -27,6 +27,11 @@ public class TVController {
         return tvService.findAllTV();
     }
 
+    @GetMapping("/tvs/{id}")
+    public TV getTVById(@PathVariable long id) {
+    return tvService.findTVById(id);
+    }
+
     @PostMapping("/addTV")
     public void addTV(@RequestBody TV tv) {
         tvService.addTV(tv);

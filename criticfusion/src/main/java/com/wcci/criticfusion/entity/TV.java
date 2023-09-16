@@ -18,7 +18,7 @@ public class TV {
     private int byDecade;
     private String actor;
     private int releaseDate;
-    private String tvService;
+    private String tvViewing;
     private String browseByLanguage;
 
     public Long getId() {
@@ -80,12 +80,13 @@ public class TV {
     this.releaseDate = releaseDate;
   }
 
-  public String getTvService() {
-    return this.tvService;
+  public String getTvViewing() {
+    return this.tvViewing;
   }
 
-  public void setMovieService(String movieService) {
-    this.tvService = movieService;
+  public void setTvViewing(String tvViewing) {
+    this.tvViewing = tvViewing;
+
   }
 
   public String getBrowseByLanguage() {
