@@ -12,7 +12,8 @@ public class Reviews {
     private Long Id;
 
     private String title;
-    private String description;
+    private String review;
+    private int rating;
     public Long getId() {
       return Id;
     }
@@ -25,12 +26,18 @@ public class Reviews {
     public void setTitle(String title) {
       this.title = title;
     }
-    public String getDescription() {
-      return description;
+    public String getReview() {
+      return review;
     }
-    public void setDescription(String description) {
-      this.description = description;
+    public void setReview(String review) {
+      this.review = review;
     }
 
-    
+    public int getRating() {
+      return this.rating;
+    }
+
+    public void setRating(int rating) {
+      this.rating = rating;
+    }
 }
