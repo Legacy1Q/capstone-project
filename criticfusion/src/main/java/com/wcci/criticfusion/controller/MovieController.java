@@ -19,16 +19,32 @@ public class MovieController {
 
     MovieService movieService;
 
-    @GetMapping("/movie")
+    @GetMapping("/movies")
     public List<Movie> getAllMovie() {
         return movieService.findAllMovie();
     }
+
+    @GetMapping("/movies/{id}")
+  public Movie getMovieById(@PathVariable long id) {
+    return movieService.findMoviesById(id);
+  }
 
     @PostMapping("/addMovie")
     public void addMovie(@RequestBody Movie movie) {
 
         movieService.addMovie(movie);
-
     }
+
+    @PutMapping("/updateMovie/{id}")
+  public Movie updateMovie(@PathVariable long id, @RequestBody Movie movies) {
+    return this.movieService.updateMovie(id, movies);
+  }
+
+  @DeleteMapping("/deleteMovie/{id}")
+  public void deleteMovie(@PathVariable long id) {
+    this.movieService.deleteMovie(id);
+  }
+
+
 
 }
