@@ -31,11 +31,11 @@ public class TVService {
   }
 
  public TV updateTV (long id, TV updatedDetails) {
-  TV exsistingTV = findTVById(id);
-  exsistingTV.setTitle(updatedDetails.getTitle() == null? exsistingTV.getTitle() : updatedDetails.getTitle());
-  exsistingTV.setDescription(updatedDetails.getDescription() == null? exsistingTV.getDescription() : updatedDetails.getDescription());
-  this.tvRepository.save(exsistingTV);
-  return exsistingTV;
+  TV existingTV = findTVById(id);
+  existingTV.setTitle(updatedDetails.getTitle() == null? existingTV.getTitle() : updatedDetails.getTitle());
+  existingTV.setDescription(updatedDetails.getDescription() == null? existingTV.getDescription() : updatedDetails.getDescription());
+  this.tvRepository.save(existingTV);
+  return existingTV;
  }
 
 public void deleteTV(long id) {
