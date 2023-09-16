@@ -26,7 +26,7 @@ public class TVService {
     return this.tvRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id is not found."));
   }
 
-  public void addTV (TV tv){
+  public void addTV (TV tv) {
     tvRepository.save(tv);
   }
 

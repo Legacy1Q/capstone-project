@@ -86,6 +86,7 @@ public class TV {
 
   public void setTvViewing(String tvViewing) {
     this.tvViewing = tvViewing;
+
   }
 
   public String getBrowseByLanguage() {

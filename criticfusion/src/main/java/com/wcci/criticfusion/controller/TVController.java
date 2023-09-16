@@ -34,9 +34,7 @@ public class TVController {
 
     @PostMapping("/addTV")
     public void addTV(@RequestBody TV tv) {
-
         tvService.addTV(tv);
-
     }
 
     @PutMapping("/updateTV/{id}")
