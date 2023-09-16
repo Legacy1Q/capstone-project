@@ -13,6 +13,14 @@ public class TV {
 
     private String title;
     private String description;
+    private String genre;
+    private String ageRating;
+    private int byDecade;
+    private String actor;
+    private int releaseDate;
+    private String tvService;
+    private String browseByLanguage;
+
     public Long getId() {
       return Id;
     }
@@ -31,6 +39,62 @@ public class TV {
     public void setDescription(String description) {
       this.description = description;
     }
+
+  public String getGenre() {
+    return this.genre;
+  }
+
+  public void setGenre(String genre) {
+    this.genre = genre;
+  }
+
+  public String getAgeRating() {
+    return this.ageRating;
+  }
+
+  public void setAgeRating(String ageRating) {
+    this.ageRating = ageRating;
+  }
+
+  public int getByDecade() {
+    return this.byDecade;
+  }
+
+  public void setByDecade(int byDecade) {
+    this.byDecade = byDecade;
+  }
+
+  public String getActor() {
+    return this.actor;
+  }
+
+  public void setActor(String actor) {
+    this.actor = actor;
+  }
+
+  public int getReleaseDate() {
+    return this.releaseDate;
+  }
+
+  public void setReleaseDate(int releaseDate) {
+    this.releaseDate = releaseDate;
+  }
+
+  public String getTvService() {
+    return this.tvService;
+  }
+
+  public void setMovieService(String movieService) {
+    this.tvService = movieService;
+  }
+
+  public String getBrowseByLanguage() {
+    return this.browseByLanguage;
+  }
+
+  public void setBrowseByLanguage(String browseByLanguage) {
+    this.browseByLanguage = browseByLanguage;
+  }
 
     
 }
