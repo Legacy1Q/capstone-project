@@ -18,7 +18,7 @@ public class Movie {
     private String studio;
     private String actor;
     private int releaseDate;
-    private String movieService;
+    private String movieSystem;
     private String browseByLanguage;
 
 
@@ -82,12 +82,12 @@ public class Movie {
     this.releaseDate = releaseDate;
   }
 
-  public String getMovieService() {
-    return this.movieService;
+  public String getMovieSystem() {
+    return this.movieSystem;
   }
 
-  public void setMovieService(String movieService) {
-    this.movieService = movieService;
+  public void setMovieSystem(String movieService) {
+    this.movieSystem = movieService;
   }
 
   public String getBrowseByLanguage() {

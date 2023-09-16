@@ -1,10 +1,11 @@
 package com.wcci.criticfusion.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.wcci.criticfusion.entity.Movie;
 import com.wcci.criticfusion.repository.MovieRepository;
@@ -38,7 +39,7 @@ public class MovieService {
  exsistingMovies.setBrowseByLanguage(updatedMovies.getBrowseByLanguage() == null ? exsistingMovies.getBrowseByLanguage() : updatedMovies.getBrowseByLanguage());
  exsistingMovies.setActor(updatedMovies.getActor() == null ? exsistingMovies.getActor() : updatedMovies.getActor());
  exsistingMovies.setStudio(updatedMovies.getStudio() == null ? exsistingMovies.getStudio() : updatedMovies.getStudio());
- exsistingMovies.setReleaseDate(updatedMovies.getReleaseDate() == null ? exsistingMovies.getReleaseDate() : updatedMovies.getReleaseDate());
+ exsistingMovies.setReleaseDate(updatedMovies.getReleaseDate() == 0 ? exsistingMovies.getReleaseDate() : updatedMovies.getReleaseDate());
 
   this.movieRepository.save(exsistingMovies); 
 
@@ -48,7 +49,4 @@ public class MovieService {
 public void deleteMovie(long id) {
   this.movieRepository.deleteById(id);
 }
-
-
-
 }
