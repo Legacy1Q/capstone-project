@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
-public class Movie {
+public class TV {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
   @GenericGenerator(name = "native", strategy = "native")
@@ -24,29 +24,29 @@ public class Movie {
   private String description;
   private String genre;
   private String ageRating;
-  private String studio;
+  private int byDecade;
   private String actor;
   private int releaseDate;
-  private String movieSystem;
+  private String tvViewing;
   private String browseByLanguage;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "tv", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Reviews> reviews;
 
-  public Movie() {
+  public TV() {
   }
 
-  public Movie(String title, String description, String genre, String ageRating, String studio, String actor,
-      int releaseDate, String movieSystem, String browseByLanguage) {
+  public TV(String title, String description, String genre, String ageRating, int byDecade, String actor,
+      int releaseDate, String tvViewing, String browseByLanguage) {
     this.title = title;
     this.description = description;
     this.genre = genre;
     this.ageRating = ageRating;
-    this.studio = studio;
+    this.byDecade = byDecade;
     this.actor = actor;
     this.releaseDate = releaseDate;
-    this.movieSystem = movieSystem;
+    this.tvViewing = tvViewing;
     this.browseByLanguage = browseByLanguage;
   }
 
@@ -98,12 +98,12 @@ public class Movie {
     this.ageRating = ageRating;
   }
 
-  public String getStudio() {
-    return this.studio;
+  public int getByDecade() {
+    return this.byDecade;
   }
 
-  public void setStudio(String studio) {
-    this.studio = studio;
+  public void setByDecade(int byDecade) {
+    this.byDecade = byDecade;
   }
 
   public String getActor() {
@@ -122,12 +122,13 @@ public class Movie {
     this.releaseDate = releaseDate;
   }
 
-  public String getMovieSystem() {
-    return this.movieSystem;
+  public String getTvViewing() {
+    return this.tvViewing;
   }
 
-  public void setMovieSystem(String movieService) {
-    this.movieSystem = movieService;
+  public void setTvViewing(String tvViewing) {
+    this.tvViewing = tvViewing;
+
   }
 
   public String getBrowseByLanguage() {

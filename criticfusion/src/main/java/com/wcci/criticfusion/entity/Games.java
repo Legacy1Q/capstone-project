@@ -14,31 +14,30 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
-public class Movie {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+public class Games {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
   @GenericGenerator(name = "native", strategy = "native")
-  private Long Id;
+    private Long Id;
 
-  private String title;
-  private String description;
-  private String genre;
-  private String ageRating;
-  private String studio;
-  private String actor;
-  private int releaseDate;
-  private String movieSystem;
-  private String browseByLanguage;
+    private String title;
+    private String description;
+    private String genre;
+    private String ageRating;
+    private String studio;
+    private String actor;
+    private int releaseDate;
+    private String byTopic;
+    private String gameSystem;
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Reviews> reviews;
+    @JsonIgnore
+    @OneToMany (mappedBy = "games", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List <Reviews> reviews;
 
-  public Movie() {
+  public Games() {
   }
 
-  public Movie(String title, String description, String genre, String ageRating, String studio, String actor,
-      int releaseDate, String movieSystem, String browseByLanguage) {
+  public Games(String title, String description, String genre, String ageRating, String studio, String actor, int releaseDate, String byTopic, String gameSystem) {
     this.title = title;
     this.description = description;
     this.genre = genre;
@@ -46,8 +45,8 @@ public class Movie {
     this.studio = studio;
     this.actor = actor;
     this.releaseDate = releaseDate;
-    this.movieSystem = movieSystem;
-    this.browseByLanguage = browseByLanguage;
+    this.byTopic = byTopic;
+    this.gameSystem = gameSystem;
   }
 
   public List<Reviews> getReviews() {
@@ -58,29 +57,24 @@ public class Movie {
     this.reviews = reviews;
   }
 
-  public Long getId() {
-    return Id;
-  }
-
-  public void setId(Long id) {
-    this.Id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public Long getId() {
+      return Id;
+    }
+    public void setId(Long id) {
+      this.Id = id;
+    }
+    public String getTitle() {
+      return title;
+    }
+    public void setTitle(String title) {
+      this.title = title;
+    }
+    public String getDescription() {
+      return description;
+    }
+    public void setDescription(String description) {
+      this.description = description;
+    }
 
   public String getGenre() {
     return this.genre;
@@ -122,20 +116,21 @@ public class Movie {
     this.releaseDate = releaseDate;
   }
 
-  public String getMovieSystem() {
-    return this.movieSystem;
+  public String getByTopic() {
+    return this.byTopic;
   }
 
-  public void setMovieSystem(String movieService) {
-    this.movieSystem = movieService;
+  public void setByTopic(String byTopic) {
+    this.byTopic = byTopic;
   }
 
-  public String getBrowseByLanguage() {
-    return this.browseByLanguage;
+  public String getGameSystem() {
+    return this.gameSystem;
   }
 
-  public void setBrowseByLanguage(String browseByLanguage) {
-    this.browseByLanguage = browseByLanguage;
+  public void setGameSystem(String gameSystem) {
+    this.gameSystem = gameSystem;
   }
 
+    
 }
