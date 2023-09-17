@@ -40,7 +40,7 @@ function Nav() {
           <a href="/movies">Movies</a>
           <a href="/tv">TV</a>
           <a href="/games">Games</a>
-          <a href="/deals">Deals</a>
+          <a href="/merch">Merch</a>
         </div>
 
         {/* Additional Links */}
