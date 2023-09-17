@@ -1,30 +1,44 @@
 package com.wcci.criticfusion.entity;
 
+import java.util.List;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
 public class Movie {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+  @GenericGenerator(name = "native", strategy = "native")
+  private Long Id;
 
-    private String title;
-    private String description;
-    private String genre;
-    private String ageRating;
-    private String studio;
-    private String actor;
-    private int releaseDate;
-    private String movieSystem;
-    private String browseByLanguage;
+  private String title;
+  private String description;
+  private String genre;
+  private String ageRating;
+  private String studio;
+  private String actor;
+  private int releaseDate;
+  private String movieSystem;
+  private String browseByLanguage;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Reviews> reviews;
 
   public Movie() {
   }
 
-  public Movie(String title, String description, String genre, String ageRating, String studio, String actor, int releaseDate, String movieSystem, String browseByLanguage) {
+  public Movie(String title, String description, String genre, String ageRating, String studio, String actor,
+      int releaseDate, String movieSystem, String browseByLanguage) {
     this.title = title;
     this.description = description;
     this.genre = genre;
@@ -36,26 +50,37 @@ public class Movie {
     this.browseByLanguage = browseByLanguage;
   }
 
+  public List<Reviews> getReviews() {
+    return this.reviews;
+  }
 
-    public Long getId() {
-      return Id;
-    }
-    public void setId(Long id) {
-      this.Id = id;
-    }
-    public String getTitle() {
-      return title;
-    }
-    public void setTitle(String title) {
-      this.title = title;
-    }
-    public String getDescription() {
-      return description;
-    }
-    public void setDescription(String description) {
-      this.description = description;
-    }
+  public void setReviews(List<Reviews> reviews) {
+    this.reviews = reviews;
+  }
 
+  public Long getId() {
+    return Id;
+  }
+
+  public void setId(Long id) {
+    this.Id = id;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
   public String getGenre() {
     return this.genre;
@@ -112,6 +137,5 @@ public class Movie {
   public void setBrowseByLanguage(String browseByLanguage) {
     this.browseByLanguage = browseByLanguage;
   }
-    
-}
 
+}
