@@ -1,5 +1,51 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.home h1 {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.home__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 600px;
+    margin-bottom: auto;
+    margin-right: auto;
+    margin-left: 100px;
+    color: white;
+}
+
+.home__body h2 {
+    font-size: 1.5rem;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    margin-right: 220px;
+}
+
+
+.image__container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.image__container img {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    margin: 0 10px;
+}
+
+.carousel__container {
+    max-width: 100px;
+    max-height: 100px;
 }
