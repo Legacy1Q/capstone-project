@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import com.wcci.criticfusion.entity.Cart;
 import com.wcci.criticfusion.repository.CartRepository;
 
@@ -15,6 +14,7 @@ import com.wcci.criticfusion.repository.CartRepository;
 public class CartService{
     @Autowired
     private CartRepository cartRepository;
+
     public List<Cart> getAllCart() {
     return cartRepository.findAll();
     }
@@ -36,5 +36,6 @@ public class CartService{
  }
 
     public void deleteCart(long id) {
+      this.cartRepository.deleteById(id);
     }
 }
