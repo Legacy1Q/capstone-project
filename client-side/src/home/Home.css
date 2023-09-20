@@ -6,46 +6,79 @@
     height: 100vh;
 }
 
-.home h1 {
-    font-size: 3rem;
-    color: white;
-    margin-bottom: 20px;
-}
+/* Container for the entire carousel */
+.home__carousel {
+    position: relative;
+    width: 100%;
+    max-width: 800px; /* Adjust the maximum width as needed */
+    margin: -340px auto 0; /* Center the carousel */
+    overflow: hidden; /* Hide overflow to prevent image spillover */
+  }
+  
+  /* Individual carousel items */
+  .carousel-item {
+    display: none; /* Hide all items by default */
+    width: 100%;
+  }
+  
+  /* Display the first item by default */
+  .carousel-item.active {
+    display: block;
+  }
+  
+  /* Image styles */
+  .carousel-item img {
+    width: 100%; /* Make images fill the container */
+    height: 400px;
+    object-fit: cover; /* Maintain aspect ratio */
+  }
+  
+  /* Navigation controls */
+  .carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .carousel-control-prev {
+    left: 0;
+  }
+  
+  .carousel-control-next {
+    right: 0;
+  }
+  
+  /* Hover effect on controls */
+  .carousel-control-prev:hover, .carousel-control-next:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
 
-.home__body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 600px;
-    margin-bottom: auto;
-    margin-right: auto;
-    margin-left: 100px;
-    color: white;
-}
-
-.home__body h2 {
-    font-size: 1.5rem;
-    margin-top: 40px;
-    margin-bottom: 10px;
-    margin-right: 220px;
-}
 
 
-.image__container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
 
-.image__container img {
-    width: 200px;
-    height: auto;
-    object-fit: contain;
-    margin: 0 10px;
-}
 
-.carousel__container {
-    max-width: 100px;
-    max-height: 100px;
-}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
