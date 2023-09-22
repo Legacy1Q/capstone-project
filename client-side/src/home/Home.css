@@ -6,79 +6,89 @@
     height: 100vh;
 }
 
-/* Container for the entire carousel */
 .home__carousel {
-    position: relative;
-    width: 100%;
-    max-width: 800px; /* Adjust the maximum width as needed */
-    margin: -340px auto 0; /* Center the carousel */
-    overflow: hidden; /* Hide overflow to prevent image spillover */
-  }
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 880px; /* Adjust this value to leave space for the navbar */ 
+}
+
   
-  /* Individual carousel items */
   .carousel-item {
-    display: none; /* Hide all items by default */
+    display: none; 
     width: 100%;
   }
   
-  /* Display the first item by default */
+  
   .carousel-item.active {
     display: block;
   }
   
-  /* Image styles */
-  .carousel-item img {
-    width: 100%; /* Make images fill the container */
-    height: 400px;
-    object-fit: cover; /* Maintain aspect ratio */
-  }
   
-  /* Navigation controls */
+  .carousel-item img {
+    width: 100%; 
+    height: 400px;
+    object-fit: cover; 
+  }
+
   .carousel-control-prev, .carousel-control-next {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 2rem;
-    color: #000;
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
   }
-  
+
   .carousel-control-prev {
-    left: 0;
+    left: 10px;
   }
   
+
   .carousel-control-next {
-    right: 0;
+    right: 10px;
+  }
+
+
+  .carousel-control img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .home__body {
+    margin-top: 100px; /* Adjust this value to move the body down */
+    padding: 20px;
   }
   
-  /* Hover effect on controls */
-  .carousel-control-prev:hover, .carousel-control-next:hover {
-    background-color: rgba(255, 255, 255, 0.8);
+
+  .home__body h1 {
+    color: white;
+    font-size: 25px;
+    margin-bottom: 30px;
+    margin-top: 100px;
+    margin-right: 850px;
+    text-align: center;
   }
-  
 
+.body__container row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin-bottom: 100px;
+}
 
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  .body__container img {
+    display: inline-block;
+    margin-right: 10px;
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+  }
