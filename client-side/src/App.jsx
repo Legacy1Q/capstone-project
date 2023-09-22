@@ -1,11 +1,11 @@
 // import React from 'react';
 // import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './home/Home';
-import Nav from './home/Nav';
+import Home from "./home/Home";
+import Nav from "./home/Nav";
 
-function App() { 
+function App() {
   return (
-    <div className='app'>
+    <div className="app">
       {/* <Router>
         <Nav />
         <Switch>
@@ -14,11 +14,11 @@ function App() {
           </Route>
         </Switch>
       </Router> */}
-      
+
       <Nav />
       <Home />
     </div>
-  )
+  );
 }
 
 export default App;
