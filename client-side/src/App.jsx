@@ -1,11 +1,13 @@
 // import React from 'react';
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 import Home from "./home/Home";
 import Nav from "./home/Nav";
+import Login from "./login/Login";
 
 function App() {
   return (
     <div className="app">
+<<<<<<< HEAD
       {/* <Router>
         <Nav />
         <Switch>
@@ -18,8 +20,13 @@ function App() {
       }
 
 
+=======
+>>>>>>> 42393919e8feb3ca1d05452639ab5a2125a631f9
       <Nav />
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </div>
   );
 }
