@@ -4,12 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wcci.criticfusion.entity.Reviews;
-import com.wcci.criticfusion.entity.TV;
 import com.wcci.criticfusion.service.ReviewsService;
 
 @RestController
@@ -21,6 +18,4 @@ public class ReviewsController {
     public List<Reviews> findAllReviews() {
         return reviewsService.getAllReviews();
     }
-
-
 }

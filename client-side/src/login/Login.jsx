@@ -1,12 +1,80 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
+  const navigate = useNavigate();
   const [hideRegister, setHideRegister] = useState(true);
+
+  const [adminFullName, setAdminFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function loginHandler(event) {
+    event.preventDefault();
+    const response = await fetch("http://localhost:8080/login", {
+      method: "POST",
+      headers: {
+        // "X-Api-Key": "54/p8rt+p9QhgeN9G/Z5Sg==wrJ1tX7OT2EAdJcR",
+        Accept: "application/json",
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+    data.message == "Login Success!" ? navigate("/") : alert("Login Failed!");
+  }
+
+  async function registrationHandler(event) {
+    event.preventDefault();
+    if (!emailHandler(email)) {
+      return console.log("Invalid Email!");
+    }
+    const response = await fetch("http://localhost:8080/addAdmin", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        fullName: adminFullName,
+        email: email,
+        password: password,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+    alert("Registered Successfully!");
+    setAdminFullName("");
+    setEmail("");
+    setPassword("");
+  }
 
   const clickHandler = () => {
     setHideRegister(!hideRegister);
   };
+
+  function emailHandler(input) {
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (re.test(input)) {
+      setEmail(input);
+      return true;
+    }
+    alert("Invalid Email!");
+    return false;
+  }
 
   return (
     <div className="login">
@@ -25,6 +93,8 @@ function Login() {
                       className="form-control form-control-sm"
                       placeholder="Email"
                       id="floatingInput"
+                      value={email}
+                      onInput={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="form-floating mb-3">
@@ -33,10 +103,15 @@ function Login() {
                       className="form-control form-control-sm"
                       placeholder="Password"
                       id="floatingPassword"
+                      value={password}
+                      onInput={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <div className="mt-3">
-                    <button className="form-button btn text-white">
+                    <button
+                      className="form-button btn text-white"
+                      onClick={loginHandler}
+                    >
                       Submit
                     </button>
                   </div>
@@ -65,6 +140,8 @@ function Login() {
                       className="form-control form-control-sm"
                       placeholder="Full name"
                       id="floatingInput"
+                      value={adminFullName}
+                      onInput={(e) => setAdminFullName(e.target.value)}
                     />
                   </div>
                   <div className="form-floating mb-3">
@@ -73,6 +150,9 @@ function Login() {
                       className="form-control form-control-sm"
                       placeholder="Email"
                       id="floatingInput"
+                      value={email}
+                      onInput={(e) => setEmail(e.target.value)}
+                      onBlur={(e) => emailHandler(e.target.value)}
                     />
                   </div>
                   <div className="form-floating mb-3">
@@ -81,10 +161,15 @@ function Login() {
                       className="form-control form-control-sm"
                       placeholder="Password"
                       id="floatingPassword"
+                      value={password}
+                      onInput={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <div className="mt-3">
-                    <button className="form-button btn text-white">
+                    <button
+                      className="form-button btn text-white"
+                      onClick={registrationHandler}
+                    >
                       Submit
                     </button>
                   </div>
