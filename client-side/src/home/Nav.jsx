@@ -44,7 +44,7 @@ function Nav() {
         <a href="/movies">Movies</a>
         <a href="/tv">TV</a>
         <a href="/games">Games</a>
-        <a href="/games">Collections</a>
+        <a href="/collection">Collections</a>
         <a href="/merch">Merch</a>
       </div>
 
