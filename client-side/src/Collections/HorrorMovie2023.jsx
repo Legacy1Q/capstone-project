@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './HorrorMovies2023.css'; 
+import Carousel from 'react-bootstrap/Carousel';
 
 function HorrorMovies2023() {
     return (
