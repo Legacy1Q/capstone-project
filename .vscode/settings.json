@@ -1,5 +1,13 @@
 {
   "java.configuration.updateBuildConfiguration": "interactive",
   "java.compile.nullAnalysis.mode": "automatic",
-  "cSpell.words": ["Baldur's"]
+  "cSpell.words": ["Baldur's"],
+  "cSpell.customDictionaries": {
+    "custom-dictionary-workspace": {
+      "name": "custom-dictionary-workspace",
+      "path": "${workspaceFolder:capstone-final-project-alpha-team}/.cspell/custom-dictionary-workspace.txt",
+      "addWords": true,
+      "scope": "workspace"
+    }
+  }
 }

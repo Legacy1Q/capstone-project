@@ -13,7 +13,10 @@ function App() {
             <Home />
           </Route>
         </Switch>
-      </Router> */}
+      </Router> */
+      
+      }
+
 
       <Nav />
       <Home />
