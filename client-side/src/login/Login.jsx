@@ -4,6 +4,40 @@ import "./Login.css";
 function Login() {
   const [hideRegister, setHideRegister] = useState(true);
 
+  const [adminFullName, setAdminFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function loginHandler(event) {
+    event.preventDefault();
+    const response = await fetch("http://localhost:8080/login", {
+      method: "POST",
+      headers: {
+        // "X-Api-Key": "54/p8rt+p9QhgeN9G/Z5Sg==wrJ1tX7OT2EAdJcR",
+        Accept: "application/json",
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    // const answerGuide = showLetters(data[0]);
+    // let numberOfWords = countNumberOfWords(answerGuide);
+    // questionsText.innerHTML = `<p class="display-questions">${
+    //   data[0].question
+    // }</p>
+    //   <p class="answer-length">Answer is ${numberOfWords} ${
+    //   numberOfWords == 1 ? "word" : "words"
+    // } with ${data[0].answer.length} letters.</p>
+    //   <p class="answer-length">${answerGuide.split("").join(",")}</p>`;
+    console.log(data);
+  }
+
   const clickHandler = () => {
     setHideRegister(!hideRegister);
   };
@@ -25,6 +59,7 @@ function Login() {
                       className="form-control form-control-sm"
                       placeholder="Email"
                       id="floatingInput"
+                      onInput={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="form-floating mb-3">
@@ -33,10 +68,14 @@ function Login() {
                       className="form-control form-control-sm"
                       placeholder="Password"
                       id="floatingPassword"
+                      onInput={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <div className="mt-3">
-                    <button className="form-button btn text-white">
+                    <button
+                      className="form-button btn text-white"
+                      onClick={loginHandler}
+                    >
                       Submit
                     </button>
                   </div>
@@ -84,7 +123,10 @@ function Login() {
                     />
                   </div>
                   <div className="mt-3">
-                    <button className="form-button btn text-white">
+                    <button
+                      className="form-button btn text-white"
+                      // onClick={registrationHandler}
+                    >
                       Submit
                     </button>
                   </div>
