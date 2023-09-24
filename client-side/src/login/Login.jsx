@@ -2,18 +2,12 @@ import { useState } from "react";
 import "./Login.css";
 
 function Login() {
-  const [hideLogin, setHideLogin] = useState(false);
   const [hideRegister, setHideRegister] = useState(true);
 
-  const login = () => {
-    setHideLogin(false);
-    setHideRegister(true);
+  const clickHandler = () => {
+    setHideRegister(!hideRegister);
   };
 
-  const register = () => {
-    setHideLogin(true);
-    setHideRegister(false);
-  };
   return (
     <div className="login">
       <div className="container">
@@ -32,7 +26,6 @@ function Login() {
                       placeholder="Email"
                       id="floatingInput"
                     />
-                    <label htmlFor="floatingInput">Email</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
@@ -41,21 +34,22 @@ function Login() {
                       placeholder="Password"
                       id="floatingPassword"
                     />
-                    <label htmlFor="floatingPassword">Password</label>
                   </div>
                   <div className="mt-3">
-                    <button className="btn primaryBg text-white">Login</button>
+                    <button className="form-button btn text-white">
+                      Submit
+                    </button>
                   </div>
                 </form>
-                <div className="mt-3">
+                <div className="mt-3 form-nav">
                   <span>
-                    Don`&apos`t have account?
-                    <button
-                      className="p-0 border-0 bg-transparent primaryColor signup-show"
-                      onClick={register}
+                    Don&apos;t have an account?
+                    <a
+                      className="p-0 border-0 bg-transparent signup-show"
+                      onClick={clickHandler}
                     >
-                      Sign Up
-                    </button>
+                      &nbsp;Sign Up
+                    </a>
                   </span>
                 </div>
               </div>
@@ -72,7 +66,6 @@ function Login() {
                       placeholder="Full name"
                       id="floatingInput"
                     />
-                    <label htmlFor="floatingInput">Full name</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
@@ -81,7 +74,6 @@ function Login() {
                       placeholder="Email"
                       id="floatingInput"
                     />
-                    <label htmlFor="floatingInput">Email</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
@@ -90,23 +82,22 @@ function Login() {
                       placeholder="Password"
                       id="floatingPassword"
                     />
-                    <label htmlFor="floatingPassword">Password</label>
                   </div>
                   <div className="mt-3">
-                    <button className="btn primaryBg text-white">
-                      Sign Up
+                    <button className="form-button btn text-white">
+                      Submit
                     </button>
                   </div>
                 </form>
-                <div className="mt-3">
+                <div className="mt-3 register-nav">
                   <span>
                     Already have an account?
-                    <button
-                      className="p-0 border-0 bg-transparent primaryColor login-show"
-                      onClick={login}
+                    <a
+                      className="p-0 border-0 bg-transparent login-show"
+                      onClick={clickHandler}
                     >
-                      Login
-                    </button>
+                      &nbsp;Login
+                    </a>
                   </span>
                 </div>
               </div>
