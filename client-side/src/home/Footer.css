@@ -1,0 +1,33 @@
+.footer {
+    position: relative; /* Set the position to relative */
+    margin-top: 1100px; /* Push the footer to the bottom */
+    width: 100%;
+    padding: 2rem 0;
+    text-align: center;
+    border-top: 1px solid purple;
+}
+
+.footer__container {
+    width: 100%;
+    max-width: 1000px;
+    text-align: left;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid white;
+    width: 8%;
+}
+
+.footer p {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 1rem;
+}
+
