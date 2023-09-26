@@ -2,16 +2,19 @@
 import "./Nav.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import CircleIcon from '@mui/icons-material/Circle';
 
 function Nav() {
   return (
     <div className="nav">
       {/* Logo */}
       <div className="nav__header">
-        <img
-          src="./images/criticfusion-low-resolution-logo-color-on-transparent-background.png"
-          alt="logo"
-        />
+        <a href="">
+          <img
+            src="./images/criticfusion-low-resolution-logo-color-on-transparent-background.png"
+            alt="logo"
+          />
+        </a>
       </div>
 
       {/* Search Bar */}
@@ -51,6 +54,7 @@ function Nav() {
       {/* Additional Links */}
       <div className="nav__login">
         <a href="/login">Login</a>
+        <CircleIcon  className="circle_icon" />
         <a href="/cart">
           <ShoppingBagIcon />
         </a>
