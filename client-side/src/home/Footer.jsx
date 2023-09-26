@@ -1,4 +1,3 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTiktok, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import './Footer.css';
@@ -11,10 +10,10 @@ function Footer() {
         <a href="/movies">
             <p>Movies</p>
         </a>
-        <a href="">
+        <a href="/tv">
             <p>TV</p>
         </a>
-        <a href="">
+        <a href="/games">
             <p>Games</p>
         </a>
       </div>
