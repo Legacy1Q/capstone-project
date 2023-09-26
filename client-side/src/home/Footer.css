@@ -1,7 +1,8 @@
 .footer {
-    position: relative; /* Set the position to relative */
-    margin-top: 1100px; /* Push the footer to the bottom */
-    width: 100%;
+    position: relative; 
+    margin-top: 1100px; 
+    margin-left: 400px;
+    width: 50%;
     padding: 2rem 0;
     text-align: center;
     border-top: 1px solid purple;
@@ -10,7 +11,7 @@
 .footer__container {
     width: 100%;
     max-width: 1000px;
-    text-align: left;
+    text-align: center;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -18,10 +19,11 @@
 .footer h1 {
     font-size: 1.5rem;
     font-weight: 600;
+    margin: 0 auto;
     color: white;
     margin-bottom: 1rem;
     border-bottom: 1px solid white;
-    width: 8%;
+    width: 9%;
 }
 
 .footer p {
@@ -31,3 +33,18 @@
     margin-bottom: 1rem;
 }
 
+.footer__links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.footer__links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0 1rem;
+    margin-top: 50px;
+}
