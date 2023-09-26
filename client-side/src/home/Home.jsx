@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "./Home.css";
 import Carousel from "react-bootstrap/Carousel";
 
+
+
 function Home() {
   const [index, setIndex] = useState(0);
   const [movie, setMovie] = useState([]);
@@ -38,14 +40,7 @@ function Home() {
       <div className="home__carousel">
         <div className="carousel__container">
           <div className="row">
-            <Carousel
-              activeIndex={index}
-              onSelect={handleSelect}
-              prevIcon={
-                <img src="./images/left_arrow_icon.png" alt="Previous" />
-              }
-              nextIcon={<img src="./images/right_arrow_icon.png" alt="Next" />}
-            >
+            <Carousel activeIndex={index} onSelect={handleSelect}>
               <Carousel.Item>
                 <img src="./images/ahsoka.jpg" alt="" />
               </Carousel.Item>
@@ -63,6 +58,12 @@ function Home() {
               </Carousel.Item>
             </Carousel>
           </div>
+          <button className="carousel-control-prev" onClick={() => handleSelect(index - 1)} disabled={index === 0}>
+              <img src={'./images/left_arrow_icon.png'} alt="Previous" />
+          </button>
+          <button className="carousel-control-next" onClick={() => handleSelect(index + 1)} disabled={index === movie.length - 1}>
+              <img src={'./images/left_arrow_icon.png'} alt="Next" />
+          </button>
         </div>
       </div>
 
