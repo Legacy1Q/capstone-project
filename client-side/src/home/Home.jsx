@@ -95,7 +95,9 @@ function Home() {
                 <div className="body__container__2__title">
                   <h1>TV Shows</h1>
                 </div>
-                <img src="./images/ahsoka 1440.jpg" alt="" />
+                <a href="/review_tv">
+                  <img src="./images/ahsoka 1440.jpg" alt="" />
+                </a>
                 <img src="./images/one piece 1440.jpg" alt="" />
                 <img src="./images/stranger things.webp" alt="" />
                 <img src="./images/talk to me 1440.jpg" alt="" />
