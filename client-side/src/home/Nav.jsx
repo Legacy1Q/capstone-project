@@ -9,7 +9,7 @@ function Nav() {
     <div className="nav">
       {/* Logo */}
       <div className="nav__header">
-        <a href="">
+        <a href="/">
           <img
             src="./images/criticfusion-low-resolution-logo-color-on-transparent-background.png"
             alt="logo"
