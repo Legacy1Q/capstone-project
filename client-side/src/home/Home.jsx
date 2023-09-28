@@ -42,7 +42,9 @@ function Home() {
           <div className="row">
             <Carousel activeIndex={index} onSelect={handleSelect}>
               <Carousel.Item>
-                <img src="./images/ahsoka.jpg" alt="" />
+                <a href="/review_tv">
+                  <img src="./images/ahsoka.jpg" alt="" />
+                </a>
               </Carousel.Item>
               <Carousel.Item>
                 <img src="./images/red dead 2.jpg" alt="" />
