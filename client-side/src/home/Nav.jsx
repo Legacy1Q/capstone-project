@@ -1,10 +1,30 @@
-// import React from 'react';
+import { useState }from 'react';
 import "./Nav.css";
+import ReviewTV from '../review/ReviewTV';
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import CircleIcon from '@mui/icons-material/Circle';
 
 function Nav() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+ 
+
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(`https://api.example.com/search?query=${searchQuery}`);
+      const data = await response.json();
+      console.log('Search results:', data);
+  
+      // Assuming `ReviewTV` accepts a prop `searchResults`
+      // You can pass the search results to the component like this:
+      <ReviewTV searchResults={data} />;
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+  
+  
   return (
     <div className="nav">
       {/* Logo */}
@@ -27,11 +47,13 @@ function Nav() {
               placeholder="Search"
               aria-label="Search"
               aria-describedby="button-addon1"
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
 
             <button
               className="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
               type="button"
+              onClick={handleSearch}
               id="button-addon1"
               data-te-ripple-init
               data-te-ripple-color="light"
@@ -62,5 +84,10 @@ function Nav() {
     </div>
   );
 }
+
+
+
+
+
 
 export default Nav;
