@@ -100,7 +100,7 @@ function Home() {
                 </a>
                 <img src="./images/one piece 1440.jpg" alt="" />
                 <img src="./images/stranger things.webp" alt="" />
-                <img src="./images/talk to me 1440.jpg" alt="" />
+                <img src="./images/talk_to_me.webp" alt="" />
                 <img src="./images/the rookie 1440.jpg" alt="" />
                 <img src="./images/wednesday 1440.avif" alt="" />
                 <img src="./images/yellowstone 1440.jpg" alt="" />
