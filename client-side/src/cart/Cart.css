@@ -1,0 +1,31 @@
+.cart {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: rgba(red, green, blue, alpha);
+}
+
+.cart h1 {
+    margin-bottom: 20px;
+}
+
+.cart h2 {
+    margin-top: 100px;
+    font-size: 1.5rem;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+.cart__buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+} 
+
+.cart__buttons Button {
+    margin-right: 20px; /* Adjust this value to add space between buttons */
+  }
+  
