@@ -2,13 +2,14 @@
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 20px;
-    border: 1px solid #000;
+    border: 1px solid #c0bcbc;
     border-radius: 5px;
     background-color: rgba(red, green, blue, alpha);
 }
 
 .cart h1 {
     margin-bottom: 20px;
+    color: aliceblue;
 }
 
 .cart h2 {
@@ -16,7 +17,7 @@
     font-size: 1.5rem;
     justify-content: center;
     text-align: center;
-    color: #fff;
+    color: aliceblue;
 }
 
 .cart__buttons {
