@@ -85,7 +85,7 @@ function Home() {
                 {movie.map((list, index) => (
                   <p key={index}>{list.l}</p>
                 ))} */}
-                <img src="./images/oppenheimer 1440.jpg" alt="" />
+                <img src="./images/oppenheimer2.webp" alt="" />
                 <img src="./images/talk_to_me.webp" alt="" />
                 <img src="./images/tmnt.webp" alt="" />
                 <img src="./images/john wick 4.jpg" alt="" />
