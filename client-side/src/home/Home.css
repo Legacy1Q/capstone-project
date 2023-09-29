@@ -1,81 +1,62 @@
 .home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .home__carousel {
   position: relative;
   width: 100%;
   max-width: 800px;
-  margin-top: 780px; /* Adjust this value to leave space for the navbar */ 
+  margin-top: 600px; /* Adjust this value to leave space for the navbar */ 
 }
 
-  
-  .carousel-item {
-    display: none; 
-    width: 100%;
-  }
-  
-  
-  .carousel-item.active {
-    display: block;
-  }
-  
-  
-  .carousel-item img {
-    width: 100%; 
-    height: 400px;
-    object-fit: cover; 
-  }
+.carousel-item {
+  display: none; 
+  width: 100%;
+}
 
-  .carousel-control-prev, .carousel-control-next {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+.carousel-item.active {
+  display: block;
+}
 
-  
+.carousel-item img {
+  width: 100%; 
+  height: 400px;
+  object-fit: cover; 
+}
 
-  .home__body {
-    margin-top: 100px; /* Adjust this value to move the body down */
-    padding: 20px;
-  }
-  
+.home__body {
+  margin-top: 100px; 
+  margin-left: 100px;
+  padding: 20px;
+}
 
-  .home__body h1 {
-    color: white;
-    font-size: 25px;
-    margin-bottom: 30px;
-    margin-top: 100px;
-    margin-right: 850px;
-    text-align: center;
-  }
+
+.home__body h1 {
+  color: white;
+  font-size: 25px;
+  margin-bottom: 30px;
+  margin-top: 100px;
+  margin-right: 1000px;
+  text-align: center;
+}
 
 .body__container row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin-bottom: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin-bottom: 100px;
 }
 
-  .body__container img {
-    display: inline-block;
-    margin-right: 10px;
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-  }
+.body__container img {
+  display: inline-block;
+  margin-right: 10px;
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+}
