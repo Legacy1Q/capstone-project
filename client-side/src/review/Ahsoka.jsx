@@ -36,10 +36,10 @@ function Ahsoka() {
           
           {showVideo && (
             <div className="video_overlay">
-              <video width="640" height="360" controls>
-                <source src="https://www.youtube.com/watch?v=J_1EXWNETiI&list=PPSV" type="video/mp4" />
-                  Your browser does not support the video tag.
-              </video>
+              <iframe src="https://www.youtube.com/watch?v=LVa9Rm6nn8c" 
+                      width="640"
+                      height="360"
+                      allowFullScreen></iframe>
             </div>  
           )}
   
@@ -47,8 +47,11 @@ function Ahsoka() {
   
         <div className="ahsoka__body">
             <div className="ahsoka__container">
-              
+              <h1>Summary</h1>
+              <p>After the fall of the Galactic Empire, former Jedi Knight Ahsoka Tano investigates an emerging threat to a vulnerable galaxy.</p>
             </div>
+            <h1>Review</h1>
+            <h1>Pricing</h1>
           </div>
       </div>
     )
