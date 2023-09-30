@@ -7,7 +7,8 @@ import Carousel from "react-bootstrap/Carousel";
 function Home() {
   const [index, setIndex] = useState(0);
   const [movie, setMovie] = useState([]);
-
+  
+  
   const url = "https://imdb8.p.rapidapi.com/auto-complete?q=movies";
   const options = {
     method: "GET",
@@ -47,24 +48,16 @@ function Home() {
               </a>
             </Carousel.Item>
             <Carousel.Item>
-              <a href="/review_tv">
-                <img src="./images/red dead 2.jpg" alt="" />
-              </a>
+              <img src="./images/red dead 2.jpg" alt="" />
             </Carousel.Item>
             <Carousel.Item>
-              <a href="/review_tv">
-                <img src="./images/oppenheimer.jpeg" alt="" />
-              </a>
+              <img src="./images/oppenheimer.jpeg" alt="" />
             </Carousel.Item>
             <Carousel.Item>
-              <a href="/review_tv">
-                <img src="./images/barbie.jpg" alt="" />
-              </a>
+              <img src="./images/barbie.jpg" alt="" />
             </Carousel.Item>
             <Carousel.Item>
-              <a href="/review_tv">
-                <img src="./images/mortal kombat 1.jpg" alt="" />
-              </a>
+              <img src="./images/mortal kombat 1.jpg" alt="" />
             </Carousel.Item>
           </Carousel>
         </div>
