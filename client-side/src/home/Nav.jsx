@@ -1,30 +1,29 @@
-import { useState }from 'react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Nav.css";
-import ReviewTV from '../review/ReviewTV';
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import CircleIcon from '@mui/icons-material/Circle';
+import CircleIcon from "@mui/icons-material/Circle";
 
 function Nav() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
- 
 
   const handleSearch = async () => {
-    try {
-      const response = await fetch(`https://api.example.com/search?query=${searchQuery}`);
-      const data = await response.json();
-      console.log('Search results:', data);
-  
-      // Assuming `ReviewTV` accepts a prop `searchResults`
-      // You can pass the search results to the component like this:
-      <ReviewTV searchResults={data} />;
-    } catch (error) {
-      console.error('Error fetching search results:', error);
+    if (searchQuery.toLowerCase() === "ahsoka") {
+      navigate(`/ahsoka`);
+    } else {
+      alert("Media not found");
     }
   };
-  
-  
+
+  const handleKeyPress = (e) => {
+    if (e.key === "enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="nav">
       {/* Logo */}
@@ -47,7 +46,9 @@ function Nav() {
               placeholder="Search"
               aria-label="Search"
               aria-describedby="button-addon1"
+              value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDownCapture={handleKeyPress}
             />
 
             <button
@@ -76,7 +77,7 @@ function Nav() {
       {/* Additional Links */}
       <div className="nav__login">
         <a href="/login">Login</a>
-        <CircleIcon  className="circle_icon" />
+        <CircleIcon className="circle_icon" />
         <a href="/cart">
           <ShoppingBagIcon />
         </a>
@@ -84,10 +85,5 @@ function Nav() {
     </div>
   );
 }
-
-
-
-
-
 
 export default Nav;
