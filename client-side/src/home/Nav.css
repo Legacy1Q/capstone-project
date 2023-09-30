@@ -52,6 +52,11 @@
     transform: translateY(-50%);
 }
 
+.MuiSvgIcon-root {
+    color: white;
+    background: transparent;
+}
+
 
 .nav__links {
     margin: 0;
