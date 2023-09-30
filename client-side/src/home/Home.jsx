@@ -43,7 +43,7 @@ function Home() {
         <div className="carousel__container">
           <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
-              <a href="/review_tv">
+              <a href="/ahsoka">
                 <img src="./images/ahsoka.jpg" alt="" />
               </a>
             </Carousel.Item>
@@ -93,7 +93,7 @@ function Home() {
                   <div className="body__container__2__title">
                       <h1>TV</h1>
                   </div>
-                <a href="/review_tv">
+                <a href="/ahsoka">
                   <img src="./images/ahsoka 1440.jpg" alt="" />
                 </a>
                 <img src="./images/one piece 1440.jpg" alt="" />
