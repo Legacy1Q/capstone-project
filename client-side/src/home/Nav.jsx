@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { MyContext } from "../MyContext";
 
 function Nav() {
-  const { isAdmin, updateIsAdmin } = useContext(MyContext);
+  const { adminEmail, updateAdminEmail } = useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function Nav() {
   };
 
   const LogoutHandler = () => {
-    updateIsAdmin(false);
+    updateAdminEmail("");
   };
 
   return (
@@ -76,14 +76,15 @@ function Nav() {
         <Link to="/movies">Movies</Link>
         <Link to="/tv">TV</Link>
         <Link to="/games">Games</Link>
-        <Link to="/collection">Collections</Link>
+        <Link to="/collection/MovieShelfCollections">Collections</Link>
         <Link to="/merch">Merch</Link>
       </div>
 
       {/* Additional Links */}
       <div className="nav__login">
-        <Link to="/login">{isAdmin ? "Admin" : "Login"}</Link>
-        <button className={isAdmin ? "" : "hide"} onClick={LogoutHandler}>
+        {adminEmail ? adminEmail : <Link to="/login">Login</Link>}
+        {/* <Link to="/login">{isAdmin ? "Admin" : "Login"}</Link> */}
+        <button className={adminEmail ? "" : "hide"} onClick={LogoutHandler}>
           Logout
         </button>
         <CircleIcon className="circle_icon" />

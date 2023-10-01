@@ -5,7 +5,7 @@ import { MyContext } from "../MyContext";
 import "./Login.css";
 
 function Login() {
-  const { isAdmin, updateIsAdmin } = useContext(MyContext);
+  const { adminEmail, updateAdminEmail } = useContext(MyContext);
   const navigate = useNavigate();
   const [hideRegister, setHideRegister] = useState(true);
 
@@ -32,9 +32,14 @@ function Login() {
     }
     const data = await response.json();
     console.log(data);
-    data.message == "Login Success!" ? navigate("/") : alert("Login Failed!");
-    handleUpdate("true");
-    console.log(isAdmin);
+    if (data.message == "Login Success!") {
+      navigate("/");
+      handleEmailUpdate(email);
+      alert("Login Success!");
+    } else {
+      alert("Login Failed!");
+    }
+    // data.message == "Login Success!" ? navigate("/") : alert("Login Failed!");
   }
 
   async function registrationHandler(event) {
@@ -65,8 +70,8 @@ function Login() {
     setPassword("");
   }
 
-  const handleUpdate = () => {
-    updateIsAdmin(true);
+  const handleEmailUpdate = (email) => {
+    updateAdminEmail(email);
   };
 
   const clickHandler = () => {

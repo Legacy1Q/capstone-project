@@ -4,13 +4,14 @@ import { createContext, useState } from "react";
 const MyContext = createContext();
 
 const MyProvider = ({ children }) => {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const updateIsAdmin = (updateValue) => {
-    setIsAdmin(updateValue);
+  const [adminEmail, setAdminEmail] = useState(null);
+
+  const updateAdminEmail = (updateValue) => {
+    setAdminEmail(updateValue);
   };
 
   return (
-    <MyContext.Provider value={{ isAdmin, updateIsAdmin }}>
+    <MyContext.Provider value={{ adminEmail, updateAdminEmail }}>
       {children}
     </MyContext.Provider>
   );

@@ -10,12 +10,9 @@ import Login from "./login/Login";
 import Movies from "./categories/Movies";
 import Cart from "./cart/Cart";
 import Merch from "./merch/Merch";
-import { useState } from "react";
 import { MyProvider } from "./MyContext";
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
-
   return (
     <div className="app">
       <MyProvider>
@@ -23,12 +20,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
-          path="/collection/MovieShelfCollections"
-          element={<MovieShelfCollections />}
-        />
-        <Route
-          path="/collection/HorrorMovie2023"
-          element={<HorrorMovie2023 />} />
+            path="/collection/MovieShelfCollections"
+            element={<MovieShelfCollections />}
+          />
+          <Route
+            path="/collection/HorrorMovie2023"
+            element={<HorrorMovie2023 />}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/ahsoka" element={<Ahsoka />} />
           <Route path="/movies" element={<Movies />} />
