@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { MyContext } from "../MyContext";
 
 function Nav() {
-  const { adminEmail, updateAdminEmail } = useContext(MyContext);
+  const { adminEmail, updateAdminEmail, cart } = useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -91,6 +91,7 @@ function Nav() {
         <Link to="/cart">
           <ShoppingBagIcon />
         </Link>
+        <p>{cart}</p>
       </div>
     </div>
   );
