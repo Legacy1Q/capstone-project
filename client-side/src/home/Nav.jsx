@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Nav.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import CircleIcon from "@mui/icons-material/Circle";
+import { useContext } from "react";
+import { MyContext } from "../MyContext";
 
 function Nav() {
+  const { isAdmin } = useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-
 
   const handleSearch = async () => {
     if (searchQuery.toLowerCase() === "ahsoka") {
@@ -28,12 +30,12 @@ function Nav() {
     <div className="nav">
       {/* Logo */}
       <div className="nav__header">
-        <a href="/">
+        <Link to="/">
           <img
             src="./images/criticfusion-low-resolution-logo-color-on-transparent-background.png"
             alt="logo"
           />
-        </a>
+        </Link>
       </div>
 
       {/* Search Bar */}
@@ -67,20 +69,20 @@ function Nav() {
 
       {/* Links */}
       <div className="nav__links">
-        <a href="/movies">Movies</a>
-        <a href="/tv">TV</a>
-        <a href="/games">Games</a>
-        <a href="/collection">Collections</a>
-        <a href="/merch">Merch</a>
+        <Link to="/movies">Movies</Link>
+        <Link to="/tv">TV</Link>
+        <Link to="/games">Games</Link>
+        <Link to="/collection">Collections</Link>
+        <Link to="/merch">Merch</Link>
       </div>
 
       {/* Additional Links */}
       <div className="nav__login">
-        <a href="/login">Login</a>
+        <Link to="/login">{isAdmin == true ? "Admin" : "Login"}</Link>
         <CircleIcon className="circle_icon" />
-        <a href="/cart">
+        <Link to="/cart">
           <ShoppingBagIcon />
-        </a>
+        </Link>
       </div>
     </div>
   );
