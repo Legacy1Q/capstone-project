@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { MyContext } from "../MyContext";
 
 function Nav() {
-  const { isAdmin } = useContext(MyContext);
+  const { isAdmin, updateIsAdmin } = useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -24,6 +24,10 @@ function Nav() {
     if (e.key === "enter") {
       handleSearch();
     }
+  };
+
+  const LogoutHandler = () => {
+    updateIsAdmin(false);
   };
 
   return (
@@ -78,7 +82,10 @@ function Nav() {
 
       {/* Additional Links */}
       <div className="nav__login">
-        <Link to="/login">{isAdmin == true ? "Admin" : "Login"}</Link>
+        <Link to="/login">{isAdmin ? "Admin" : "Login"}</Link>
+        <button className={isAdmin ? "" : "hide"} onClick={LogoutHandler}>
+          Logout
+        </button>
         <CircleIcon className="circle_icon" />
         <Link to="/cart">
           <ShoppingBagIcon />
