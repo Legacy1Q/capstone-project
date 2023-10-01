@@ -9,7 +9,7 @@ import HorrorMovie2023 from "./collection/HorrorMovie2023";
 import Login from "./login/Login";
 import Movies from "./categories/Movies";
 import Cart from "./cart/Cart";
-import Merch from "./merch/Merch";
+import Merch from "./merch/merch";
 import { MyProvider } from "./MyContext";
 
 function App() {

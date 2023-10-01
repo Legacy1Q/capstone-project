@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./Merch.css";
 import { MyContext } from "../MyContext";
 import { useContext } from "react";
