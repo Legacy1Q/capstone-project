@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import "./Home.css";
 import Carousel from "react-bootstrap/Carousel";
-
-
+import { Link } from "react-router-dom";
 
 function Home() {
   const [index, setIndex] = useState(0);
   const [movie, setMovie] = useState([]);
-  
-  
+
   const url = "https://imdb8.p.rapidapi.com/auto-complete?q=movies";
   const options = {
     method: "GET",
@@ -37,15 +35,14 @@ function Home() {
 
   return (
     <div className="home">
-      
       {/* Carousel */}
       <div className="home__carousel">
         <div className="carousel__container">
           <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
-              <a href="/ahsoka">
+              <Link to="/ahsoka">
                 <img src="./images/ahsoka.jpg" alt="" />
-              </a>
+              </Link>
             </Carousel.Item>
             <Carousel.Item>
               <img src="./images/red dead 2.jpg" alt="" />
@@ -70,7 +67,7 @@ function Home() {
             <div className="col-12">
               <div className="body__container__1">
                 <div className="body__container__1__title">
-                    <h1>Movies</h1>
+                  <h1>Movies</h1>
                 </div>
                 {/* {movie.map((list, index) => (
                   <img key={index} src={list.i.imageUrl} alt="" />
@@ -83,25 +80,25 @@ function Home() {
                 <img src="./images/tmnt.webp" alt="" />
                 <img src="./images/john wick 4.jpg" alt="" />
                 <img src="./images/fast x.jpg" alt="" />
-                <img src="./images/cocaine bear.jpeg" alt="" /> 
+                <img src="./images/cocaine bear.jpeg" alt="" />
               </div>
             </div>
           </div>
           <div className="row">
             <div className="col-12">
               <div className="body__container__2">
-                  <div className="body__container__2__title">
-                      <h1>TV</h1>
-                  </div>
-                <a href="/ahsoka">
+                <div className="body__container__2__title">
+                  <h1>TV</h1>
+                </div>
+                <Link to="/ahsoka">
                   <img src="./images/ahsoka 1440.jpg" alt="" />
-                </a>
+                </Link>
                 <img src="./images/one piece 1440.jpg" alt="" />
                 <img src="./images/stranger things.webp" alt="" />
                 <img src="./images/the rookie 1440.jpg" alt="" />
                 <img src="./images/wednesday 1440.avif" alt="" />
                 <img src="./images/yellowstone 1440.jpg" alt="" />
-              </div>      
+              </div>
             </div>
           </div>
           <div className="row">
@@ -121,7 +118,6 @@ function Home() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

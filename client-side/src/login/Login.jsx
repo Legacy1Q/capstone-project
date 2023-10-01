@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { MyContext } from "../MyContext";
 import "./Login.css";
 
 function Login() {
+  const { isAdmin, updateIsAdmin } = useContext(MyContext);
   const navigate = useNavigate();
   const [hideRegister, setHideRegister] = useState(true);
 
@@ -30,6 +33,8 @@ function Login() {
     const data = await response.json();
     console.log(data);
     data.message == "Login Success!" ? navigate("/") : alert("Login Failed!");
+    handleUpdate("true");
+    console.log(isAdmin);
   }
 
   async function registrationHandler(event) {
@@ -59,6 +64,10 @@ function Login() {
     setEmail("");
     setPassword("");
   }
+
+  const handleUpdate = () => {
+    updateIsAdmin(true);
+  };
 
   const clickHandler = () => {
     setHideRegister(!hideRegister);
