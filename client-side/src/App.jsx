@@ -4,7 +4,8 @@ import Nav from "./home/Nav";
 import Home from "./home/Home";
 import Ahsoka from "./review/Ahsoka";
 import Footer from "./home/Footer";
-import Collections from "./collection/HorrorMovie2023";
+import MovieShelfCollections from "./collection/MovieShelfCollections";
+import HorrorMovie2023 from "./collection/HorrorMovie2023";
 import Login from "./login/Login";
 import Movies from "./categories/Movies";
 import Cart from "./cart/Cart";
@@ -21,7 +22,13 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/collection" element={<Collections />} />
+          <Route
+          path="/collection/MovieShelfCollections"
+          element={<MovieShelfCollections />}
+        />
+        <Route
+          path="/collection/HorrorMovie2023"
+          element={<HorrorMovie2023 />} />
           <Route path="/login" element={<Login />} />
           <Route path="/ahsoka" element={<Ahsoka />} />
           <Route path="/movies" element={<Movies />} />

@@ -2,9 +2,9 @@
 import "./HorrorMovie2023.css";
 // import Carousel from 'react-bootstrap/Carousel';
 
-function HorrorMovies2023() {
+function HorrorMovie2023() {
   return (
-    <div className="HorrorMovies2023">
+    <div className="HorrorMovie2023">
       <h1>Top Horror Movies of 2023</h1>
       <p>
         2023 has been a standout year for enthusiasts of horror, and based on
@@ -18,7 +18,7 @@ function HorrorMovies2023() {
         <section>
           <h2> Talk to Me</h2>
           <img
-            src="client-side/imageshorrormovie/700TalkToMe.jpg"
+            src="../imageshorrormovie/700TalkToMe.jpg"
             alt="Movie Image #1"
           />
           <p>
@@ -43,25 +43,28 @@ function HorrorMovies2023() {
           <div className="cast-list">
             <div className="cast-member">
               <img
-                src="client-side/imageshorrormovie/2023-04-11_161143_SOPHIEWILDE9.jpg"
+                src="../imageshorrormovie/2023-04-11_161143_SOPHIEWILDE9.jpg"
                 alt="Sophia Wilde"
               />
               <p>SOPHIE WILDE as MIA</p>
             </div>
             <div className="cast-member">
               <img
-                src="client-side/imageshorrormovie/Miranda-Otto-Featured.webp"
+                src="../imageshorrormovie/Miranda-Otto-Featured.webp"
                 alt="MIRANDA OTTO"
               />
               <p>MIRANDA OTTO as SUE</p>
             </div>
             <div className="cast-member">
-              <img src="path-to-robert-roe-image.jpg" alt="OTIS DHANJI" />
+              <img
+                src="../imageshorrormovie/OtisDhanji-2023_r.jpg"
+                alt="OTIS DHANJI"
+              />
               <p>OTIS DHANJI as DANIEL</p>
             </div>
             <div className="cast-member">
               <img
-                src=" client-side/imageshorrormovie/90dee648-688c-4515-aaef-e95727daf460-cp.jpg"
+                src="../imageshorrormovie/90dee648-688c-4515-aaef-e95727daf460-cp.jpg"
                 alt="ALEXANDRA JENSON"
               />
               <p>ALEXANDRA JENSON as JADE </p>
@@ -107,4 +110,4 @@ function HorrorMovies2023() {
   );
 }
 
-export default HorrorMovies2023;
+export default HorrorMovie2023;
