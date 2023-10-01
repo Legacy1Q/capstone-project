@@ -90,26 +90,28 @@ function Login() {
                   <div className="form-floating mb-3">
                     <input
                       type="email"
-                      className="form-control form-control-sm"
+                      className="form-control form-control-md"
                       placeholder="Email"
                       id="floatingInput"
                       value={email}
                       onInput={(e) => setEmail(e.target.value)}
                     />
+                    <label htmlFor="floatingInput">Email</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
                       type="password"
-                      className="form-control form-control-sm"
+                      className="form-control form-control-md"
                       placeholder="Password"
                       id="floatingPassword"
                       value={password}
                       onInput={(e) => setPassword(e.target.value)}
                     />
+                    <label htmlFor="floatingInput">Password</label>
                   </div>
                   <div className="mt-3">
                     <button
-                      className="form-button btn text-white"
+                      className="form-button button1"
                       onClick={loginHandler}
                     >
                       Submit
@@ -143,6 +145,7 @@ function Login() {
                       value={adminFullName}
                       onInput={(e) => setAdminFullName(e.target.value)}
                     />
+                    <label htmlFor="floatingInput">Full name</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
@@ -154,6 +157,7 @@ function Login() {
                       onInput={(e) => setEmail(e.target.value)}
                       onBlur={(e) => emailHandler(e.target.value)}
                     />
+                    <label htmlFor="floatingInput">Email</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
@@ -164,10 +168,11 @@ function Login() {
                       value={password}
                       onInput={(e) => setPassword(e.target.value)}
                     />
+                    <label htmlFor="floatingInput">Password</label>
                   </div>
                   <div className="mt-3">
                     <button
-                      className="form-button btn text-white"
+                      className="form-button button1"
                       onClick={registrationHandler}
                     >
                       Submit
