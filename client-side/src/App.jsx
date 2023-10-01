@@ -8,6 +8,7 @@ import Collections from "./collection/HorrorMovie2023";
 import Login from "./login/Login";
 import Movies from "./categories/Movies";
 import Cart from "./cart/Cart";
+import Merch from "./merch/Merch";
 import { useState } from "react";
 import { MyProvider } from "./MyContext";
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/ahsoka" element={<Ahsoka />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/merch" element={<Merch />} />
         </Routes>
         <Footer />
       </MyProvider>
