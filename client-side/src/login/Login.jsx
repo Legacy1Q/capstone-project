@@ -5,7 +5,7 @@ import { MyContext } from "../MyContext";
 import "./Login.css";
 
 function Login() {
-  const { adminEmail, updateAdminEmail } = useContext(MyContext);
+  const { updateAdminEmail } = useContext(MyContext);
   const navigate = useNavigate();
   const [hideRegister, setHideRegister] = useState(true);
 

@@ -78,6 +78,7 @@ function Nav() {
         <Link to="/games">Games</Link>
         <Link to="/collection/MovieShelfCollections">Collections</Link>
         <Link to="/merch">Merch</Link>
+        {adminEmail && <Link to="/admin">Admin</Link>}
       </div>
 
       {/* Additional Links */}

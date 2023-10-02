@@ -10,6 +10,7 @@ import Login from "./login/Login";
 import Movies from "./categories/Movies";
 import Cart from "./cart/Cart";
 import Merch from "./merch/merch";
+import Admin from "./admin/Admin";
 import { MyProvider } from "./MyContext";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/merch" element={<Merch />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
         <Footer />
       </MyProvider>
