@@ -1,42 +1,71 @@
 import { useState, useEffect } from "react";
-// import "./Admin.css";
 
 function Admin() {
   const [data, setData] = useState([]);
-
   const [newData, setNewData] = useState({ title: "", description: "" });
   const [editedDataId, setEditedDataId] = useState(null);
   const [editedData, setEditedData] = useState({
     title: "",
     description: "",
   });
+  const [selectedFile, setSelectedFile] = useState(null);
+  const options = ["Movie", "Tv", "Game"];
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+  };
 
   async function addHandler(event) {
     event.preventDefault();
-    const response = await fetch("http://localhost:8080/addGame", {
+
+    // if (!selectedFile || !newData.title || !newData.description) {
+    //   alert("Please fill in all fields and select an image.");
+    //   return;
+    // }
+
+    // const formData = new FormData();
+    // formData.append("file", selectedFile);
+    // formData.append("title", newData.title);
+    // formData.append("description", newData.description);
+
+    const response = await fetch("http://localhost:8080/add" + selectedOption, {
       method: "POST",
       headers: {
-        // "X-Api-Key": "54/p8rt+p9QhgeN9G/Z5Sg==wrJ1tX7OT2EAdJcR",
         Accept: "application/json",
         "Content-type": "application/json; charset=UTF-8",
       },
+      //   body: formData,
       body: JSON.stringify({
         title: newData.title,
         description: newData.description,
       }),
     });
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+
     alert("Added successfully!");
-    fetchData();
-    setNewData({ ...newData, title: "", description: "" });
+    setNewData({ title: "", description: "" });
+    setSelectedFile(null);
   }
 
   async function updateHandler(event) {
     event.preventDefault();
+
+    if (!editedData.title || !editedData.description) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
     const response = await fetch(
-      "http://localhost:8080/updateGame/" + editedDataId,
+      "http://localhost:8080/update" + selectedOption + "/" + editedDataId,
       {
         method: "PUT",
         headers: {
@@ -49,22 +78,28 @@ function Admin() {
         }),
       }
     );
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+
     alert("Updated successfully!");
-    fetchData();
     setEditedDataId(null);
   }
 
-  const fetchData = () => {
-    fetch("http://localhost:8080/games")
+  useEffect(() => {
+    let endpoint;
+    selectedOption == "Movie"
+      ? (endpoint = "movies")
+      : selectedOption == "Tv"
+      ? (endpoint = "tv")
+      : (endpoint = "games");
+
+    fetch("http://localhost:8080/" + endpoint)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data:", error));
-  };
-
-  useEffect(fetchData, []);
+  }, [selectedOption, data]);
 
   const editButtonHandler = (movie) => {
     setEditedDataId(movie.id);
@@ -72,7 +107,8 @@ function Admin() {
   };
 
   const deleteHandler = (movieId) => {
-    const apiUrl = "http://localhost:8080/deleteGame/" + movieId;
+    const apiUrl =
+      "http://localhost:8080/delete" + selectedOption + "/" + movieId;
     fetch(apiUrl, {
       method: "DELETE",
       headers: {
@@ -88,14 +124,23 @@ function Admin() {
         console.error("Error:", error);
       });
     alert("Deleted successfully!");
-    fetchData();
   };
 
   return (
     <div className="admin">
-      <h1>Movie CRUD Example</h1>
+      <h1>Admin</h1>
 
-      <h2>Add Movie</h2>
+      <div>
+        <label>Categories: </label>
+        <select value={selectedOption} onChange={handleOptionChange}>
+          {options.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <input
         type="text"
         placeholder="Enter title"
@@ -110,9 +155,10 @@ function Admin() {
           setNewData({ ...newData, description: e.target.value })
         }
       />
+      <input type="file" onChange={handleFileSelect} />
       <button onClick={addHandler}>Add Movie</button>
 
-      <h2>Movie List</h2>
+      <h2>{selectedOption} List</h2>
       <ul>
         {data.map((item) => (
           <li key={item.id}>

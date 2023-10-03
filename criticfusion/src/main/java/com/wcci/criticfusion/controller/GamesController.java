@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,10 +32,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
 public class GamesController {
 
-  @Value("${image.upload.directory}") // Inject the value from application.properties
+  @Value("${image.upload.directory}")
     private String imageUploadDirectory;
 
   @Autowired
@@ -71,7 +69,6 @@ public class GamesController {
   @PostMapping("/upload")
   public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
       try {
-          // Generate a unique filename for the image, e.g., using UUID
           String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
           Path filePath = Paths.get(imageUploadDirectory, filename);
           Files.write(filePath, file.getBytes());
@@ -89,7 +86,7 @@ public ResponseEntity<Resource> getImage(@PathVariable String filename) {
 
         if (imageResource.exists() && imageResource.isReadable()) {
             return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG) // Set the appropriate content type
+                .contentType(MediaType.IMAGE_JPEG)
                 .body(imageResource);
         } else {
             return ResponseEntity.notFound().build();
@@ -98,4 +95,29 @@ public ResponseEntity<Resource> getImage(@PathVariable String filename) {
         return ResponseEntity.notFound().build();
     }
 }
+
+@PostMapping("/uploadAndAddGame")
+public ResponseEntity<String> uploadImageAndAddGame(
+    @RequestParam("file") MultipartFile file,
+    @RequestParam("title") String title,
+    @RequestParam("description") String description
+) {
+    try {
+        String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        Path filePath = Paths.get(imageUploadDirectory, filename);
+        Files.write(filePath, file.getBytes());
+        
+        Games games = new Games();
+        games.setTitle(title);
+        games.setDescription(description);
+        games.setImageFilename(filename);
+        
+        gamesService.addGames(games);
+        
+        return ResponseEntity.ok("Image uploaded and game added successfully!");
+    } catch (IOException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Image upload failed.");
+    }
+}
+
 }

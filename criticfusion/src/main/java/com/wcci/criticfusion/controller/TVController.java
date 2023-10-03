@@ -27,22 +27,22 @@ public class TVController {
         return tvService.findAllTV();
     }
 
-    @GetMapping("/tvs/{id}")
+    @GetMapping("/tv/{id}")
     public TV getTVById(@PathVariable long id) {
     return tvService.findTVById(id);
     }
 
-    @PostMapping("/addTV")
+    @PostMapping("/addTv")
     public void addTV(@RequestBody TV tv) {
         tvService.addTV(tv);
     }
 
-    @PutMapping("/updateTV/{id}")
+    @PutMapping("/updateTv/{id}")
     public TV updateTV(@PathVariable long id, @RequestBody TV tv) {
         return this.tvService.updateTV(id, tv);
     }
 
-    @DeleteMapping("/deleteTV/{id}")
+    @DeleteMapping("/deleteTv/{id}")
     public void removeTV(@PathVariable long id) {
         this.tvService.deleteTV(id);
     }
