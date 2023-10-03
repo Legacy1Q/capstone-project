@@ -1,105 +1,151 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import "./Admin.css";
 
-function App() {
-  const [movies, setMovies] = useState([
-    { id: 1, title: "Movie 1", genre: "Action" },
-    { id: 2, title: "Movie 2", genre: "Comedy" },
-    { id: 3, title: "Movie 3", genre: "Drama" },
-  ]);
+function Admin() {
+  const [data, setData] = useState([]);
 
-  const [newMovie, setNewMovie] = useState({ title: "", genre: "" });
-  const [editMovieId, setEditMovieId] = useState(null);
-  const [editedMovie, setEditedMovie] = useState({ title: "", genre: "" });
+  const [newData, setNewData] = useState({ title: "", description: "" });
+  const [editedDataId, setEditedDataId] = useState(null);
+  const [editedData, setEditedData] = useState({
+    title: "",
+    description: "",
+  });
 
-  const handleAddMovie = () => {
-    if (newMovie.title.trim() === "" || newMovie.genre.trim() === "") return;
-    const movieToAdd = {
-      id: Date.now(),
-      title: newMovie.title,
-      genre: newMovie.genre,
-    };
-    setMovies([...movies, movieToAdd]);
-    setNewMovie({ title: "", genre: "" });
-  };
+  async function addHandler(event) {
+    event.preventDefault();
+    const response = await fetch("http://localhost:8080/addGame", {
+      method: "POST",
+      headers: {
+        // "X-Api-Key": "54/p8rt+p9QhgeN9G/Z5Sg==wrJ1tX7OT2EAdJcR",
+        Accept: "application/json",
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        title: newData.title,
+        description: newData.description,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    alert("Added successfully!");
+    fetchData();
+    setNewData({ ...newData, title: "", description: "" });
+  }
 
-  const handleEditMovie = (movie) => {
-    setEditMovieId(movie.id);
-    setEditedMovie({ title: movie.title, genre: movie.genre });
-  };
-
-  const handleUpdateMovie = () => {
-    if (editedMovie.title.trim() === "" || editedMovie.genre.trim() === "")
-      return;
-    setMovies((prevMovies) =>
-      prevMovies.map((movie) =>
-        movie.id === editMovieId
-          ? { ...movie, title: editedMovie.title, genre: editedMovie.genre }
-          : movie
-      )
+  async function updateHandler(event) {
+    event.preventDefault();
+    const response = await fetch(
+      "http://localhost:8080/updateGame/" + editedDataId,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          title: editedData.title,
+          description: editedData.description,
+        }),
+      }
     );
-    setEditMovieId(null);
-    setEditedMovie({ title: "", genre: "" });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    alert("Updated successfully!");
+    fetchData();
+    setEditedDataId(null);
+  }
+
+  const fetchData = () => {
+    fetch("http://localhost:8080/games")
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error("Error fetching data:", error));
   };
 
-  const handleDeleteMovie = (movieId) => {
-    setMovies(movies.filter((movie) => movie.id !== movieId));
+  useEffect(fetchData, []);
+
+  const editButtonHandler = (movie) => {
+    setEditedDataId(movie.id);
+    setEditedData({ title: movie.title, description: movie.description });
+  };
+
+  const deleteHandler = (movieId) => {
+    const apiUrl = "http://localhost:8080/deleteGame/" + movieId;
+    fetch(apiUrl, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    alert("Deleted successfully!");
+    fetchData();
   };
 
   return (
-    <div>
+    <div className="admin">
       <h1>Movie CRUD Example</h1>
 
       <h2>Add Movie</h2>
       <input
         type="text"
         placeholder="Enter title"
-        value={newMovie.title}
-        onChange={(e) => setNewMovie({ ...newMovie, title: e.target.value })}
+        value={newData.title}
+        onChange={(e) => setNewData({ ...newData, title: e.target.value })}
       />
       <input
         type="text"
-        placeholder="Enter genre"
-        value={newMovie.genre}
-        onChange={(e) => setNewMovie({ ...newMovie, genre: e.target.value })}
+        placeholder="Enter description"
+        value={newData.description}
+        onChange={(e) =>
+          setNewData({ ...newData, description: e.target.value })
+        }
       />
-      <button onClick={handleAddMovie}>Add Movie</button>
+      <button onClick={addHandler}>Add Movie</button>
 
       <h2>Movie List</h2>
       <ul>
-        {movies.map((movie) => (
-          <li key={movie.id}>
-            {movie.title} ({movie.genre}){" "}
-            <button onClick={() => handleEditMovie(movie)}>Edit</button>
-            <button onClick={() => handleDeleteMovie(movie.id)}>Delete</button>
+        {data.map((item) => (
+          <li key={item.id}>
+            title: {item.title} description: {item.description}
+            <button onClick={() => editButtonHandler(item)}>Edit</button>
+            <button onClick={() => deleteHandler(item.id)}>Delete</button>
           </li>
         ))}
       </ul>
-
-      {editMovieId && (
+      {editedDataId && (
         <div>
           <h2>Edit Movie</h2>
           <input
             type="text"
             placeholder="Enter title"
-            value={editedMovie.title}
+            value={editedData.title}
             onChange={(e) =>
-              setEditedMovie({ ...editedMovie, title: e.target.value })
+              setEditedData({ ...editedData, title: e.target.value })
             }
           />
           <input
             type="text"
-            placeholder="Enter genre"
-            value={editedMovie.genre}
+            placeholder="Enter description"
+            value={editedData.description}
             onChange={(e) =>
-              setEditedMovie({ ...editedMovie, genre: e.target.value })
+              setEditedData({ ...editedData, description: e.target.value })
             }
           />
-          <button onClick={handleUpdateMovie}>Update</button>
+          <button onClick={updateHandler}>Update</button>
         </div>
       )}
     </div>
   );
 }
 
-export default App;
+export default Admin;
