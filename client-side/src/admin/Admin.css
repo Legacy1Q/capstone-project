@@ -1,0 +1,66 @@
+.admin-form {
+  width: 98%;
+  margin: 2rem 1rem;
+}
+
+.admin-label {
+  margin-left: 1.2rem;
+}
+
+.admin-file {
+  font-size: 2.5rem;
+  padding: 0.1rem 0.5rem !important;
+}
+
+.select {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  width: 30%;
+}
+
+.option {
+  margin: 2rem 0;
+}
+
+.text {
+  display: inline;
+  color: white;
+  padding-left: 1rem;
+}
+
+.hide {
+  display: none;
+}
+
+.buttons {
+  margin-right: 1rem;
+}
+
+.input-title {
+  height: 2.5rem;
+  width: 29%;
+  margin: 5rem 0 0px 1rem;
+  font-size: 2rem;
+}
+
+.input-description {
+  height: 2.5rem;
+  width: 40%;
+  margin: 5rem 1rem 0 1rem;
+  font-size: 2rem;
+}
+
+.submit-button {
+  width: 45%;
+  margin: 5rem 0.5rem 0 5rem;
+}
+
+.cancel-button {
+  width: 45%;
+  margin: 5rem 3rem 0 0.5rem;
+}
+
+.cancel-button:hover {
+  background-color: #ff4f4f;
+  color: white;
+}
