@@ -22,6 +22,7 @@ public class Games {
 
     private String title;
     private String description;
+    private String imageFilename;
     private String genre;
     private String ageRating;
     private String studio;
@@ -37,9 +38,10 @@ public class Games {
   public Games() {
   }
 
-  public Games(String title, String description, String genre, String ageRating, String studio, String actor, int releaseDate, String byTopic, String gameSystem) {
+  public Games(String title, String description, String imageFileName, String genre, String ageRating, String studio, String actor, int releaseDate, String byTopic, String gameSystem) {
     this.title = title;
     this.description = description;
+    this.imageFilename = imageFileName;
     this.genre = genre;
     this.ageRating = ageRating;
     this.studio = studio;
@@ -132,5 +134,12 @@ public class Games {
     this.gameSystem = gameSystem;
   }
 
+  public String getImageFilename() {
+    return this.imageFilename;
+  }
+
+  public void setImageFilename(String imageFilename) {
+    this.imageFilename = imageFilename;
+  }
     
 }

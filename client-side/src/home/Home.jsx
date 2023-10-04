@@ -5,29 +5,29 @@ import { Link } from "react-router-dom";
 
 function Home() {
   const [index, setIndex] = useState(0);
-  const [movie, setMovie] = useState([]);
+  // const [movie, setMovie] = useState([]);
 
-  const url = "https://imdb8.p.rapidapi.com/auto-complete?q=movies";
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "bf7d4a2827msh03ee1789278a56ep1fe3a5jsn0383e3886838",
-      "X-RapidAPI-Host": "imdb8.p.rapidapi.com",
-    },
-  };
+  // const url = "https://imdb8.p.rapidapi.com/auto-complete?q=movies";
+  // const options = {
+  //   method: "GET",
+  //   headers: {
+  //     "X-RapidAPI-Key": "bf7d4a2827msh03ee1789278a56ep1fe3a5jsn0383e3886838",
+  //     "X-RapidAPI-Host": "imdb8.p.rapidapi.com",
+  //   },
+  // };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url, options);
-        const result = await response.json();
-        setMovie(result.d);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(url, options);
+  //       const result = await response.json();
+  //       setMovie(result.d);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
