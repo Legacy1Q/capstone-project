@@ -69,3 +69,31 @@
 .home {
   background-color: rgba(0, 0, 0, 0.125) !important;
 }
+
+.inline {
+  display: inline-block;
+}
+
+.inline p {
+  text-align: center;
+}
+
+.button-cancel:hover {
+  background-color: red !important;
+}
+
+.button-submit {
+  margin-top: 3rem !important;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.rating-text {
+  color: black;
+  text-align: center;
+}

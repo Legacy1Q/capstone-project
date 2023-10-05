@@ -2,9 +2,17 @@ import { useState, useEffect } from "react";
 import "./Home.css";
 import Carousel from "react-bootstrap/Carousel";
 import { Link } from "react-router-dom";
+import Modal from "react-modal";
+import Rating from "react-rating-stars-component";
+
+Modal.setAppElement("#root");
 
 function Home() {
   const [index, setIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState(null);
+
   // const [movie, setMovie] = useState([]);
 
   // const url = "https://imdb8.p.rapidapi.com/auto-complete?q=movies";
@@ -29,8 +37,25 @@ function Home() {
   //   fetchData();
   // }, []);
 
+  const reviewHandler = () => {
+    openModal();
+  };
+
+  const submitHandler = () => {
+    console.log(review);
+    console.log(rating);
+  };
+
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -59,7 +84,6 @@ function Home() {
           </Carousel>
         </div>
       </div>
-
       {/* Body */}
       <div className="home__body">
         <div className="body__container">
@@ -69,21 +93,70 @@ function Home() {
                 <div className="body__container__1__title">
                   <h1>Movies</h1>
                 </div>
-                {/* {movie.map((list, index) => (
-                  <img key={index} src={list.i.imageUrl} alt="" />
-                ))}
-                {movie.map((list, index) => (
-                  <p key={index}>{list.l}</p>
-                ))} */}
-                <img src="./images/oppenheimer2.webp" alt="" />
-                <img src="./images/talk_to_me.webp" alt="" />
+                <div className="inline" onClick={reviewHandler}>
+                  <img src="./images/oppenheimer2.webp" alt="" />
+                  <p>Test</p>
+                </div>
+                <div className="inline">
+                  <img src="./images/oppenheimer2.webp" alt="" />
+                  <p>Test</p>
+                </div>
+                {/* <img src="./images/talk_to_me.webp" alt="" />
                 <img src="./images/tmnt.webp" alt="" />
                 <img src="./images/john wick 4.jpg" alt="" />
                 <img src="./images/fast x.jpg" alt="" />
-                <img src="./images/cocaine bear.jpeg" alt="" />
+                <img src="./images/cocaine bear.jpeg" alt="" /> */}
               </div>
             </div>
           </div>
+          <Modal
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            style={{
+              content: {
+                width: "60%",
+                margin: "auto",
+                height: "60%",
+              },
+            }}
+          >
+            <h2>Review Modal</h2>
+            <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control form-control-md"
+                placeholder="Review"
+                id="floatingInput"
+                onInput={(e) => setReview(e.target.value)}
+              />
+              <label htmlFor="floatingInput">Review</label>
+            </div>
+
+            <div className="rating">
+              <Rating
+                count={5}
+                onChange={(newRating) => {
+                  setRating(newRating);
+                }}
+                size={100}
+                color="gray"
+                activeColor="#FFD700"
+              />
+            </div>
+            <h2 className="rating-text">Rating</h2>
+            <button
+              className="form-button button1 button-submit"
+              onClick={submitHandler}
+            >
+              Submit
+            </button>
+            <button
+              className="form-button button1 button-cancel"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
+          </Modal>
           <div className="row">
             <div className="col-12">
               <div className="body__container__2">
