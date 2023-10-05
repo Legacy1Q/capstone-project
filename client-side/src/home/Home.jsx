@@ -12,33 +12,19 @@ function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(null);
+  const [movies, setMovies] = useState([]);
+  const [editedDataId, setEditedDataId] = useState(null);
 
-  // const [movie, setMovie] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8080/movies")
+      .then((response) => response.json())
+      .then((data) => setMovies(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
-  // const url = "https://imdb8.p.rapidapi.com/auto-complete?q=movies";
-  // const options = {
-  //   method: "GET",
-  //   headers: {
-  //     "X-RapidAPI-Key": "bf7d4a2827msh03ee1789278a56ep1fe3a5jsn0383e3886838",
-  //     "X-RapidAPI-Host": "imdb8.p.rapidapi.com",
-  //   },
-  // };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(url, options);
-  //       const result = await response.json();
-  //       setMovie(result.d);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
-  const reviewHandler = () => {
+  const reviewHandler = (object) => {
     openModal();
+    setEditedDataId(object.id);
   };
 
   const submitHandler = () => {
@@ -93,19 +79,17 @@ function Home() {
                 <div className="body__container__1__title">
                   <h1>Movies</h1>
                 </div>
-                <div className="inline" onClick={reviewHandler}>
-                  <img src="./images/oppenheimer2.webp" alt="" />
-                  <p>Test</p>
-                </div>
-                <div className="inline">
-                  <img src="./images/oppenheimer2.webp" alt="" />
-                  <p>Test</p>
-                </div>
-                {/* <img src="./images/talk_to_me.webp" alt="" />
-                <img src="./images/tmnt.webp" alt="" />
-                <img src="./images/john wick 4.jpg" alt="" />
-                <img src="./images/fast x.jpg" alt="" />
-                <img src="./images/cocaine bear.jpeg" alt="" /> */}
+                {movies.map((movie) => (
+                  <div
+                    className="inline"
+                    key={movie.id}
+                    onClick={() => reviewHandler(movie)}
+                  >
+                    <img src="./images/oppenheimer2.webp" alt="" />
+                    {/* <img src={`./images/${movie.image}`} alt={movie.title} /> */}
+                    <p>{movie.title}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -120,7 +104,7 @@ function Home() {
               },
             }}
           >
-            <h2>Review Modal</h2>
+            <h2>Review Modal {editedDataId}</h2>
             <div className="form-floating mb-3">
               <input
                 type="text"
