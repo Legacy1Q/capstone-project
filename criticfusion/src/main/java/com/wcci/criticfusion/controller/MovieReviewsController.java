@@ -11,36 +11,36 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wcci.criticfusion.entity.Reviews;
-import com.wcci.criticfusion.service.ReviewsService;
+import com.wcci.criticfusion.entity.MovieReviews;
+import com.wcci.criticfusion.service.MovieReviewsService;
 
 @RestController
-public class ReviewsController {
+public class MovieReviewsController {
     @Autowired
-    private ReviewsService reviewsService;
+    private MovieReviewsService reviewsService;
 
-    @GetMapping("/reviews")
-    public List<Reviews> findAllReviews() {
+    @GetMapping("/movieReviews")
+    public List<MovieReviews> findAllReviews() {
         return reviewsService.getAllReviews();
     }
 
-    @GetMapping("/review/{id}")
-  public Reviews getReviewById(@PathVariable long id) {
+    @GetMapping("/movieReview/{id}")
+  public MovieReviews getReviewById(@PathVariable long id) {
     return reviewsService.findReviewsById(id);
   }
 
-    @PostMapping("/addReview")
-    public void addReview(@RequestBody Reviews review) {
+    @PostMapping("/addMovieReview")
+    public void addReview(@RequestBody MovieReviews review) {
 
         reviewsService.addReview(review);
     }
 
-    @PutMapping("/updateReview/{id}")
-  public Reviews updateReview(@PathVariable long id, @RequestBody Reviews reviews) {
+    @PutMapping("/updateMovieReview/{id}")
+  public MovieReviews updateReview(@PathVariable long id, @RequestBody MovieReviews reviews) {
     return this.reviewsService.updateReview(id, reviews);
   }
 
-  @DeleteMapping("/deleteReview/{id}")
+  @DeleteMapping("/deleteMovieReview/{id}")
   public void deleteReview(@PathVariable long id) {
     this.reviewsService.deleteReview(id);
   }

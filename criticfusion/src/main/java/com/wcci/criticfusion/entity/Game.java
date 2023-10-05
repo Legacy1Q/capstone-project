@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
-public class Games {
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
   @GenericGenerator(name = "native", strategy = "native")
@@ -31,14 +31,10 @@ public class Games {
     private String byTopic;
     private String gameSystem;
 
-    @JsonIgnore
-    @OneToMany (mappedBy = "games", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List <Reviews> reviews;
-
-  public Games() {
+  public Game() {
   }
 
-  public Games(String title, String description, String imageFileName, String genre, String ageRating, String studio, String actor, int releaseDate, String byTopic, String gameSystem) {
+  public Game(String title, String description, String imageFileName, String genre, String ageRating, String studio, String actor, int releaseDate, String byTopic, String gameSystem) {
     this.title = title;
     this.description = description;
     this.imageFilename = imageFileName;
@@ -49,14 +45,6 @@ public class Games {
     this.releaseDate = releaseDate;
     this.byTopic = byTopic;
     this.gameSystem = gameSystem;
-  }
-
-  public List<Reviews> getReviews() {
-    return this.reviews;
-  }
-
-  public void setReviews(List<Reviews> reviews) {
-    this.reviews = reviews;
   }
 
     public Long getId() {

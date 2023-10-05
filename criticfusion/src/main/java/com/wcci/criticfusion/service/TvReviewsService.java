@@ -7,36 +7,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import com.wcci.criticfusion.entity.Reviews;
-import com.wcci.criticfusion.repository.ReviewsRepository;
+import com.wcci.criticfusion.entity.TvReviews;
+import com.wcci.criticfusion.repository.TvReviewsRepository;
 
 @Service
-public class ReviewsService{
+public class TvReviewsService{
     @Autowired
-    private ReviewsRepository reviewsRepository;
-    public List<Reviews> getAllReviews() {
+    private TvReviewsRepository reviewsRepository;
+    public List<TvReviews> getAllTvReviews() {
     return reviewsRepository.findAll();
     }
 
-    public Reviews findReviewsById(long id) {
+    public TvReviews findTvReviewsById(long id) {
     return this.reviewsRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id is not found."));
   }
 
-  public void addReview (Reviews review){
+  public void addTvReview (TvReviews review){
     reviewsRepository.save(review);
   }
 
-  public Reviews updateReview(long id, Reviews updatedReviews) {
-    Reviews exsistingReviews = findReviewsById(id);
-  exsistingReviews.setTitle(updatedReviews.getTitle() == null ? exsistingReviews.getTitle() : updatedReviews.getTitle());
+  public TvReviews updateTvReview(long id, TvReviews updatedReviews) {
+    TvReviews exsistingReviews = findTvReviewsById(id);
  exsistingReviews.setReview(updatedReviews.getReview() == null ? exsistingReviews.getReview() : updatedReviews.getReview());
  exsistingReviews.setRating(updatedReviews.getRating());
   this.reviewsRepository.save(exsistingReviews); 
   return exsistingReviews;
 }
 
-public void deleteReview(long id) {
+public void deleteTvReview(long id) {
   this.reviewsRepository.deleteById(id);
 }
 }

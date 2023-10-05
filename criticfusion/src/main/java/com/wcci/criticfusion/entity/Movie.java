@@ -32,7 +32,7 @@ public class Movie {
 
   @JsonIgnore
   @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Reviews> reviews;
+  private List<MovieReviews> reviews;
 
   public Movie() {
   }
@@ -50,11 +50,11 @@ public class Movie {
     this.browseByLanguage = browseByLanguage;
   }
 
-  public List<Reviews> getReviews() {
+  public List<MovieReviews> getReviews() {
     return this.reviews;
   }
 
-  public void setReviews(List<Reviews> reviews) {
+  public void setReviews(List<MovieReviews> reviews) {
     this.reviews = reviews;
   }
 

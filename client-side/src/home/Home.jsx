@@ -22,15 +22,37 @@ function Home() {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
+  async function submitHandler() {
+    const response = await fetch("http://localhost:8080/addReview", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        review: review,
+        rating: rating,
+        movie: {
+          id: editedDataId,
+        },
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    alert("Added review successfully!");
+    closeModal();
+  }
+
   const reviewHandler = (object) => {
     openModal();
     setEditedDataId(object.id);
   };
 
-  const submitHandler = () => {
-    console.log(review);
-    console.log(rating);
-  };
+  // const submitHandler = () => {
+  //   console.log(review);
+  //   console.log(rating);
+  // };
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
