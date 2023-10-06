@@ -30,9 +30,9 @@ public class MovieReviewsController {
   }
 
     @PostMapping("/addMovieReview")
-    public void addReview(@RequestBody MovieReviews review) {
+    public MovieReviews addReview(@RequestBody MovieReviews review) {
 
-        reviewsService.addReview(review);
+        return reviewsService.addReview(review);
     }
 
     @PutMapping("/updateMovieReview/{id}")

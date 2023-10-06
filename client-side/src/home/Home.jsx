@@ -56,7 +56,7 @@ function Home() {
     fetchMovies();
     fetchTvs();
     fetchGames();
-  }, []);
+  }, [movieReviews, tvReviews, gameReviews]);
 
   function submitHandler() {
     category == "MovieReview"
@@ -65,7 +65,7 @@ function Home() {
       ? gameReview()
       : tvReview();
     alert("Added review successfully!");
-    closeModal();
+    setModalDisplay(false);
   }
 
   async function movieReview() {
@@ -200,6 +200,11 @@ function Home() {
                       <button className="button">Review</button>
                     </div>
                     <p>{movie.title}</p>
+                    {/* {movies
+                      .filter((mov) => mov.mov.id === editedDataId)
+                      .map((mov) => (
+                        <p key={mov.id}>Rating: {mov.rating}</p>
+                      ))} */}
                   </div>
                 ))}
               </div>
@@ -341,34 +346,40 @@ function Home() {
                 </tr>
               </thead>
               <tbody className={category == "MovieReview" ? "" : "hide"}>
-                {movieReviews.map((movie) => (
-                  <tr key={movie.id}>
-                    <th scope="row">{movie.id}</th>
-                    <td key={movie.id}>{movie.movie.title}</td>
-                    <td>{movie.review}</td>
-                    <td>{movie.rating}</td>
-                  </tr>
-                ))}
+                {movieReviews
+                  .filter((movie) => movie.movie.id === editedDataId)
+                  .map((movie) => (
+                    <tr key={movie.id}>
+                      <th scope="row">{movie.id}</th>
+                      <td key={movie.id}>{movie.movie.title}</td>
+                      <td>{movie.review}</td>
+                      <td>{movie.rating}</td>
+                    </tr>
+                  ))}
               </tbody>
               <tbody className={category == "TvReview" ? "" : "hide"}>
-                {tvReviews.map((tv) => (
-                  <tr key={tv.id}>
-                    <th scope="row">{tv.id}</th>
-                    <td key={tv.id}>{tv.tv.title}</td>
-                    <td>{tv.review}</td>
-                    <td>{tv.rating}</td>
-                  </tr>
-                ))}
+                {tvReviews
+                  .filter((tv) => tv.tv.id === editedDataId)
+                  .map((tv) => (
+                    <tr key={tv.id}>
+                      <th scope="row">{tv.id}</th>
+                      <td key={tv.id}>{tv.tv.title}</td>
+                      <td>{tv.review}</td>
+                      <td>{tv.rating}</td>
+                    </tr>
+                  ))}
               </tbody>
               <tbody className={category == "GameReview" ? "" : "hide"}>
-                {gameReviews.map((game) => (
-                  <tr key={game.id}>
-                    <th scope="row">{game.id}</th>
-                    <td key={game.id}>{game.games.title}</td>
-                    <td>{game.review}</td>
-                    <td>{game.rating}</td>
-                  </tr>
-                ))}
+                {gameReviews
+                  .filter((game) => game.games.id === editedDataId)
+                  .map((game) => (
+                    <tr key={game.id}>
+                      <th scope="row">{game.id}</th>
+                      <td key={game.id}>{game.games.title}</td>
+                      <td>{game.review}</td>
+                      <td>{game.rating}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
 
@@ -388,7 +399,10 @@ function Home() {
                   ? "hide"
                   : "form-button button1 button-cancel"
               }
-              onClick={closeModal}
+              onClick={() => {
+                setModalDisplay(false);
+                closeModal();
+              }}
             >
               Cancel
             </button>
