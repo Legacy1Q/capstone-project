@@ -30,9 +30,8 @@ public class TvReviewsController {
   }
 
     @PostMapping("/addTvReview")
-    public void addTvReview(@RequestBody TvReviews review) {
-
-        reviewsService.addTvReview(review);
+    public TvReviews addTvReview(@RequestBody TvReviews review) {
+        return reviewsService.addTvReview(review);
     }
 
     @PutMapping("/updateTvReview/{id}")

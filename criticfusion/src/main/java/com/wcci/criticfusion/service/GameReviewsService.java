@@ -22,8 +22,8 @@ public class GameReviewsService{
     return this.reviewsRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id is not found."));
   }
 
-  public void addGameReview (GameReviews review){
-    reviewsRepository.save(review);
+  public GameReviews addGameReview (GameReviews review){
+    return reviewsRepository.save(review);
   }
 
   public GameReviews updateGameReview(long id, GameReviews updatedReviews) {

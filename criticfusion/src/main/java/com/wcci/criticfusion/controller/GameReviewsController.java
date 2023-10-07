@@ -30,9 +30,9 @@ public class GameReviewsController {
   }
 
     @PostMapping("/addGameReview")
-    public void addGameReview(@RequestBody GameReviews review) {
+    public GameReviews addGameReview(@RequestBody GameReviews review) {
 
-        reviewsService.addGameReview(review);
+        return reviewsService.addGameReview(review);
     }
 
     @PutMapping("/updateGameReview/{id}")

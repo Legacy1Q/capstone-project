@@ -33,8 +33,8 @@ public class TVController {
     }
 
     @PostMapping("/addTv")
-    public void addTV(@RequestBody Tv tv) {
-        tvService.addTV(tv);
+    public Tv addTV(@RequestBody Tv tv) {
+        return tvService.addTV(tv);
     }
 
     @PutMapping("/updateTv/{id}")

@@ -30,24 +30,18 @@ function Home() {
   ];
 
   useEffect(() => {
-    const fetchMovies = () => {
-      fetch("http://localhost:8080/movies")
-        .then((response) => response.json())
-        .then((data) => setMovies(data))
-        .catch((error) => console.error("Error fetching data:", error));
-    };
-    const fetchTvs = () => {
-      fetch("http://localhost:8080/tv")
-        .then((response) => response.json())
-        .then((data) => setTvs(data))
-        .catch((error) => console.error("Error fetching data:", error));
-    };
-    const fetchGames = () => {
-      fetch("http://localhost:8080/games")
-        .then((response) => response.json())
-        .then((data) => setGames(data))
-        .catch((error) => console.error("Error fetching data:", error));
-    };
+    fetch("http://localhost:8080/movies")
+      .then((response) => response.json())
+      .then((data) => setMovies(data))
+      .catch((error) => console.error("Error fetching data:", error));
+    fetch("http://localhost:8080/tv")
+      .then((response) => response.json())
+      .then((data) => setTvs(data))
+      .catch((error) => console.error("Error fetching data:", error));
+    fetch("http://localhost:8080/games")
+      .then((response) => response.json())
+      .then((data) => setGames(data))
+      .catch((error) => console.error("Error fetching data:", error));
     fetch("http://localhost:8080/movieReviews")
       .then((response) => response.json())
       .then((data) => setMovieReviews(data))
@@ -60,9 +54,6 @@ function Home() {
       .then((response) => response.json())
       .then((data) => setTvReviews(data))
       .catch((error) => console.error("Error fetching data:", error));
-    fetchMovies();
-    fetchTvs();
-    fetchGames();
   }, []);
 
   function submitHandler() {
@@ -93,6 +84,8 @@ function Home() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const newData = await response.json();
+    setMovieReviews((prevMovieReviews) => [...prevMovieReviews, newData]);
   }
 
   async function gameReview() {
@@ -113,6 +106,8 @@ function Home() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const newData = await response.json();
+    setGameReviews((prevGameReviews) => [...prevGameReviews, newData]);
   }
 
   async function tvReview() {
@@ -133,6 +128,8 @@ function Home() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const newData = await response.json();
+    setTvReviews((prevTvReviews) => [...prevTvReviews, newData]);
   }
 
   function calculateAverageRatingForId(reviews, category, id) {
@@ -159,7 +156,8 @@ function Home() {
       (sum, review) => sum + review.rating,
       0
     );
-    return totalRating / filteredReviews.length;
+    const averageRating = totalRating / filteredReviews.length;
+    return averageRating.toFixed(1);
   }
 
   const averageMovieRating = uniqueMovieIds.map((id) =>
@@ -249,6 +247,7 @@ function Home() {
             className="btn-close float-end"
             onClick={() => {
               setIsModalOpen(false);
+              setModalDisplay(false);
             }}
             aria-label="Close"
           ></button>
@@ -286,12 +285,6 @@ function Home() {
         >
           <thead>
             <tr>
-              {/* <th scope="col" className="col-1">
-                Id
-              </th>
-              <th scope="col" className="col-1">
-                Title
-              </th> */}
               <th scope="col" className="col-10">
                 Review
               </th>
@@ -305,8 +298,6 @@ function Home() {
               .filter((movie) => movie.movie.id === editedDataId)
               .map((movie) => (
                 <tr key={movie.id}>
-                  {/* <th scope="row">{movie.id}</th> */}
-                  {/* <td key={movie.id}>{movie.movie.title}</td> */}
                   <td>{movie.review}</td>
                   <td>{movie.rating}</td>
                 </tr>
@@ -378,7 +369,7 @@ function Home() {
                       className="overlay"
                       onClick={() => reviewHandler(movie, "MovieReview")}
                     >
-                      {/* <button className="button">Review</button> */}
+                      <button className="button btn-review">Review</button>
                     </div>
                     {/* <h2>Average Ratings</h2> */}
                     {/* <p>Average Rating: {averageMovieRating}</p> */}
@@ -387,14 +378,13 @@ function Home() {
                       (rating, index) => uniqueMovieIds[index] === movie.id
                     ) && (
                       <p>
-                        Average Rating:{" "}
+                        Rating:{" "}
                         {averageMovieRating.find(
                           (rating, index) => uniqueMovieIds[index] === movie.id
                         )}
+                        {" stars"}
                       </p>
                     )}
-                    {/* <p>TV Average Rating: {averageTvRating}</p>
-                    <p>Game Average Rating: {averageGameRating}</p> */}
                   </div>
                 ))}
               </div>
@@ -488,10 +478,11 @@ function Home() {
                       (rating, index) => uniqueGameIds[index] === game.id
                     ) && (
                       <p>
-                        Average Rating:{" "}
+                        Rating:{" "}
                         {averageGameRating.find(
                           (rating, index) => uniqueGameIds[index] === game.id
                         )}
+                        {" stars"}
                       </p>
                     )}
                   </div>

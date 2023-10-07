@@ -22,8 +22,8 @@ public class TvReviewsService{
     return this.reviewsRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id is not found."));
   }
 
-  public void addTvReview (TvReviews review){
-    reviewsRepository.save(review);
+  public TvReviews addTvReview (TvReviews review){
+    return reviewsRepository.save(review);
   }
 
   public TvReviews updateTvReview(long id, TvReviews updatedReviews) {
