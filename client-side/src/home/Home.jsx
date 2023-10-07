@@ -21,6 +21,13 @@ function Home() {
   const [gameReviews, setGameReviews] = useState([]);
   const [tvReviews, setTvReviews] = useState([]);
   const [modalDisplay, setModalDisplay] = useState(false);
+  const uniqueMovieIds = [
+    ...new Set(movieReviews.map((review) => review.movie.id)),
+  ];
+  const uniqueTvIds = [...new Set(tvReviews.map((review) => review.tv.id))];
+  const uniqueGameIds = [
+    ...new Set(gameReviews.map((review) => review.games.id)),
+  ];
 
   useEffect(() => {
     const fetchMovies = () => {
@@ -56,7 +63,7 @@ function Home() {
     fetchMovies();
     fetchTvs();
     fetchGames();
-  }, [movieReviews, tvReviews, gameReviews]);
+  }, []);
 
   function submitHandler() {
     category == "MovieReview"
@@ -128,6 +135,45 @@ function Home() {
     }
   }
 
+  function calculateAverageRatingForId(reviews, category, id) {
+    let filteredReviews;
+    if (category === "movie") {
+      filteredReviews = reviews.filter(
+        (review) => review.movie && review.movie.id === id
+      );
+    } else if (category === "tv") {
+      filteredReviews = reviews.filter(
+        (review) => review.tv && review.tv.id === id
+      );
+    } else {
+      filteredReviews = reviews.filter(
+        (review) => review.games && review.games.id === id
+      );
+    }
+
+    if (filteredReviews.length === 0) {
+      return 0;
+    }
+
+    const totalRating = filteredReviews.reduce(
+      (sum, review) => sum + review.rating,
+      0
+    );
+    return totalRating / filteredReviews.length;
+  }
+
+  const averageMovieRating = uniqueMovieIds.map((id) =>
+    calculateAverageRatingForId(movieReviews, "movie", id)
+  );
+
+  const averageTvRating = uniqueTvIds.map((id) =>
+    calculateAverageRatingForId(tvReviews, "tv", id)
+  );
+
+  const averageGameRating = uniqueGameIds.map((id) =>
+    calculateAverageRatingForId(gameReviews, "game", id)
+  );
+
   const reviewHandler = (object, category) => {
     openModal();
     setEditedDataId(object.id);
@@ -173,6 +219,141 @@ function Home() {
         </div>
       </div>
       {/* Body */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            width: "60%",
+            margin: "auto",
+            height: "60%",
+          },
+        }}
+      >
+        <h2 className="modal-title">
+          {category == "MovieReview"
+            ? movies.find((movie) => movie.id === editedDataId)?.title
+            : category == "TvReview"
+            ? tvs.find((tv) => tv.id === editedDataId)?.title
+            : games.find((game) => game.id === editedDataId)?.title}
+          <button
+            className="button modal-button float-start inline"
+            onClick={() => {
+              setModalDisplay(!modalDisplay);
+            }}
+          >
+            {modalDisplay ? "View reviews" : "Add reviews"}
+          </button>
+          <button
+            type="button"
+            className="btn-close float-end"
+            onClick={() => {
+              setIsModalOpen(false);
+            }}
+            aria-label="Close"
+          ></button>
+        </h2>
+        <div className={modalDisplay == false ? "hide" : "form-floating mb-3"}>
+          <input
+            type="text"
+            className="form-control form-control-md"
+            placeholder="Review"
+            id="floatingInput"
+            onInput={(e) => setReview(e.target.value)}
+          />
+          <label htmlFor="floatingInput">Review</label>
+        </div>
+        <div className={modalDisplay == false ? "hide" : "rating"}>
+          <Rating
+            count={5}
+            onChange={(newRating) => {
+              setRating(newRating);
+            }}
+            size={100}
+            color="gray"
+            activeColor="#FFD700"
+          />
+        </div>
+        <h2 className={modalDisplay == false ? "hide" : "rating-text"}>
+          Rating
+        </h2>
+        <table
+          className={
+            modalDisplay == false
+              ? "table table-striped table-hover modal-table"
+              : "hide"
+          }
+        >
+          <thead>
+            <tr>
+              {/* <th scope="col" className="col-1">
+                Id
+              </th>
+              <th scope="col" className="col-1">
+                Title
+              </th> */}
+              <th scope="col" className="col-10">
+                Review
+              </th>
+              <th scope="col" className="col-2">
+                Rating
+              </th>
+            </tr>
+          </thead>
+          <tbody className={category == "MovieReview" ? "" : "hide"}>
+            {movieReviews
+              .filter((movie) => movie.movie.id === editedDataId)
+              .map((movie) => (
+                <tr key={movie.id}>
+                  {/* <th scope="row">{movie.id}</th> */}
+                  {/* <td key={movie.id}>{movie.movie.title}</td> */}
+                  <td>{movie.review}</td>
+                  <td>{movie.rating}</td>
+                </tr>
+              ))}
+          </tbody>
+          <tbody className={category == "TvReview" ? "" : "hide"}>
+            {tvReviews
+              .filter((tv) => tv.tv.id === editedDataId)
+              .map((tv) => (
+                <tr key={tv.id}>
+                  <td>{tv.review}</td>
+                  <td>{tv.rating}</td>
+                </tr>
+              ))}
+          </tbody>
+          <tbody className={category == "GameReview" ? "" : "hide"}>
+            {gameReviews
+              .filter((game) => game.games.id === editedDataId)
+              .map((game) => (
+                <tr key={game.id}>
+                  <td>{game.review}</td>
+                  <td>{game.rating}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+
+        <button
+          className={
+            modalDisplay == false ? "hide" : "form-button button1 button-submit"
+          }
+          onClick={submitHandler}
+        >
+          Submit
+        </button>
+        <button
+          className={
+            modalDisplay == false ? "hide" : "form-button button1 button-cancel"
+          }
+          onClick={() => {
+            setModalDisplay(false);
+            closeModal();
+          }}
+        >
+          Cancel
+        </button>
+      </Modal>
       <div className="home__body">
         <div className="body__container">
           <div className="row">
@@ -197,14 +378,23 @@ function Home() {
                       className="overlay"
                       onClick={() => reviewHandler(movie, "MovieReview")}
                     >
-                      <button className="button">Review</button>
+                      {/* <button className="button">Review</button> */}
                     </div>
+                    {/* <h2>Average Ratings</h2> */}
+                    {/* <p>Average Rating: {averageMovieRating}</p> */}
                     <p>{movie.title}</p>
-                    {/* {movies
-                      .filter((mov) => mov.mov.id === editedDataId)
-                      .map((mov) => (
-                        <p key={mov.id}>Rating: {mov.rating}</p>
-                      ))} */}
+                    {averageMovieRating.find(
+                      (rating, index) => uniqueMovieIds[index] === movie.id
+                    ) && (
+                      <p>
+                        Average Rating:{" "}
+                        {averageMovieRating.find(
+                          (rating, index) => uniqueMovieIds[index] === movie.id
+                        )}
+                      </p>
+                    )}
+                    {/* <p>TV Average Rating: {averageTvRating}</p>
+                    <p>Game Average Rating: {averageGameRating}</p> */}
                   </div>
                 ))}
               </div>
@@ -216,10 +406,48 @@ function Home() {
                 <div className="body__container__2__title">
                   <h1>TV</h1>
                 </div>
-                <Link to="/ahsoka">
+                {/* <Link to="/ahsoka">
                   <img src="./images/ahsoka 1440.jpg" alt="" />
-                </Link>
+                </Link> */}
                 {tvs.map((tv) => (
+                  <div
+                    className="inline image-container"
+                    key={tv.id}
+                    // onClick={() => reviewHandler(movie, "MovieReview")}
+                  >
+                    <img
+                      className="image"
+                      src="./images/one piece 1440.jpg"
+                      alt=""
+                    />
+                    {/* <img src={`./images/${movie.image}`} alt={movie.title} /> */}
+                    <div
+                      className="overlay"
+                      onClick={() => reviewHandler(tv, "TvReview")}
+                    >
+                      {/* <button className="button">Review</button> */}
+                    </div>
+                    {/* <h2>Average Ratings</h2> */}
+                    {/* <p>Average Rating: {averageMovieRating}</p> */}
+                    <p>{tv.title}</p>
+                    {averageTvRating.find(
+                      (rating, index) => uniqueTvIds[index] === tv.id
+                    ) != null ? (
+                      <p>
+                        Rating:{" "}
+                        {averageTvRating.find(
+                          (rating, index) => uniqueTvIds[index] === tv.id
+                        )}{" "}
+                        {" stars"}
+                      </p>
+                    ) : (
+                      <p>No reviews</p>
+                    )}
+                    {/* <p>TV Average Rating: {averageTvRating}</p>
+                    <p>Game Average Rating: {averageGameRating}</p> */}
+                  </div>
+                ))}
+                {/* {tvs.map((tv) => (
                   <div
                     className="inline"
                     key={tv.id}
@@ -227,13 +455,18 @@ function Home() {
                   >
                     <img src="./images/one piece 1440.jpg" alt="" />
                     <p>{tv.title}</p>
+                    {averageTvRating.find(
+                      (rating, index) => uniqueTvIds[index] === tv.id
+                    ) && (
+                      <p>
+                        Average Rating:{" "}
+                        {averageTvRating.find(
+                          (rating, index) => uniqueTvIds[index] === tv.id
+                        )}
+                      </p>
+                    )}
                   </div>
-                ))}
-                {/* <img src="./images/one piece 1440.jpg" alt="" />
-                <img src="./images/stranger things.webp" alt="" />
-                <img src="./images/the rookie 1440.jpg" alt="" />
-                <img src="./images/wednesday 1440.avif" alt="" />
-                <img src="./images/yellowstone 1440.jpg" alt="" /> */}
+                ))} */}
               </div>
             </div>
           </div>
@@ -251,6 +484,16 @@ function Home() {
                   >
                     <img src="./images/starfield.jpg" alt="" />
                     <p>{game.title}</p>
+                    {averageGameRating.find(
+                      (rating, index) => uniqueGameIds[index] === game.id
+                    ) && (
+                      <p>
+                        Average Rating:{" "}
+                        {averageGameRating.find(
+                          (rating, index) => uniqueGameIds[index] === game.id
+                        )}
+                      </p>
+                    )}
                   </div>
                 ))}
                 {/* <img src="./images/Baldur's Gate 3.avif" alt="" />
@@ -262,151 +505,6 @@ function Home() {
               </div>
             </div>
           </div>
-          <Modal
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            style={{
-              content: {
-                width: "60%",
-                margin: "auto",
-                height: "60%",
-              },
-            }}
-          >
-            <h2 className="modal-title">
-              {category == "MovieReview"
-                ? "Movie Review"
-                : category == "TvReview"
-                ? "Tv Review"
-                : "Game Review"}
-              <button
-                className="button modal-button float-start inline"
-                onClick={() => {
-                  setModalDisplay(!modalDisplay);
-                }}
-              >
-                {modalDisplay ? "View reviews" : "Add reviews"}
-              </button>
-              <button
-                type="button"
-                className="btn-close float-end"
-                onClick={() => {
-                  setIsModalOpen(false);
-                }}
-                aria-label="Close"
-              ></button>
-            </h2>
-            <div
-              className={modalDisplay == false ? "hide" : "form-floating mb-3"}
-            >
-              <input
-                type="text"
-                className="form-control form-control-md"
-                placeholder="Review"
-                id="floatingInput"
-                onInput={(e) => setReview(e.target.value)}
-              />
-              <label htmlFor="floatingInput">Review</label>
-            </div>
-            <div className={modalDisplay == false ? "hide" : "rating"}>
-              <Rating
-                count={5}
-                onChange={(newRating) => {
-                  setRating(newRating);
-                }}
-                size={100}
-                color="gray"
-                activeColor="#FFD700"
-              />
-            </div>
-            <h2 className={modalDisplay == false ? "hide" : "rating-text"}>
-              Rating
-            </h2>
-            <table
-              className={
-                modalDisplay == false
-                  ? "table table-striped table-hover modal-table"
-                  : "hide"
-              }
-            >
-              <thead>
-                <tr>
-                  <th scope="col" className="col-1">
-                    Id
-                  </th>
-                  <th scope="col" className="col-1">
-                    Title
-                  </th>
-                  <th scope="col" className="col-9">
-                    Review
-                  </th>
-                  <th scope="col" className="col-1">
-                    Rating
-                  </th>
-                </tr>
-              </thead>
-              <tbody className={category == "MovieReview" ? "" : "hide"}>
-                {movieReviews
-                  .filter((movie) => movie.movie.id === editedDataId)
-                  .map((movie) => (
-                    <tr key={movie.id}>
-                      <th scope="row">{movie.id}</th>
-                      <td key={movie.id}>{movie.movie.title}</td>
-                      <td>{movie.review}</td>
-                      <td>{movie.rating}</td>
-                    </tr>
-                  ))}
-              </tbody>
-              <tbody className={category == "TvReview" ? "" : "hide"}>
-                {tvReviews
-                  .filter((tv) => tv.tv.id === editedDataId)
-                  .map((tv) => (
-                    <tr key={tv.id}>
-                      <th scope="row">{tv.id}</th>
-                      <td key={tv.id}>{tv.tv.title}</td>
-                      <td>{tv.review}</td>
-                      <td>{tv.rating}</td>
-                    </tr>
-                  ))}
-              </tbody>
-              <tbody className={category == "GameReview" ? "" : "hide"}>
-                {gameReviews
-                  .filter((game) => game.games.id === editedDataId)
-                  .map((game) => (
-                    <tr key={game.id}>
-                      <th scope="row">{game.id}</th>
-                      <td key={game.id}>{game.games.title}</td>
-                      <td>{game.review}</td>
-                      <td>{game.rating}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-
-            <button
-              className={
-                modalDisplay == false
-                  ? "hide"
-                  : "form-button button1 button-submit"
-              }
-              onClick={submitHandler}
-            >
-              Submit
-            </button>
-            <button
-              className={
-                modalDisplay == false
-                  ? "hide"
-                  : "form-button button1 button-cancel"
-              }
-              onClick={() => {
-                setModalDisplay(false);
-                closeModal();
-              }}
-            >
-              Cancel
-            </button>
-          </Modal>
         </div>
       </div>
     </div>
