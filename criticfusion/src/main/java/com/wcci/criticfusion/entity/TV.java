@@ -1,16 +1,10 @@
 package com.wcci.criticfusion.entity;
 
-import java.util.List;
-
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
@@ -22,7 +16,7 @@ public class Tv {
 
   private String title;
   private String description;
-  private String genre;
+  private String trailerUrl;
   private String ageRating;
   private int byDecade;
   private String actor;
@@ -30,18 +24,14 @@ public class Tv {
   private String tvViewing;
   private String browseByLanguage;
 
-  // @JsonIgnore
-  // @OneToMany(mappedBy = "tv", cascade = CascadeType.ALL, orphanRemoval = true)
-  // private List<MovieReviews> reviews;
-
   public Tv() {
   }
 
-  public Tv(String title, String description, String genre, String ageRating, int byDecade, String actor,
+  public Tv(String title, String description, String trailerUrl, String ageRating, int byDecade, String actor,
       int releaseDate, String tvViewing, String browseByLanguage) {
     this.title = title;
     this.description = description;
-    this.genre = genre;
+    this.trailerUrl = trailerUrl;
     this.ageRating = ageRating;
     this.byDecade = byDecade;
     this.actor = actor;
@@ -49,14 +39,6 @@ public class Tv {
     this.tvViewing = tvViewing;
     this.browseByLanguage = browseByLanguage;
   }
-
-  // public List<MovieReviews> getReviews() {
-  //   return this.reviews;
-  // }
-
-  // public void setReviews(List<MovieReviews> reviews) {
-  //   this.reviews = reviews;
-  // }
 
   public Long getId() {
     return Id;
@@ -82,12 +64,12 @@ public class Tv {
     this.description = description;
   }
 
-  public String getGenre() {
-    return this.genre;
+  public String getTrailerUrl() {
+    return this.trailerUrl;
   }
 
-  public void setGenre(String genre) {
-    this.genre = genre;
+  public void setTrailerUrl(String trailerUrl) {
+    this.trailerUrl = trailerUrl;
   }
 
   public String getAgeRating() {

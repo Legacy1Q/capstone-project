@@ -3,7 +3,11 @@ import "./Admin.css";
 
 function Admin() {
   const [data, setData] = useState([]);
-  const [newData, setNewData] = useState({ title: "", description: "" });
+  const [newData, setNewData] = useState({
+    title: "",
+    description: "",
+    trailerUrl: "",
+  });
   const [editedDataId, setEditedDataId] = useState(null);
   const [editedData, setEditedData] = useState({
     title: "",
@@ -64,6 +68,7 @@ function Admin() {
       body: JSON.stringify({
         title: newData.title,
         description: newData.description,
+        trailerUrl: newData.trailerUrl,
       }),
     });
 
@@ -80,7 +85,7 @@ function Admin() {
   async function updateHandler(event) {
     event.preventDefault();
 
-    if (!editedData.title || !editedData.description) {
+    if (!editedData.title || !editedData.description || editedData.trailerUrl) {
       alert("Please fill in all fields.");
       return;
     }
@@ -96,6 +101,7 @@ function Admin() {
         body: JSON.stringify({
           title: editedData.title,
           description: editedData.description,
+          trailerUrl: editedData.trailerUrl,
         }),
       }
     );
@@ -127,7 +133,11 @@ function Admin() {
   const editButtonHandler = (movie) => {
     setDisplayDatas("hide");
     setEditedDataId(movie.id);
-    setEditedData({ title: movie.title, description: movie.description });
+    setEditedData({
+      title: movie.title,
+      description: movie.description,
+      trailerUrl: movie.trailerUrl,
+    });
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons hide");
   };
 
@@ -204,6 +214,21 @@ function Admin() {
         </div>
         <div className="form-floating mb-3">
           <input
+            type="text"
+            className="form-control form-control-md admin-form"
+            placeholder="Trailer Url"
+            id="floatingInput"
+            value={newData.trailerUrl}
+            onInput={(e) =>
+              setNewData({ ...newData, trailerUrl: e.target.value })
+            }
+          />
+          <label htmlFor="floatingInput" className="admin-label">
+            Trailer Url
+          </label>
+        </div>
+        <div className="form-floating mb-3">
+          <input
             type="file"
             className="form-control form-control-md admin-form admin-file"
             onChange={handleFileSelect}
@@ -253,7 +278,22 @@ function Admin() {
               }
             />
             <label htmlFor="floatingInput" className="admin-label">
-              Title
+              Desription
+            </label>
+          </div>
+          <div className="form-floating mb-3">
+            <input
+              type="text"
+              className="form-control form-control-md admin-form"
+              placeholder="Trailer Url"
+              id="floatingInput"
+              value={editedData.trailerUrl}
+              onChange={(e) =>
+                setEditedData({ ...editedData, trailerUrl: e.target.value })
+              }
+            />
+            <label htmlFor="floatingInput" className="admin-label">
+              Trailer Url
             </label>
           </div>
           <button
@@ -277,11 +317,14 @@ function Admin() {
               <th scope="col" className="col-1">
                 #
               </th>
-              <th scope="col" className="col-3">
+              <th scope="col" className="col-2">
                 Title
               </th>
               <th scope="col" className="col-5">
                 Description
+              </th>
+              <th scope="col" className="col-3">
+                Trailer Url
               </th>
               <th scope="col" className="col-1">
                 Actions
@@ -294,6 +337,7 @@ function Admin() {
                 <th scope="row">{item.id}</th>
                 <td key={item.id}>{item.title}</td>
                 <td>{item.description}</td>
+                <td>{item.trailerUrl}</td>
                 <td>
                   <button
                     className="btn btn-primary btn-sm buttons"

@@ -354,29 +354,30 @@ function Home() {
                   <h1>Movies</h1>
                 </div>
                 {movies.map((movie) => (
-                  <div
-                    className="inline image-container"
-                    key={movie.id}
-                    // onClick={() => reviewHandler(movie, "MovieReview")}
-                  >
+                  <div className="inline image-container" key={movie.id}>
                     <img
                       className="image"
                       src="./images/oppenheimer2.webp"
                       alt=""
                     />
-                    {/* <img src={`./images/${movie.image}`} alt={movie.title} /> */}
-                    <div
-                      className="overlay"
-                      onClick={() => reviewHandler(movie, "MovieReview")}
-                    >
-                      <button className="button btn-review">Review</button>
+                    <div className="overlay">
+                      <button
+                        className="button btn-trailer"
+                        onClick={() => window.open(movie.trailerUrl)}
+                      >
+                        Trailer
+                      </button>
+                      <button
+                        className="button btn-review"
+                        onClick={() => reviewHandler(movie, "MovieReview")}
+                      >
+                        Review
+                      </button>
                     </div>
-                    {/* <h2>Average Ratings</h2> */}
-                    {/* <p>Average Rating: {averageMovieRating}</p> */}
                     <p>{movie.title}</p>
                     {averageMovieRating.find(
                       (rating, index) => uniqueMovieIds[index] === movie.id
-                    ) && (
+                    ) != null ? (
                       <p>
                         Rating:{" "}
                         {averageMovieRating.find(
@@ -384,6 +385,8 @@ function Home() {
                         )}
                         {" stars"}
                       </p>
+                    ) : (
+                      <p>No reviews</p>
                     )}
                   </div>
                 ))}
@@ -400,25 +403,26 @@ function Home() {
                   <img src="./images/ahsoka 1440.jpg" alt="" />
                 </Link> */}
                 {tvs.map((tv) => (
-                  <div
-                    className="inline image-container"
-                    key={tv.id}
-                    // onClick={() => reviewHandler(movie, "MovieReview")}
-                  >
+                  <div className="inline image-container" key={tv.id}>
                     <img
                       className="image"
                       src="./images/one piece 1440.jpg"
                       alt=""
                     />
-                    {/* <img src={`./images/${movie.image}`} alt={movie.title} /> */}
-                    <div
-                      className="overlay"
-                      onClick={() => reviewHandler(tv, "TvReview")}
-                    >
-                      {/* <button className="button">Review</button> */}
+                    <div className="overlay">
+                      <button
+                        className="button btn-trailer"
+                        onClick={() => window.open(tv.trailerUrl)}
+                      >
+                        Trailer
+                      </button>
+                      <button
+                        className="button btn-review"
+                        onClick={() => reviewHandler(tv, "MovieReview")}
+                      >
+                        Review
+                      </button>
                     </div>
-                    {/* <h2>Average Ratings</h2> */}
-                    {/* <p>Average Rating: {averageMovieRating}</p> */}
                     <p>{tv.title}</p>
                     {averageTvRating.find(
                       (rating, index) => uniqueTvIds[index] === tv.id
@@ -433,30 +437,8 @@ function Home() {
                     ) : (
                       <p>No reviews</p>
                     )}
-                    {/* <p>TV Average Rating: {averageTvRating}</p>
-                    <p>Game Average Rating: {averageGameRating}</p> */}
                   </div>
                 ))}
-                {/* {tvs.map((tv) => (
-                  <div
-                    className="inline"
-                    key={tv.id}
-                    onClick={() => reviewHandler(tv, "TvReview")}
-                  >
-                    <img src="./images/one piece 1440.jpg" alt="" />
-                    <p>{tv.title}</p>
-                    {averageTvRating.find(
-                      (rating, index) => uniqueTvIds[index] === tv.id
-                    ) && (
-                      <p>
-                        Average Rating:{" "}
-                        {averageTvRating.find(
-                          (rating, index) => uniqueTvIds[index] === tv.id
-                        )}
-                      </p>
-                    )}
-                  </div>
-                ))} */}
               </div>
             </div>
           </div>
@@ -467,16 +449,30 @@ function Home() {
                   <h1>Games</h1>
                 </div>
                 {games.map((game) => (
-                  <div
-                    className="inline"
-                    key={game.id}
-                    onClick={() => reviewHandler(game, "GameReview")}
-                  >
-                    <img src="./images/starfield.jpg" alt="" />
+                  <div className="inline image-container" key={game.id}>
+                    <img
+                      className="image"
+                      src="./images/starfield.jpg"
+                      alt=""
+                    />
+                    <div className="overlay">
+                      <button
+                        className="button btn-trailer"
+                        onClick={() => window.open(game.trailerUrl)}
+                      >
+                        Trailer
+                      </button>
+                      <button
+                        className="button btn-review"
+                        onClick={() => reviewHandler(game, "GameReview")}
+                      >
+                        Review
+                      </button>
+                    </div>
                     <p>{game.title}</p>
                     {averageGameRating.find(
                       (rating, index) => uniqueGameIds[index] === game.id
-                    ) && (
+                    ) != null ? (
                       <p>
                         Rating:{" "}
                         {averageGameRating.find(
@@ -484,15 +480,11 @@ function Home() {
                         )}
                         {" stars"}
                       </p>
+                    ) : (
+                      <p>No reviews</p>
                     )}
                   </div>
                 ))}
-                {/* <img src="./images/Baldur's Gate 3.avif" alt="" />
-                <img src="./images/starfield.jpg" alt="" />
-                <img src="./images/nba-2k24.jpg" alt="" />
-                <img src="./images/warzone.jpg" alt="" />
-                <img src="./images/apex legends.jpg" alt="" />
-                <img src="./images/lies of p.jpg" alt="" /> */}
               </div>
             </div>
           </div>

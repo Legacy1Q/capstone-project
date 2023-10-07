@@ -22,7 +22,7 @@ public class Movie {
 
   private String title;
   private String description;
-  private String genre;
+  private String trailerUrl;
   private String ageRating;
   private String studio;
   private String actor;
@@ -37,11 +37,11 @@ public class Movie {
   public Movie() {
   }
 
-  public Movie(String title, String description, String genre, String ageRating, String studio, String actor,
+  public Movie(String title, String description, String trailerUrl, String ageRating, String studio, String actor,
       int releaseDate, String movieSystem, String browseByLanguage) {
     this.title = title;
     this.description = description;
-    this.genre = genre;
+    this.trailerUrl = trailerUrl;
     this.ageRating = ageRating;
     this.studio = studio;
     this.actor = actor;
@@ -82,12 +82,12 @@ public class Movie {
     this.description = description;
   }
 
-  public String getGenre() {
-    return this.genre;
+  public String getTrailerUrl() {
+    return this.trailerUrl;
   }
 
-  public void setGenre(String genre) {
-    this.genre = genre;
+  public void setTrailerUrl(String trailerUrl) {
+    this.trailerUrl = trailerUrl;
   }
 
   public String getAgeRating() {
