@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wcci.criticfusion.entity.Cart;
-import com.wcci.criticfusion.entity.TV;
 import com.wcci.criticfusion.service.CartService;
 
 @RestController

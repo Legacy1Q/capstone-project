@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wcci.criticfusion.entity.TV;
+import com.wcci.criticfusion.entity.Tv;
 import com.wcci.criticfusion.service.TVService;
 
 @RestController
@@ -23,22 +23,22 @@ public class TVController {
     TVService tvService;
 
     @GetMapping("/tv")
-    public List<TV> getAllTV() {
+    public List<Tv> getAllTV() {
         return tvService.findAllTV();
     }
 
     @GetMapping("/tv/{id}")
-    public TV getTVById(@PathVariable long id) {
+    public Tv getTVById(@PathVariable long id) {
     return tvService.findTVById(id);
     }
 
     @PostMapping("/addTv")
-    public void addTV(@RequestBody TV tv) {
-        tvService.addTV(tv);
+    public Tv addTV(@RequestBody Tv tv) {
+        return tvService.addTV(tv);
     }
 
     @PutMapping("/updateTv/{id}")
-    public TV updateTV(@PathVariable long id, @RequestBody TV tv) {
+    public Tv updateTV(@PathVariable long id, @RequestBody Tv tv) {
         return this.tvService.updateTV(id, tv);
     }
 

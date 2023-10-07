@@ -1,16 +1,10 @@
 package com.wcci.criticfusion.entity;
 
-import java.util.List;
-
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
@@ -22,10 +16,6 @@ public class Cart {
   private String title;
   private String description;
   
-  @JsonIgnore
-  @OneToMany (mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List <Reviews> reviews;
-
   public Cart() {
   }
 
@@ -34,13 +24,6 @@ public class Cart {
     this.description = description;
   }
 
-  public List<Reviews> getReviews() {
-    return this.reviews;
-  }
-
-  public void setReviews(List<Reviews> reviews) {
-    this.reviews = reviews;
-  }
 
   public Long getId() {
     return Id;

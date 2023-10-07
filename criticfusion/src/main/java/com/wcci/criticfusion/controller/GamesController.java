@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
-import com.wcci.criticfusion.entity.Games;
+import com.wcci.criticfusion.entity.Game;
 import com.wcci.criticfusion.service.GamesService;
 
 
@@ -42,22 +42,22 @@ public class GamesController {
   GamesService gamesService;
   
   @GetMapping("/games")
-  public List<Games> getAllGames() {
+  public List<Game> getAllGames() {
     return gamesService.findAllGames();
   }
 
   @GetMapping("/games/{id}")
-  public Games getGameById(@PathVariable long id) {
+  public Game getGameById(@PathVariable long id) {
     return gamesService.findGamesById(id);
   }
 
   @PostMapping("/addGame")
-  public void addGames (@RequestBody Games games) {
+  public void addGames (@RequestBody Game games) {
   gamesService.addGames(games);
   }
 
   @PutMapping("/updateGame/{id}")
-  public Games updateGame(@PathVariable long id, @RequestBody Games games) {
+  public Game updateGame(@PathVariable long id, @RequestBody Game games) {
     return this.gamesService.updateGame(id, games);
   }
 
@@ -107,7 +107,7 @@ public ResponseEntity<String> uploadImageAndAddGame(
         Path filePath = Paths.get(imageUploadDirectory, filename);
         Files.write(filePath, file.getBytes());
         
-        Games games = new Games();
+        Game games = new Game();
         games.setTitle(title);
         games.setDescription(description);
         games.setImageFilename(filename);
