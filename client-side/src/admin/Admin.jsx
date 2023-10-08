@@ -22,6 +22,13 @@ function Admin() {
     "btn btn-primary btn-lg float-end buttons"
   );
 
+  let endpoint;
+  selectedOption == "Movie"
+    ? (endpoint = "movies")
+    : selectedOption == "Tv"
+    ? (endpoint = "tv")
+    : (endpoint = "games");
+
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -46,7 +53,7 @@ function Admin() {
   };
 
   async function fetchDatas() {
-    const response = await fetch("http://localhost:8080/tv");
+    const response = await fetch("http://localhost:8080/" + endpoint);
     const data = await response.json();
     setData(data);
   }
@@ -54,10 +61,10 @@ function Admin() {
   async function addHandler(event) {
     event.preventDefault();
 
-    // if (!selectedFile || !newData.title || !newData.description) {
-    //   alert("Please fill in all fields and select an image.");
-    //   return;
-    // }
+    if (!newData.trailerUrl || !newData.title || !newData.description) {
+      alert("Please fill in all fields and select an image.");
+      return;
+    }
 
     // const formData = new FormData();
     // formData.append("file", selectedFile);
@@ -127,13 +134,6 @@ function Admin() {
   }
 
   useEffect(() => {
-    let endpoint;
-    selectedOption == "Movie"
-      ? (endpoint = "movies")
-      : selectedOption == "Tv"
-      ? (endpoint = "tv")
-      : (endpoint = "games");
-
     fetch("http://localhost:8080/" + endpoint)
       .then((response) => response.json())
       .then((data) => setData(data))
@@ -168,8 +168,8 @@ function Admin() {
       .catch((error) => {
         console.error("Error:", error);
       });
-    fetchDatas();
     alert("Deleted successfully!");
+    fetchDatas();
   };
 
   return (

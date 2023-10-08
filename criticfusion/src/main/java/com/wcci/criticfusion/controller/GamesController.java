@@ -52,8 +52,8 @@ public class GamesController {
   }
 
   @PostMapping("/addGame")
-  public void addGames (@RequestBody Game games) {
-  gamesService.addGames(games);
+  public Game addGames (@RequestBody Game games) {
+    return gamesService.addGames(games);
   }
 
   @PutMapping("/updateGame/{id}")

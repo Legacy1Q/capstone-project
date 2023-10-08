@@ -25,15 +25,15 @@ public class MovieService {
     return this.movieRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id is not found."));
   }
 
-  public void addMovie (Movie Movie){
-    movieRepository.save(Movie);
+  public Movie addMovie (Movie Movie){
+    return movieRepository.save(Movie);
   }
 
   public Movie updateMovie(long id, Movie updatedMovies) {
   Movie exsistingMovies = findMoviesById(id);
   exsistingMovies.setTitle(updatedMovies.getTitle() == null ? exsistingMovies.getTitle() : updatedMovies.getTitle());
  exsistingMovies.setDescription(updatedMovies.getDescription() == null ? exsistingMovies.getDescription() : updatedMovies.getDescription());
- exsistingMovies.setGenre(updatedMovies.getGenre() == null ? exsistingMovies.getGenre() : updatedMovies.getGenre());
+ exsistingMovies.setTrailerUrl(updatedMovies.getTrailerUrl() == null ? exsistingMovies.getTrailerUrl() : updatedMovies.getTrailerUrl());
  exsistingMovies.setAgeRating(updatedMovies.getAgeRating() == null ? exsistingMovies.getAgeRating() : updatedMovies.getAgeRating());
  exsistingMovies.setMovieSystem(updatedMovies.getMovieSystem() == null ? exsistingMovies.getMovieSystem() : updatedMovies.getMovieSystem());
  exsistingMovies.setBrowseByLanguage(updatedMovies.getBrowseByLanguage() == null ? exsistingMovies.getBrowseByLanguage() : updatedMovies.getBrowseByLanguage());
