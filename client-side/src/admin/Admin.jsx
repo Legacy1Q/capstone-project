@@ -343,28 +343,30 @@ function Admin() {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <th scope="row">{item.id}</th>
-                <td key={item.id}>{item.title}</td>
-                <td>{item.description}</td>
-                <td>{item.trailerUrl}</td>
-                <td>
-                  <button
-                    className="btn btn-primary btn-sm buttons"
-                    onClick={() => editButtonHandler(item)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm buttons"
-                    onClick={() => deleteHandler(item.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {data
+              .sort((a, b) => b.id - a.id)
+              .map((item) => (
+                <tr key={item.id}>
+                  <th scope="row">{item.id}</th>
+                  <td key={item.id}>{item.title}</td>
+                  <td>{item.description}</td>
+                  <td>{item.trailerUrl}</td>
+                  <td>
+                    <button
+                      className="btn btn-primary btn-sm buttons"
+                      onClick={() => editButtonHandler(item)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm buttons"
+                      onClick={() => deleteHandler(item.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
