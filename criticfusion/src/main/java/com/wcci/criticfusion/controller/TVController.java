@@ -43,8 +43,8 @@ public class TVController {
     }
 
     @DeleteMapping("/deleteTv/{id}")
-    public List <Tv> removeTV(@PathVariable long id) {
-        return tvService.deleteTV(id);
+    public void removeTV(@PathVariable long id) {
+        tvService.deleteTV(id);
     }
 
 }

@@ -45,6 +45,12 @@ function Admin() {
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
   };
 
+  async function fetchDatas() {
+    const response = await fetch("http://localhost:8080/tv");
+    const data = await response.json();
+    setData(data);
+  }
+
   async function addHandler(event) {
     event.preventDefault();
 
@@ -85,10 +91,12 @@ function Admin() {
 
   async function updateHandler(event) {
     event.preventDefault();
-
-    if (!editedData.title || !editedData.description || editedData.trailerUrl) {
-      alert("Please fill in all fields.");
-      return;
+    if (
+      !editedData.title ||
+      !editedData.description ||
+      !editedData.trailerUrl
+    ) {
+      return alert("Please fill in all fields.");
     }
 
     const response = await fetch(
@@ -112,9 +120,10 @@ function Admin() {
     }
 
     alert("Updated successfully!");
-    setEditedDataId(null);
     setDisplayDatas("");
+    fetchDatas();
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
+    setEditedDataId(null);
   }
 
   useEffect(() => {
@@ -145,7 +154,6 @@ function Admin() {
   const deleteHandler = (movieId) => {
     const apiUrl =
       "http://localhost:8080/delete" + selectedOption + "/" + movieId;
-
     fetch(apiUrl, {
       method: "DELETE",
       headers: {
@@ -156,15 +164,12 @@ function Admin() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
-      })
-      .then((updatedData) => {
-        setData(updatedData);
-        alert("Deleted successfully!");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+    fetchDatas();
+    alert("Deleted successfully!");
   };
 
   return (

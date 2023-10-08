@@ -43,8 +43,11 @@ public class TVService {
   return existingTV;
  }
 
-public List <Tv> deleteTV(long id) {
+public void deleteTV(long id) {
   this.tvRepository.deleteById(id);
-  return findAllTV();
 }
+
+
+
+
 }
