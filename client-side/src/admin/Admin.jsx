@@ -22,6 +22,13 @@ function Admin() {
     "btn btn-primary btn-lg float-end buttons"
   );
 
+  let endpoint;
+  selectedOption == "Movie"
+    ? (endpoint = "movies")
+    : selectedOption == "Tv"
+    ? (endpoint = "tv")
+    : (endpoint = "games");
+
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -45,13 +52,19 @@ function Admin() {
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
   };
 
+  async function fetchDatas() {
+    const response = await fetch("http://localhost:8080/" + endpoint);
+    const data = await response.json();
+    setData(data);
+  }
+
   async function addHandler(event) {
     event.preventDefault();
 
-    // if (!selectedFile || !newData.title || !newData.description) {
-    //   alert("Please fill in all fields and select an image.");
-    //   return;
-    // }
+    if (!newData.trailerUrl || !newData.title || !newData.description) {
+      alert("Please fill in all fields and select an image.");
+      return;
+    }
 
     // const formData = new FormData();
     // formData.append("file", selectedFile);
@@ -75,19 +88,22 @@ function Admin() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
+    const data = await response.json();
     alert("Added successfully!");
-    setNewData({ title: "", description: "" });
+    setData((prevDatas) => [...prevDatas, data]);
+    setNewData({ title: "", description: "", trailerUrl: "" });
     setSelectedFile(null);
     cancelHandler();
   }
 
   async function updateHandler(event) {
     event.preventDefault();
-
-    if (!editedData.title || !editedData.description || editedData.trailerUrl) {
-      alert("Please fill in all fields.");
-      return;
+    if (
+      !editedData.title ||
+      !editedData.description ||
+      !editedData.trailerUrl
+    ) {
+      return alert("Please fill in all fields.");
     }
 
     const response = await fetch(
@@ -111,24 +127,18 @@ function Admin() {
     }
 
     alert("Updated successfully!");
-    setEditedDataId(null);
     setDisplayDatas("");
+    fetchDatas();
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
+    setEditedDataId(null);
   }
 
   useEffect(() => {
-    let endpoint;
-    selectedOption == "Movie"
-      ? (endpoint = "movies")
-      : selectedOption == "Tv"
-      ? (endpoint = "tv")
-      : (endpoint = "games");
-
     fetch("http://localhost:8080/" + endpoint)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data:", error));
-  }, [selectedOption, data]);
+  }, [selectedOption]);
 
   const editButtonHandler = (movie) => {
     setDisplayDatas("hide");
@@ -159,6 +169,7 @@ function Admin() {
         console.error("Error:", error);
       });
     alert("Deleted successfully!");
+    fetchDatas();
   };
 
   return (
@@ -332,28 +343,30 @@ function Admin() {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <th scope="row">{item.id}</th>
-                <td key={item.id}>{item.title}</td>
-                <td>{item.description}</td>
-                <td>{item.trailerUrl}</td>
-                <td>
-                  <button
-                    className="btn btn-primary btn-sm buttons"
-                    onClick={() => editButtonHandler(item)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm buttons"
-                    onClick={() => deleteHandler(item.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {data
+              .sort((a, b) => b.id - a.id)
+              .map((item) => (
+                <tr key={item.id}>
+                  <th scope="row">{item.id}</th>
+                  <td key={item.id}>{item.title}</td>
+                  <td>{item.description}</td>
+                  <td>{item.trailerUrl}</td>
+                  <td>
+                    <button
+                      className="btn btn-primary btn-sm buttons"
+                      onClick={() => editButtonHandler(item)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm buttons"
+                      onClick={() => deleteHandler(item.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

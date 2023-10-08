@@ -33,9 +33,8 @@ public class MovieController {
   }
 
     @PostMapping("/addMovie")
-    public void addMovie(@RequestBody Movie movie) {
-
-        movieService.addMovie(movie);
+    public Movie addMovie(@RequestBody Movie movie) {
+        return movieService.addMovie(movie);
     }
 
     @PutMapping("/updateMovie/{id}")

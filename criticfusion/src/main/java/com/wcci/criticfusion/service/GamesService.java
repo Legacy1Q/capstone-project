@@ -25,14 +25,15 @@ public class GamesService {
     return this.gamesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id is not found."));
   }
 
-  public void addGames (Game games){
-    gamesRepository.save(games);
+  public Game addGames (Game games){
+    return gamesRepository.save(games);
   }
 
 public Game updateGame(long id, Game updatedGames) {
   Game exsistingGames = findGamesById(id);
   exsistingGames.setTitle(updatedGames.getTitle() == null ? exsistingGames.getTitle() : updatedGames.getTitle());
   exsistingGames.setDescription(updatedGames.getDescription() == null ? exsistingGames.getDescription() : updatedGames.getDescription());
+  exsistingGames.setTrailerUrl(updatedGames.getTrailerUrl() == null ? exsistingGames.getTrailerUrl() : updatedGames.getTrailerUrl());
   this.gamesRepository.save(exsistingGames);
   return exsistingGames;
 }
