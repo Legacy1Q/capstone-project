@@ -75,9 +75,10 @@ function Admin() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
+    const data = await response.json();
     alert("Added successfully!");
-    setNewData({ title: "", description: "" });
+    setData((prevDatas) => [...prevDatas, data]);
+    setNewData({ title: "", description: "", trailerUrl: "" });
     setSelectedFile(null);
     cancelHandler();
   }
@@ -128,7 +129,7 @@ function Admin() {
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data:", error));
-  }, [selectedOption, data]);
+  }, [selectedOption]);
 
   const editButtonHandler = (movie) => {
     setDisplayDatas("hide");
