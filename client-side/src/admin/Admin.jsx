@@ -145,6 +145,7 @@ function Admin() {
   const deleteHandler = (movieId) => {
     const apiUrl =
       "http://localhost:8080/delete" + selectedOption + "/" + movieId;
+
     fetch(apiUrl, {
       method: "DELETE",
       headers: {
@@ -155,11 +156,15 @@ function Admin() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        return response.json();
+      })
+      .then((updatedData) => {
+        setData(updatedData);
+        alert("Deleted successfully!");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-    alert("Deleted successfully!");
   };
 
   return (

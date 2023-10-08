@@ -33,7 +33,7 @@ public class TVService {
     Tv existingTV = findTVById(id);
     existingTV.setTitle(updatedTV.getTitle() == null? existingTV.getTitle() : updatedTV.getTitle());
     existingTV.setDescription(updatedTV.getDescription() == null? existingTV.getDescription() : updatedTV.getDescription());
-    existingTV.setGenre(updatedTV.getGenre() == null ? existingTV.getGenre() : updatedTV.getGenre());
+    existingTV.setTrailerUrl(updatedTV.getTrailerUrl() == null ? existingTV.getTrailerUrl() : updatedTV.getTrailerUrl());
     existingTV.setAgeRating(updatedTV.getAgeRating() == null ? existingTV.getAgeRating() : updatedTV.getAgeRating());
     existingTV.setTvViewing(updatedTV.getTvViewing() == null ? existingTV.getTvViewing() : updatedTV.getTvViewing());
     existingTV.setBrowseByLanguage(updatedTV.getBrowseByLanguage() == null ? existingTV.getBrowseByLanguage() : updatedTV.getBrowseByLanguage());
@@ -43,11 +43,8 @@ public class TVService {
   return existingTV;
  }
 
-public void deleteTV(long id) {
+public List <Tv> deleteTV(long id) {
   this.tvRepository.deleteById(id);
+  return findAllTV();
 }
-
-
-
-
 }
