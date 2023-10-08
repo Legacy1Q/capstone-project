@@ -197,8 +197,11 @@ function Home() {
 
   return (
     <div className="home">
-      {/* Carousel */}
-      <div className="home__carousel">
+      <div
+        className={
+          isModalOpen ? "home__carousel negative-index" : "home__carousel"
+        }
+      >
         <div className="carousel__container">
           <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
