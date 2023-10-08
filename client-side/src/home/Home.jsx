@@ -11,7 +11,7 @@ function Home() {
   const [index, setIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [review, setReview] = useState("");
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState(0);
   const [movies, setMovies] = useState([]);
   const [tvs, setTvs] = useState([]);
   const [games, setGames] = useState([]);
@@ -57,12 +57,17 @@ function Home() {
   }, []);
 
   function submitHandler() {
+    if (review == "" || rating == 0) {
+      return alert("Please enter a review or rating!");
+    }
     category == "MovieReview"
       ? movieReview()
       : category == "GameReview"
       ? gameReview()
       : tvReview();
+
     alert("Added review successfully!");
+    setReview("");
     setModalDisplay(false);
   }
 
@@ -192,8 +197,11 @@ function Home() {
 
   return (
     <div className="home">
-      {/* Carousel */}
-      <div className="home__carousel">
+      <div
+        className={
+          isModalOpen ? "home__carousel negative-index" : "home__carousel"
+        }
+      >
         <div className="carousel__container">
           <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
@@ -248,21 +256,24 @@ function Home() {
             onClick={() => {
               setIsModalOpen(false);
               setModalDisplay(false);
+              setReview("");
+              setRating(0);
             }}
             aria-label="Close"
           ></button>
         </h2>
-        <div className={modalDisplay == false ? "hide" : "form-floating mb-3"}>
+        <div className={!modalDisplay ? "hide" : "form-floating mb-3"}>
           <input
             type="text"
             className="form-control form-control-md"
             placeholder="Review"
             id="floatingInput"
+            value={modalDisplay ? review : ""}
             onInput={(e) => setReview(e.target.value)}
           />
           <label htmlFor="floatingInput">Review</label>
         </div>
-        <div className={modalDisplay == false ? "hide" : "rating"}>
+        <div className={!modalDisplay ? "hide" : "rating"}>
           <Rating
             count={5}
             onChange={(newRating) => {
@@ -270,15 +281,13 @@ function Home() {
             }}
             size={100}
             color="gray"
-            activeColor="#FFD700"
+            activeColor={"#FFD700"}
           />
         </div>
-        <h2 className={modalDisplay == false ? "hide" : "rating-text"}>
-          Rating
-        </h2>
+        <h2 className={!modalDisplay ? "hide" : "rating-text"}>Rating</h2>
         <table
           className={
-            modalDisplay == false
+            !modalDisplay
               ? "table table-striped table-hover modal-table"
               : "hide"
           }
@@ -340,6 +349,8 @@ function Home() {
           onClick={() => {
             setModalDisplay(false);
             closeModal();
+            setReview("");
+            setRating(0);
           }}
         >
           Cancel
