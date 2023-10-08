@@ -13,6 +13,8 @@ import Merch from "./merch/merch";
 import Admin from "./admin/Admin";
 import PrivateRoute from "./privateRoute/PrivateRoute";
 import { MyProvider } from "./MyContext";
+import Tv from "./tv/Tv";
+import Games from "./games/Games";
 
 function App() {
   return (
@@ -34,8 +36,10 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/merch" element={<Merch />} />
+          <Route path="/tv" element={<Tv />} />
+          <Route path="/games" element={<Games />} />
           <Route element={<PrivateRoute />}>
-            <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<Admin />} />
           </Route>
         </Routes>
         <Footer />
