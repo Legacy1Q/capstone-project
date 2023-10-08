@@ -1,0 +1,48 @@
+/* Games.css */
+
+.games {
+    text-align: center;
+  }
+  
+  .games h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 50px;
+    color: aliceblue;
+  }
+  
+  .games__body {
+    padding: 2rem 0;
+  }
+  
+  .games__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 100px;
+  }
+  
+  .games__container__1 img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (min-width: 576px) {
+    .games__container__1 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  
+    .games__container__1 img {
+      margin-bottom: 40px;
+      margin-left: 20px;
+      width: 150px;
+        height: 200px;
+        object-fit: cover;
+
+    }
+  }
+  
+

@@ -1,0 +1,48 @@
+/* Tv.css */
+
+.tv {
+    text-align: center;
+  }
+  
+  .tv h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 50px;
+    color: aliceblue;
+  }
+  
+  .tv__body {
+    padding: 2rem 0;
+  }
+  
+  .tv__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 100px;
+  }
+  
+  .tv__container__1 img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (min-width: 576px) {
+    .tv__container__1 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  
+    .tv__container__1 img {
+      margin-bottom: 40px;
+      margin-left: 20px;
+      width: 150px;
+        height: 200px;
+        object-fit: cover;
+
+    }
+  }
+  
+
