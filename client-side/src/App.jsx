@@ -11,6 +11,7 @@ import Movies from "./categories/Movies";
 import Cart from "./cart/Cart";
 import Merch from "./merch/merch";
 import Admin from "./admin/Admin";
+import PrivateRoute from "./privateRoute/PrivateRoute";
 import { MyProvider } from "./MyContext";
 
 function App() {
@@ -33,7 +34,9 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/merch" element={<Merch />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/admin" element={<Admin />} />
+          </Route>
         </Routes>
         <Footer />
       </MyProvider>

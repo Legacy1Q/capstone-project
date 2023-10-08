@@ -1,4 +1,3 @@
-// MyContext.js
 import { createContext, useState } from "react";
 
 const MyContext = createContext();
@@ -15,7 +14,9 @@ const MyProvider = ({ children }) => {
   };
 
   return (
-    <MyContext.Provider value={{ adminEmail, updateAdminEmail, cart, updateCart}}>
+    <MyContext.Provider
+      value={{ adminEmail, updateAdminEmail, cart, updateCart }}
+    >
       {children}
     </MyContext.Provider>
   );
