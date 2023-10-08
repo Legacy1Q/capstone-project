@@ -305,6 +305,7 @@ function Home() {
           <tbody className={category == "MovieReview" ? "" : "hide"}>
             {movieReviews
               .filter((movie) => movie.movie.id === editedDataId)
+              .sort((a, b) => b.id - a.id)
               .map((movie) => (
                 <tr key={movie.id}>
                   <td>{movie.review}</td>
