@@ -140,20 +140,20 @@ function Admin() {
       .catch((error) => console.error("Error fetching data:", error));
   }, [selectedOption]);
 
-  const editButtonHandler = (movie) => {
+  const editButtonHandler = (data) => {
     setDisplayDatas("hide");
-    setEditedDataId(movie.id);
+    setEditedDataId(data.id);
     setEditedData({
-      title: movie.title,
-      description: movie.description,
-      trailerUrl: movie.trailerUrl,
+      title: data.title,
+      description: data.description,
+      trailerUrl: data.trailerUrl,
     });
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons hide");
   };
 
-  const deleteHandler = (movieId) => {
+  const deleteHandler = (dataId) => {
     const apiUrl =
-      "http://localhost:8080/delete" + selectedOption + "/" + movieId;
+      "http://localhost:8080/delete" + selectedOption + "/" + dataId;
     fetch(apiUrl, {
       method: "DELETE",
       headers: {
