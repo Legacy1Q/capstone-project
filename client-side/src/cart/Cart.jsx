@@ -28,7 +28,7 @@ function Cart() {
                     <img src={item.image} alt="" />
                     <p className="text-div">{item.name}</p>
                     <p className="text-div">${item.price}</p>
-                    <div className="select-div">
+                    <div className="text-div">
                       <select
                         id={`quantity-${item.id}`}
                         className="cart-select"
@@ -40,7 +40,7 @@ function Cart() {
                             ...prevQuantities,
                             [itemId]: newQuantity,
                           }));
-                          updateIsAddedToCart(itemId, newQuantity);
+                          updateIsAddedToCart(itemId, newQuantity, "update");
                           const totalQuantity = merch.reduce(
                             (sum, merchItem) =>
                               sum +
@@ -52,7 +52,9 @@ function Cart() {
                           updateCart(totalQuantity);
                         }}
                       >
-                        {[0, 1, 2, 3, 4, 5].map((quantity) => (
+                        {[
+                          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                        ].map((quantity) => (
                           <option key={quantity} value={quantity}>
                             {quantity}
                           </option>

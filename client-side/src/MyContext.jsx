@@ -169,16 +169,30 @@ const MyProvider = ({ children }) => {
     },
   ]);
 
-  const updateIsAddedToCart = (id, quantity) => {
+  const updateIsAddedToCart = (id, quantity, type) => {
     const updatedMerch = [...merch];
     const itemIndex = id - 1;
-    console.log(quantity);
-    if (itemIndex >= 0 && itemIndex < updatedMerch.length) {
-      updatedMerch[itemIndex] = {
-        ...updatedMerch[itemIndex],
-        quantity: quantity,
-        isAddedToCart: quantity === 0 ? false : true,
-      };
+    if (type === "add") {
+      if (updatedMerch[itemIndex].isAddedToCart) {
+        updatedMerch[itemIndex] = {
+          ...updatedMerch[itemIndex],
+          quantity: updatedMerch[itemIndex].quantity + quantity,
+        };
+      } else {
+        updatedMerch[itemIndex] = {
+          ...updatedMerch[itemIndex],
+          quantity: quantity,
+          isAddedToCart: true,
+        };
+      }
+    } else {
+      if (itemIndex >= 0 && itemIndex < updatedMerch.length) {
+        updatedMerch[itemIndex] = {
+          ...updatedMerch[itemIndex],
+          quantity: quantity,
+          isAddedToCart: quantity === 0 ? false : true,
+        };
+      }
     }
     setMerch(updatedMerch);
   };
