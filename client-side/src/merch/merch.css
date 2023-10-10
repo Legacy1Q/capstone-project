@@ -1,88 +1,91 @@
 .merch {
-    text-align: center;
+  text-align: center;
+}
+
+.merch h1 {
+  font-size: 2rem;
+  margin-top: 200px;
+  margin-bottom: -60px;
+  background: linear-gradient(to right, purple, red);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-size: 50px;
+}
+
+.merch__body {
+  padding: 2rem 0;
+}
+
+.merch__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+.merch__container__1 img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 576px) {
+  .merch__container__1 {
+    display: flex;
+    /*flex-wrap: wrap;*/
+    justify-content: center;
   }
-  
-  .merch h1 {
-    font-size: 2rem;
-    margin-top: 200px;
-    margin-bottom: -60px;
-    background: linear-gradient(to right, purple, red);
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    font-size: 50px;
-  }
-  
-  .merch__body {
-    padding: 2rem 0;
-  }
-  
-  .merch__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    margin-top: 100px;
-  }
-  
+
   .merch__container__1 img {
-    max-width: 100%;
+    border-radius: 15px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    /* margin-left: 20px; */
+    width: auto;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .merch__container__1 p {
+    color: white;
+    font-size: 14px;
+  }
+
+  .favorite-button {
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .favorite-button img {
+    width: 20px;
     height: auto;
-    margin-bottom: 1rem;
+    margin: 0px;
+    /* margin-bottom: 0px;
+      margin-left: 10px; */
   }
-  
-  @media (min-width: 576px) {
-    .merch__container__1 {
-      display: flex;
-      /*flex-wrap: wrap;*/
-      justify-content: center;
-    }
-  
-    .merch__container__1 img {
-      border-radius: 15px;
-      margin-top: 50px;
-      margin-bottom: 20px;
-      margin-left: 20px;
-      width: auto;
-      height: 250px;
-      object-fit: cover;
-    }
-  
-    .merch__container__1 p {
-      color: white;
-      font-size: 14px;
-    }
-  
-    .favorite-button {
-      border: none;
-      padding: 0;
-      background: none;
-      cursor: pointer;
-    }
-  
-    .favorite-button img {
-      width: 20px;
-      height: auto;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      margin-left: 10px;
-    }
-  
-    .add-to-cart-button {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 11px;
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 8px;
-      background-color: purple;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-    }
-  
-    .add-to-cart-button:hover {
-      background-color: red;
-    }
+
+  .add-to-cart-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    background-color: purple;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
   }
-  
+
+  .add-to-cart-button:hover {
+    background-color: red;
+  }
+
+  select {
+    width: 5rem;
+  }
+}

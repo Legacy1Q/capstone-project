@@ -84,15 +84,16 @@ function Nav() {
       {/* Additional Links */}
       <div className="nav__login">
         {adminEmail ? adminEmail : <Link to="/login">Login</Link>}
-        {/* <Link to="/login">{isAdmin ? "Admin" : "Login"}</Link> */}
         <button className={adminEmail ? "" : "hide"} onClick={LogoutHandler}>
           Logout
         </button>
         <CircleIcon className="circle_icon" />
-        <Link to="/cart">
-          <ShoppingBagIcon />
-        </Link>
-        <p>{cart}</p>
+        <span>
+          <Link to="/cart">
+            <ShoppingBagIcon />
+            <p className="cart-count">{cart}</p>
+          </Link>
+        </span>
       </div>
     </div>
   );

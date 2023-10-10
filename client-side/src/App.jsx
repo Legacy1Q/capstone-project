@@ -9,7 +9,7 @@ import HorrorMovie2023 from "./collection/HorrorMovie2023";
 import Login from "./login/Login";
 import Movies from "./categories/Movies";
 import Cart from "./cart/Cart";
-import Merch from "./merch/merch";
+import Merch from "./merch/Merch";
 import Admin from "./admin/Admin";
 import PrivateRoute from "./privateRoute/PrivateRoute";
 import { MyProvider } from "./MyContext";
@@ -39,7 +39,7 @@ function App() {
           <Route path="/tv" element={<Tv />} />
           <Route path="/games" element={<Games />} />
           <Route element={<PrivateRoute />}>
-          <Route path="/admin" element={<Admin />} />
+            <Route path="/admin" element={<Admin />} />
           </Route>
         </Routes>
         <Footer />

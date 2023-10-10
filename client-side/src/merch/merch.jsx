@@ -1,216 +1,97 @@
 import "./Merch.css";
 import { MyContext } from "../MyContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 function Merch() {
-  const { cart, updateCart } = useContext(MyContext);
-  const handleAddToCart = () => {
-    updateCart(cart + 1);
+  const { cart, updateCart, merch, updateIsAddedToCart } =
+    useContext(MyContext);
+
+  const [favoriteStatus, setFavoriteStatus] = useState({});
+
+  const handleAddToCart = (id, quantity, type) => {
+    updateCart(cart + quantity);
+    updateIsAddedToCart(id, quantity, type);
+    setLocalQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [id]: 0,
+    }));
   };
+
+  const [localQuantities, setLocalQuantities] = useState(
+    merch.reduce((quantities, item) => {
+      quantities[item.id] = 0;
+      return quantities;
+    }, {})
+  );
+
   return (
     <div className="merch">
       <h1>Cinematic Loot & Game Swag: Shop Movie, TV, and Video Game Gear</h1>
       <div className="merch__body">
         <div className="merch__container">
           <div className="row">
-            <div className="col-12 col-md-12">
-              <div className="merch__container__1">
-                <div>
-                  <img src="./merchImages/criticfusionshirt1.png" alt="" />
-                  <p>White Hoodie Black Logo</p>
-                  <p>$39.99</p>
-                  <button
-                    className="add-to-cart-button"
-                    onClick={handleAddToCart}
-                  >
-                    Add to Cart
-                  </button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt2.png" alt="" />
-                  <p>White T-Shirt Black Logo</p>
-                  <p>$24.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt3.png" alt="" />
-                  <p>White Hoodie Classic Logo</p>
-                  <p>$39.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt4.png" alt="" />
-                  <p>White T-shirt Classic Logo</p>
-                  <p>$24.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-12">
-              <div className="merch__container__1">
-                <div>
-                  <img src="./merchImages/criticfusionshirt5.png" alt="" />
-                  <p>Classic Sweatshirt White Logo</p>
-                  <p>$44.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt6.png" alt="" />
-                  <p>Classic T-shirt White Logo</p>
-                  <p>$29.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt7.png" alt="" />
-                  <p>Classic Sweatshirt Black Logo</p>
-                  <p>$44.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt8.png" alt="" />
-                  <p>Classic T-shirt Black Logo</p>
-                  <p>$29.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
+            {merch.map((m) => (
+              <div className="col-6 col-md-3" key={m.id}>
+                <div className="merch__container__1">
+                  <div>
+                    <img src={m.image} alt="" />
+                    <p>{m.name}</p>
+                    <p>${m.price}</p>
+                    <div className="text-div">
+                      <select
+                        id={`quantity-${m.id}`}
+                        value={localQuantities[m.id]}
+                        onChange={(e) => {
+                          const newQuantity = parseInt(e.target.value, 10);
+                          setLocalQuantities((prevQuantities) => ({
+                            ...prevQuantities,
+                            [m.id]: newQuantity,
+                          }));
+                        }}
+                      >
+                        {[
+                          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                        ].map((quantity) => (
+                          <option key={quantity} value={quantity}>
+                            {quantity}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        className="add-to-cart-button"
+                        onClick={() => {
+                          handleAddToCart(m.id, localQuantities[m.id], "add");
+                        }}
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        className="favorite-button"
+                        onClick={() => {
+                          const newIsFavorite = !favoriteStatus[m.id];
+                          setFavoriteStatus((prevFavoriteStatus) => ({
+                            ...prevFavoriteStatus,
+                            [m.id]: newIsFavorite,
+                          }));
+                        }}
+                      >
+                        {favoriteStatus[m.id] ? (
+                          <img
+                            src="./merchImages/clicked-heart.jpg"
+                            alt="Button Image"
+                          />
+                        ) : (
+                          <img
+                            src="./merchImages/heart.png"
+                            alt="Button Image"
+                          />
+                        )}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-12 col-md-12">
-              <div className="merch__container__1">
-                <div>
-                  <img src="./merchImages/criticfusionshirt9.png" alt="" />
-                  <p>Black Hoodie White Logo</p>
-                  <p>$39.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt10.png" alt="" />
-                  <p>Black T-shirt White Logo</p>
-                  <p>$24.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt11.png" alt="" />
-                  <p>Black Hoodie Classic Logo</p>
-                  <p>$39.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/criticfusionshirt12.png" alt="" />
-                  <p>Black T-shirt Classic Logo</p>
-                  <p>$24.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-12">
-              <div className="merch__container__1">
-                <div>
-                  <img src="./merchImages/barbie.png" alt="" />
-                  <p>Barbie Unisex T-Shirt</p>
-                  <p></p>
-                  <p>$24.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/ahsoka.png" alt="" />
-                  <p>Ahsoka Unisex T-shirt</p>
-                  <p>$24.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/spoodlydoodly.png" alt="" />
-                  <p>Spider-Man: Across the Spider-Verse</p>
-                  <p>$29.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/ThorsBrother.png" alt="" />
-                  <p>Loki: The Complete First Season</p>
-                  <p>$59.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-12">
-              <div className="merch__container__1">
-                <div>
-                  <img src="./merchImages/CreedofAssassins.png" alt="" />
-                  <p>Assassin&apos;s Creed: Mirage</p>
-                  <p>Pre-Order</p>
-                  <p>$59.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/InsideItLives.png" alt="" />
-                  <p>It Lives Inside Movie Poster</p>
-                  <p>$19.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-                <div>
-                  <img src="./merchImages/PitaNooooo.png" alt="" />
-                  <p>Five Nights at Freddy&apos;s High Tops</p>
-                  <p>$59.99</p>
-                  <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                  <button className="favorite-button">
-                    <img src="./merchImages/heart.png" alt="Button Image"></img>
-                  </button>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
