@@ -29,3 +29,33 @@
 .cart__buttons Button {
   margin-right: 20px; /* Adjust this value to add space between buttons */
 }
+
+/* .select-div {
+  font-size: 1.8rem;
+
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+} */
+
+.select-div {
+  display: flex;
+  font-size: 1.8rem;
+  align-items: center; /* Vertical alignment */
+  justify-content: center; /* Horizontal alignment */
+  gap: 10px; /* Adjust the gap as needed */
+}
+
+.cart-select {
+  margin-right: 0.5rem;
+  width: 6rem;
+}
+
+.text-div {
+  display: flex;
+  font-size: 1.8rem;
+  align-items: center; /* Vertical alignment */
+  justify-content: center; /* Horizontal alignment */
+  gap: 10px; /* Adjust the gap as needed */
+}

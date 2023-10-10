@@ -14,13 +14,7 @@ function Cart() {
       return quantities;
     }, {})
   );
-  const [difference, setDifference] = useState(0);
-  const handleRemoveToCart = (id, quantity) => {
-    updateIsAddedToCart(id, quantity);
-    updateCart(
-      filteredMerch.reduce((sum, item) => sum + item.quantity, 0) - difference
-    );
-  };
+
   return (
     <div className="cart">
       <h1>Cart</h1>
@@ -32,36 +26,39 @@ function Cart() {
                 <div className="merch__container__1">
                   <div>
                     <img src={item.image} alt="" />
-                    <p>{item.name}</p>
-                    <p>${item.price}</p>
-                    <label htmlFor={`quantity-${item.id}`}>Qty:</label>
-                    <select
-                      id={`quantity-${item.id}`}
-                      value={localQuantities[item.id] || 0}
-                      onChange={(e) => {
-                        const newQuantity = parseInt(e.target.value, 10);
-                        const oldQuantity = localQuantities[item.id] || 0;
-                        setLocalQuantities((prevQuantities) => ({
-                          ...prevQuantities,
-                          [item.id]: newQuantity,
-                        }));
-                        setDifference(oldQuantity - newQuantity);
-                      }}
-                    >
-                      {[0, 1, 2, 3, 4, 5].map((quantity) => (
-                        <option key={quantity} value={quantity}>
-                          {quantity}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      className="add-to-cart-button"
-                      onClick={() => {
-                        handleRemoveToCart(item.id, localQuantities[item.id]);
-                      }}
-                    >
-                      Update Cart
-                    </button>
+                    <p className="text-div">{item.name}</p>
+                    <p className="text-div">${item.price}</p>
+                    <div className="select-div">
+                      <select
+                        id={`quantity-${item.id}`}
+                        className="cart-select"
+                        value={localQuantities[item.id] || 0}
+                        onChange={(e) => {
+                          const newQuantity = parseInt(e.target.value, 10);
+                          const itemId = item.id;
+                          setLocalQuantities((prevQuantities) => ({
+                            ...prevQuantities,
+                            [itemId]: newQuantity,
+                          }));
+                          updateIsAddedToCart(itemId, newQuantity);
+                          const totalQuantity = merch.reduce(
+                            (sum, merchItem) =>
+                              sum +
+                              (merchItem.id === itemId
+                                ? newQuantity
+                                : merchItem.quantity),
+                            0
+                          );
+                          updateCart(totalQuantity);
+                        }}
+                      >
+                        {[0, 1, 2, 3, 4, 5].map((quantity) => (
+                          <option key={quantity} value={quantity}>
+                            {quantity}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
