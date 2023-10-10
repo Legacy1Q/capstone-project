@@ -11,6 +11,7 @@ const MyProvider = ({ children }) => {
 
   const updateCart = (updateValue) => {
     setCart(updateValue);
+    console.log(cart);
   };
 
   const [merch, setMerch] = useState([
@@ -20,6 +21,7 @@ const MyProvider = ({ children }) => {
       price: 39.99,
       image: "../../merchImages/criticfusionshirt1.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 2,
@@ -27,6 +29,7 @@ const MyProvider = ({ children }) => {
       price: 24.99,
       image: "../../merchImages/criticfusionshirt2.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 3,
@@ -34,6 +37,7 @@ const MyProvider = ({ children }) => {
       price: 39.99,
       image: "../../merchImages/criticfusionshirt3.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 4,
@@ -41,6 +45,7 @@ const MyProvider = ({ children }) => {
       price: 24.99,
       image: "../../merchImages/criticfusionshirt4.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 5,
@@ -48,6 +53,7 @@ const MyProvider = ({ children }) => {
       price: 39.99,
       image: "../../merchImages/criticfusionshirt5.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 6,
@@ -55,6 +61,7 @@ const MyProvider = ({ children }) => {
       price: 24.99,
       image: "../../merchImages/criticfusionshirt6.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 7,
@@ -62,6 +69,7 @@ const MyProvider = ({ children }) => {
       price: 39.99,
       image: "../../merchImages/criticfusionshirt7.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 8,
@@ -69,6 +77,7 @@ const MyProvider = ({ children }) => {
       price: 24.99,
       image: "../../merchImages/criticfusionshirt8.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 9,
@@ -76,6 +85,7 @@ const MyProvider = ({ children }) => {
       price: 39.99,
       image: "../../merchImages/criticfusionshirt9.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 10,
@@ -83,6 +93,7 @@ const MyProvider = ({ children }) => {
       price: 24.99,
       image: "../../merchImages/criticfusionshirt10.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 11,
@@ -90,6 +101,7 @@ const MyProvider = ({ children }) => {
       price: 39.99,
       image: "../../merchImages/criticfusionshirt11.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 12,
@@ -97,6 +109,7 @@ const MyProvider = ({ children }) => {
       price: 24.99,
       image: "../../merchImages/criticfusionshirt12.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 13,
@@ -104,6 +117,7 @@ const MyProvider = ({ children }) => {
       price: 24.99,
       image: "../../merchImages/barbie.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 14,
@@ -111,6 +125,7 @@ const MyProvider = ({ children }) => {
       price: 24.99,
       image: "../../merchImages/ahsoka.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 15,
@@ -118,6 +133,7 @@ const MyProvider = ({ children }) => {
       price: 29.99,
       image: "../../merchImages/spoodlydoodly.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 16,
@@ -125,6 +141,7 @@ const MyProvider = ({ children }) => {
       price: 59.99,
       image: "../../merchImages/ThorsBrother.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 17,
@@ -132,6 +149,7 @@ const MyProvider = ({ children }) => {
       price: 59.99,
       image: "../../merchImages/CreedofAssassins.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 18,
@@ -139,6 +157,7 @@ const MyProvider = ({ children }) => {
       price: 19.99,
       image: "../../merchImages/InsideItLives.png",
       isAddedToCart: false,
+      quantity: 0,
     },
     {
       id: 19,
@@ -146,26 +165,22 @@ const MyProvider = ({ children }) => {
       price: 59.99,
       image: "../../merchImages/PitaNooooo.png",
       isAddedToCart: false,
+      quantity: 0,
     },
   ]);
 
-  const updateIsAddedToCart = (id, action) => {
+  const updateIsAddedToCart = (id, quantity) => {
     const updatedMerch = [...merch];
     const itemIndex = id - 1;
+    console.log(quantity);
     if (itemIndex >= 0 && itemIndex < updatedMerch.length) {
-      if (action == "add") {
-        updatedMerch[itemIndex] = {
-          ...updatedMerch[itemIndex],
-          isAddedToCart: true,
-        };
-      } else {
-        updatedMerch[itemIndex] = {
-          ...updatedMerch[itemIndex],
-          isAddedToCart: false,
-        };
-      }
-      setMerch(updatedMerch);
+      updatedMerch[itemIndex] = {
+        ...updatedMerch[itemIndex],
+        quantity: quantity,
+        isAddedToCart: quantity === 0 ? false : true,
+      };
     }
+    setMerch(updatedMerch);
   };
 
   return (

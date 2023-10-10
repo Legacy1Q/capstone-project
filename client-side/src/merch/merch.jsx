@@ -1,14 +1,21 @@
 import "./Merch.css";
 import { MyContext } from "../MyContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 function Merch() {
   const { cart, updateCart, merch, updateIsAddedToCart } =
     useContext(MyContext);
-  const handleAddToCart = (id, action) => {
-    updateCart(cart + 1);
-    updateIsAddedToCart(id, action);
+  const handleAddToCart = (id, quantity) => {
+    updateCart(cart + quantity);
+    updateIsAddedToCart(id, quantity);
   };
+
+  const [localQuantities, setLocalQuantities] = useState(
+    merch.reduce((quantities, item) => {
+      quantities[item.id] = item.quantity;
+      return quantities;
+    }, {})
+  );
 
   return (
     <div className="merch">
@@ -23,10 +30,28 @@ function Merch() {
                     <img src={m.image} alt="" />
                     <p>{m.name}</p>
                     <p>${m.price}</p>
+                    <label htmlFor={`quantity-${m.id}`}>Qty:</label>
+                    <select
+                      id={`quantity-${m.id}`}
+                      value={localQuantities[m.id]}
+                      onChange={(e) => {
+                        const newQuantity = parseInt(e.target.value, 10);
+                        setLocalQuantities((prevQuantities) => ({
+                          ...prevQuantities,
+                          [m.id]: newQuantity,
+                        }));
+                      }}
+                    >
+                      {[0, 1, 2, 3, 4, 5].map((quantity) => (
+                        <option key={quantity} value={quantity}>
+                          {quantity}
+                        </option>
+                      ))}
+                    </select>
                     <button
                       className="add-to-cart-button"
                       onClick={() => {
-                        handleAddToCart(m.id, "add");
+                        handleAddToCart(m.id, localQuantities[m.id]);
                       }}
                     >
                       Add to Cart

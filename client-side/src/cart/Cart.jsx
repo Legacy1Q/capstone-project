@@ -2,16 +2,24 @@ import Button from "react-bootstrap/Button";
 import "./Cart.css";
 import { Link } from "react-router-dom";
 import { MyContext } from "../MyContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 function Cart() {
   const { cart, updateCart, merch, updateIsAddedToCart } =
     useContext(MyContext);
   const filteredMerch = merch.filter((item) => item.isAddedToCart === true);
-
-  const handleRemoveToCart = (id, action) => {
-    updateCart(cart - 1);
-    updateIsAddedToCart(id, action);
+  const [localQuantities, setLocalQuantities] = useState(
+    filteredMerch.reduce((quantities, item) => {
+      quantities[item.id] = item.quantity;
+      return quantities;
+    }, {})
+  );
+  const [difference, setDifference] = useState(0);
+  const handleRemoveToCart = (id, quantity) => {
+    updateIsAddedToCart(id, quantity);
+    updateCart(
+      filteredMerch.reduce((sum, item) => sum + item.quantity, 0) - difference
+    );
   };
   return (
     <div className="cart">
@@ -26,13 +34,33 @@ function Cart() {
                     <img src={item.image} alt="" />
                     <p>{item.name}</p>
                     <p>${item.price}</p>
+                    <label htmlFor={`quantity-${item.id}`}>Qty:</label>
+                    <select
+                      id={`quantity-${item.id}`}
+                      value={localQuantities[item.id] || 0}
+                      onChange={(e) => {
+                        const newQuantity = parseInt(e.target.value, 10);
+                        const oldQuantity = localQuantities[item.id] || 0;
+                        setLocalQuantities((prevQuantities) => ({
+                          ...prevQuantities,
+                          [item.id]: newQuantity,
+                        }));
+                        setDifference(oldQuantity - newQuantity);
+                      }}
+                    >
+                      {[0, 1, 2, 3, 4, 5].map((quantity) => (
+                        <option key={quantity} value={quantity}>
+                          {quantity}
+                        </option>
+                      ))}
+                    </select>
                     <button
                       className="add-to-cart-button"
                       onClick={() => {
-                        handleRemoveToCart(item.id, "remove");
+                        handleRemoveToCart(item.id, localQuantities[item.id]);
                       }}
                     >
-                      Remove to Cart
+                      Update Cart
                     </button>
                   </div>
                 </div>
