@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.wcci.criticfusion.entity.Tv;
-import com.wcci.criticfusion.repository.TVRepository;
+import com.wcci.criticfusion.repository.TvRepository;
 
 @Service
 
-public class TVService {
+public class TvService {
 
   @Autowired
-  private TVRepository tvRepository;
+  private TvRepository tvRepository;
 
   public List<Tv> findAllTV() {
   return tvRepository.findAll();

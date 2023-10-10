@@ -11,7 +11,6 @@ const MyProvider = ({ children }) => {
 
   const updateCart = (updateValue) => {
     setCart(updateValue);
-    console.log(cart);
   };
 
   const [merch, setMerch] = useState([
