@@ -74,11 +74,25 @@
   }
 }
 
-.title-text {
-  text-align: center;
-}
-
 .data-div p {
   color: black !important;
   font-size: 1.5rem;
+}
+
+.close-btn {
+  height: 3rem;
+  width: 3rem;
+}
+
+.overview-text {
+  text-align: center;
+}
+
+.modal-img {
+  border-radius: 20px;
+}
+
+.displayed-image {
+  cursor: pointer;
+  border-radius: 10px;
 }

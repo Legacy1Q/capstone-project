@@ -1,23 +1,43 @@
 import { useEffect, useState } from "react";
 import "./Movies.css";
 import Modal from "react-modal";
+import Youtube from "react-youtube";
 
 Modal.setAppElement("#root");
 
 function Movies() {
   const [data, setData] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMovieModalOpen, setIsMovieModalOpen] = useState(false);
+  const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
   const [editedDataId, setEditedDataId] = useState(null);
+  const [movieTrailer, setMovieTrailer] = useState(null);
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsMovieModalOpen(false);
+    setIsTrailerModalOpen(false);
   };
 
   function imageClickHandler(id) {
     setEditedDataId(id);
-    setIsModalOpen(true);
-    console.log(editedDataId);
+    setIsMovieModalOpen(true);
+    fetchMovieTrailer(id);
   }
+
+  const trailerClickHandler = () => {
+    setIsTrailerModalOpen(true);
+    setIsMovieModalOpen(false);
+  };
+
+  const fetchMovieTrailer = (id) => {
+    fetch(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=e4ea514e7e06ce24e90f01250baf128d&append_to_response=videos`
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        setMovieTrailer(response.videos.results);
+      })
+      .catch((err) => console.error(err));
+  };
 
   useEffect(() => {
     const options = {
@@ -39,11 +59,10 @@ function Movies() {
       })
       .catch((err) => console.error(err));
   }, []);
-
   return (
     <div className="movies">
       <Modal
-        isOpen={isModalOpen}
+        isOpen={isMovieModalOpen}
         onRequestClose={closeModal}
         style={{
           content: {
@@ -54,10 +73,18 @@ function Movies() {
           },
         }}
       >
-        <h2 className="title-text">
-          {data.find((item) => item.id === editedDataId)?.title ||
-            "Item not found"}
-        </h2>
+        <div className="modal-header">
+          <h2>
+            {data.find((item) => item.id === editedDataId)?.title ||
+              "Item not found"}
+          </h2>
+          <button
+            type="button"
+            className="btn-close close-btn"
+            onClick={closeModal}
+            aria-label="Close"
+          ></button>
+        </div>
         <hr />
         <div style={{ display: "flex", maxHeight: "100%" }}>
           <div style={{ flex: 1 }}>
@@ -66,7 +93,8 @@ function Movies() {
                 data.find((item) => item.id === editedDataId)?.poster_path
               }`}
               alt=""
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: "100%", height: "90%" }}
+              className="modal-img"
             />
           </div>
           <div
@@ -79,60 +107,106 @@ function Movies() {
             className="data-div"
           >
             <div style={{ flex: 2, marginBottom: "20px" }}>
-              <h3>Overview:</h3>
-              <h3>
-                {/* Overview:{" "} */}
-                {data.find((item) => item.id === editedDataId)?.overview}
-              </h3>
+              <h2 className="overview-text">Overview</h2>
+              <h3>{data.find((item) => item.id === editedDataId)?.overview}</h3>
             </div>
             <hr />
             <div style={{ flex: 2 }}>
               <p>
-                Media type:{" "}
-                {data.find((item) => item.id === editedDataId)?.media_type}
+                Release date:{" "}
+                {data.find((item) => item.id === editedDataId)?.release_date}
               </p>
               <p>
                 Popularity:{" "}
                 {data.find((item) => item.id === editedDataId)?.popularity}
               </p>
               <p>
-                Release date:{" "}
-                {data.find((item) => item.id === editedDataId)?.release_date}
+                Vote count:{" "}
+                {data.find((item) => item.id === editedDataId)?.vote_count}
               </p>
               <p>
                 Vote average:{" "}
                 {data.find((item) => item.id === editedDataId)?.vote_average}
               </p>
               <p>
-                Vote count:{" "}
-                {data.find((item) => item.id === editedDataId)?.vote_count}
+                Click button to view trailer:{" "}
+                <button onClick={trailerClickHandler}>Trailer</button>
               </p>
             </div>
           </div>
         </div>
       </Modal>
-      <h1 className="movies__title">Movies</h1>
+      <Modal
+        isOpen={isTrailerModalOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            display: "flex", // Set display to flex
+            alignItems: "center", // Center vertically
+            justifyContent: "center",
+            width: "50%",
+            margin: "auto",
+            height: "60%",
+            overflow: "hidden",
+            // position: "relative",
+          },
+        }}
+      >
+        <button
+          type="button"
+          className="btn-close close-btn"
+          onClick={closeModal}
+          aria-label="Close"
+          style={{
+            position: "absolute", // Set position to absolute
+            top: "10px", // Adjust top to position it from the top
+            right: "10px", // Adjust right to position it from the right
+          }}
+        ></button>
+        <Youtube
+          videoId={
+            movieTrailer &&
+            (movieTrailer.length > 0
+              ? (
+                  movieTrailer.find((vid) => vid.name === "Official Trailer") ||
+                  movieTrailer.find((vid) => vid.name.includes("Trailer"))
+                )?.key
+              : "Sorry, no trailer was found.")
+          }
+        />
+      </Modal>
+      <div className="option">
+        <h2 className="text">Categories: </h2>
+        <select
+          className="select"
+          // value={selectedOption}
+          // onChange={handleOptionChange}
+        >
+          {/* {options.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))} */}
+        </select>
+        <h1 className="movies__title">Movies</h1>
+      </div>
       <div className="movies__body">
         <div className="movies__container">
           <div className="row">
             {data.map((item) => (
-              <div className="col-6 col-md-3" key={item.id}>
+              <div className="col-6 col-md-4" key={item.id}>
                 <div className="movie-card">
                   <div className="movie-poster-container">
                     <img
                       src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
                       alt={item.title}
+                      className="displayed-image"
                       onClick={() => {
                         imageClickHandler(item.id);
+                        // trailerClickHandler(item.id);
                       }}
                     />
                     <p className="movie-title">{item.title}</p>
-                    {/* <p>Overview: {item.overview}</p>
-                    <p>Media type: {item.media_type}</p>
-                    <p>Popularity: {item.popularity}</p>
-                    <p>Release date: {item.release_date}</p>
-                    <p>Vote average: {item.vote_average}</p>
-                    <p>Vote count: {item.vote_count}</p> */}
                   </div>
                 </div>
               </div>
@@ -145,56 +219,3 @@ function Movies() {
 }
 
 export default Movies;
-
-{
-  /* <div className="col-12 col-md-6">
-              <div className="movies__container__1">
-                <img src={data.filter(data.id)} alt="" />
-                <img src="./images/barbie 1440.jpg" alt="" />
-                <img src="./images/cocaine bear.jpeg" alt="" />
-                <img src="./images/fast x.jpg" alt="" />
-                <img src="./images/john wick 4.jpg" alt="" />
-                <img src="./images/talk_to_me.webp" alt="" />
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="movies__container__1">
-                <img src="./images/creed_iii.webp" alt="" />
-                <img src="./images/black_adam.webp" alt="" />
-                <img src="./images/top_maverick.webp" alt="" />
-                <img src="./images/megan.webp" alt="" />
-                <img src="./images/black_phone.webp" alt="" />
-                <img src="./images/super_mario.webp" alt="" />
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="movies__container__1">
-                <img src="./images/blue_beetle.png" alt="" />
-                <img src="./images/the_flash.webp" alt="" />
-                <img src="./images/come_out_fighing.webp" alt="" />
-                <img src="./images/demeter.webp" alt="" />
-                <img src="./images/the_requin.webp" alt="" />
-                <img src="./images/tmnt.webp" alt="" />
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="movies__container__1">
-                <img src="./images/retribution.webp" alt="" />
-                <img src="./images/tmnt.webp" alt="" />
-                <img src="./images/coweb.webp" alt="" />
-                <img src="./images/kandahar.webp" alt="" />
-                <img src="./images/equalizer_2.webp" alt="" />
-                <img src="./images/good_boys.webp" alt="" />
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="movies__container__1">
-                <img src="./images/puss_in_boots.webp" alt="" />
-                <img src="./images/crazy_rich_asians.webp" alt="" />
-                <img src="./images/the_whale.jpg" alt="" />
-                <img src="./images/spiral.webp" alt="" />
-                <img src="./images/retribution.webp" alt="" />
-                <img src="./images/the_lion_king.webp" alt="" />
-              </div>
-            </div> */
-}
