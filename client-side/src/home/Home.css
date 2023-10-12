@@ -3,14 +3,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .home__carousel {
   position: relative;
   width: 100%;
   max-width: 800px;
-  margin-top: 42rem;
+  /* margin-top: 60rem; */
 }
 
 .carousel-item {
@@ -29,9 +29,9 @@
 }
 
 .home__body {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   margin-left: 100px;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .home__body h1 {

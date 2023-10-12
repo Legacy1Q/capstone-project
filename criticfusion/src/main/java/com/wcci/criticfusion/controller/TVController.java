@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wcci.criticfusion.entity.Tv;
-import com.wcci.criticfusion.service.TVService;
+import com.wcci.criticfusion.service.TvService;
 
 @RestController
 
-public class TVController {
+public class TvController {
 
     @Autowired
 
-    TVService tvService;
+    TvService tvService;
 
     @GetMapping("/tv")
     public List<Tv> getAllTV() {

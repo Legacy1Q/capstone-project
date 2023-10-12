@@ -224,7 +224,6 @@ function Home() {
           </Carousel>
         </div>
       </div>
-      {/* Body */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
