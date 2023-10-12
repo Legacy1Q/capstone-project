@@ -11,6 +11,19 @@ function Movies() {
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
   const [editedDataId, setEditedDataId] = useState(null);
   const [movieTrailer, setMovieTrailer] = useState(null);
+  const options = [
+    "Discover",
+    "Trending",
+    "Now Playing",
+    "Popular",
+    "Top Rated",
+    "Upcoming",
+  ];
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   const closeModal = () => {
     setIsMovieModalOpen(false);
@@ -40,25 +53,112 @@ function Movies() {
   };
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
-      },
-    };
+    if (selectedOption === "Discover") {
+      const datas = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
+        },
+      };
 
-    fetch(
-      "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
-      options
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        setData(response.results);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+      fetch(
+        "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=true&language=en-US&page=1&sort_by=popularity.desc",
+        datas
+      )
+        .then((response) => response.json())
+        .then((response) => setData(response.results))
+        .catch((err) => console.error(err));
+    } else if (selectedOption === "Trending") {
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
+        },
+      };
+
+      fetch(
+        "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
+        options
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          setData(response.results);
+        })
+        .catch((err) => console.error(err));
+    } else if (selectedOption === "Now Playing") {
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
+        },
+      };
+
+      fetch(
+        "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+        options
+      )
+        .then((response) => response.json())
+        .then((response) => setData(response.results))
+        .catch((err) => console.error(err));
+    } else if (selectedOption === "Popular") {
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
+        },
+      };
+
+      fetch(
+        "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+        options
+      )
+        .then((response) => response.json())
+        .then((response) => setData(response.results))
+        .catch((err) => console.error(err));
+    } else if (selectedOption === "Top Rated") {
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
+        },
+      };
+
+      fetch(
+        "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
+        options
+      )
+        .then((response) => response.json())
+        .then((response) => setData(response.results))
+        .catch((err) => console.error(err));
+    } else if (selectedOption == "Upcoming") {
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
+        },
+      };
+
+      fetch(
+        "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
+        options
+      )
+        .then((response) => response.json())
+        .then((response) => setData(response.results))
+        .catch((err) => console.error(err));
+    }
+  }, [selectedOption]);
   return (
     <div className="movies">
       <Modal
@@ -175,21 +275,22 @@ function Movies() {
           }
         />
       </Modal>
+      <h1 className="movies__title">Movies</h1>
       <div className="option">
         <h2 className="text">Categories: </h2>
         <select
           className="select"
-          // value={selectedOption}
-          // onChange={handleOptionChange}
+          value={selectedOption}
+          onChange={handleOptionChange}
         >
-          {/* {options.map((option, index) => (
+          {options.map((option, index) => (
             <option key={index} value={option}>
               {option}
             </option>
-          ))} */}
+          ))}
         </select>
-        <h1 className="movies__title">Movies</h1>
       </div>
+
       <div className="movies__body">
         <div className="movies__container">
           <div className="row">
