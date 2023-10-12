@@ -145,3 +145,7 @@
   transform: scale(1.1); /* Increase the size on hover */
   cursor: pointer; /* Change cursor to a pointer on hover */
 }
+
+button {
+  margin: 0 !important;
+}

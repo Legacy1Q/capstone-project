@@ -312,14 +312,14 @@ function Nav() {
         />
       </Modal>
 
-      <div className="nav__header">
-        <Link to="/">
+      <Link to="/">
+        <div className="nav__header">
           <img
             src="./images/criticfusion-low-resolution-logo-color-on-transparent-background.png"
             alt="logo"
           />
-        </Link>
-      </div>
+        </div>
+      </Link>
 
       {/* Search Bar */}
       <div className="nav__search">
@@ -337,7 +337,7 @@ function Nav() {
             />
 
             <button
-              className="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+              className="relative z-[2] flex items-center rounded-r px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
               type="button"
               onClick={() => {
                 fetchSearchedData();
