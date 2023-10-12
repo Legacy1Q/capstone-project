@@ -47,7 +47,10 @@ function Movies() {
 
   const trailerClickHandler = () => {
     setIsTrailerModalOpen(true);
-    setIsMovieModalOpen(false);
+  };
+
+  const trailerBackBtnHandler = () => {
+    setIsTrailerModalOpen(false);
   };
 
   const fetchMovieTrailer = (id) => {
@@ -165,7 +168,7 @@ function Movies() {
             }}
             className="data-div"
           >
-            <div style={{ flex: 2, marginBottom: "20px" }}>
+            <div style={{ flex: 3, marginBottom: "20px" }}>
               {/* <h2 className="overview-text">Overview</h2> */}
               <h3>{data.find((item) => item.id === editedDataId)?.overview}</h3>
             </div>
@@ -187,10 +190,20 @@ function Movies() {
                 Vote average:{" "}
                 {data.find((item) => item.id === editedDataId)?.vote_average}
               </p>
-              <p>
-                Click button to view trailer:{" "}
-                <button onClick={trailerClickHandler}>Trailer</button>
-              </p>
+              <div>
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    position: "absolute", // Set position to absolute
+                    bottom: "3rem", // Adjust top to position it from the top
+                    right: "30px", // Adjust right to position it from the right
+                    fontSize: "1.5rem",
+                  }}
+                  onClick={trailerClickHandler}
+                >
+                  Trailer
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -211,6 +224,18 @@ function Movies() {
           },
         }}
       >
+        <button
+          className="btn btn-danger"
+          style={{
+            position: "absolute", // Set position to absolute
+            top: "10px", // Adjust top to position it from the top
+            left: "10px", // Adjust right to position it from the right
+            fontSize: "1.5rem",
+          }}
+          onClick={trailerBackBtnHandler}
+        >
+          Back
+        </button>
         <button
           type="button"
           className="btn-close close-btn"
