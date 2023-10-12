@@ -118,6 +118,7 @@ function Movies() {
 
   return (
     <div className="movies">
+      {/* {searchedData ? } */}
       <Modal
         isOpen={isMovieModalOpen}
         onRequestClose={closeModal}
@@ -127,6 +128,7 @@ function Movies() {
             margin: "auto",
             height: "90%",
             overflow: "hidden",
+            // zIndex: 10,
           },
         }}
       >

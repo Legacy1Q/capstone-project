@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Nav.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
@@ -7,27 +7,46 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { useContext } from "react";
 import { MyContext } from "../MyContext";
 
-function Nav() {
+function Nav(updateSearchedData) {
   const { adminEmail, updateAdminEmail, cart } = useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleSearch = async () => {
-    if (searchQuery.toLowerCase() === "ahsoka") {
-      navigate(`/ahsoka`);
-    } else {
-      alert("Media not found");
-    }
-  };
+  // const handleSearch = async () => {
+  //   if (searchQuery.toLowerCase() === "ahsoka") {
+  //     navigate(`/ahsoka`);
+  //   } else {
+  //     alert("Media not found");
+  //   }
+  // };
 
   const handleKeyPress = (e) => {
     if (e.key === "enter") {
-      handleSearch();
+      fetchSearchedData();
     }
   };
 
   const LogoutHandler = () => {
     updateAdminEmail("");
+  };
+
+  const fetchSearchedData = () => {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
+      },
+    };
+
+    fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&include_adult=false&language=en-US&page=1`,
+      options
+    )
+      .then((response) => response.json())
+      .then((response) => updateSearchedData(response.results))
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -60,7 +79,7 @@ function Nav() {
             <button
               className="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
               type="button"
-              onClick={handleSearch}
+              onClick={fetchSearchedData}
               id="button-addon1"
               data-te-ripple-init
               data-te-ripple-color="light"
