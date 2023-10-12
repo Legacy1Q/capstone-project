@@ -49,15 +49,24 @@ function Nav() {
   const trailerClickHandler = () => {
     setIsTrailerModalOpen(true);
     setIsSearchedDataModalOpen(false);
-    setIsClickedDataModalOpen(false);
+    // setIsClickedDataModalOpen(false);
   };
 
   function imageClickHandler(id) {
     setEditedDataId(id);
     setIsClickedDataModalOpen(true);
     fetchMovieTrailer(id);
-    setIsSearchedDataModalOpen(false);
+    // setIsSearchedDataModalOpen(false);
   }
+
+  const clickedDataBackBtnHandler = () => {
+    setIsClickedDataModalOpen(false);
+  };
+
+  const trailerBackBtnHandler = () => {
+    setIsTrailerModalOpen(false);
+    setIsSearchedDataModalOpen(true);
+  };
 
   const fetchSearchedData = () => {
     const options = {
@@ -105,10 +114,10 @@ function Nav() {
         }}
       >
         <div className="modal-header sticky-header">
-          <h2>Images from Searched Data</h2>
+          <h2>Movies related to: {searchQuery}</h2>
           <button
             type="button"
-            className="btn-close close-btn"
+            className="btn-close close-btn float-end"
             onClick={closeModal}
             aria-label="Close"
           ></button>
@@ -118,7 +127,10 @@ function Nav() {
           {searchedData.map(
             (item) =>
               item.poster_path && (
-                <div key={item.id} className="modal-image col-3">
+                <div
+                  key={item.id}
+                  className="searched-data-modal modal-image col-3"
+                >
                   <img
                     src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
                     alt={item.title}
@@ -218,10 +230,32 @@ function Nav() {
                     ?.vote_average
                 }
               </p>
-              <p>
-                Click button to view trailer:{" "}
-                <button onClick={trailerClickHandler}>Trailer</button>
-              </p>
+              <div>
+                {/* Click button to view trailer:{" "} */}
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    position: "absolute", // Set position to absolute
+                    bottom: "3rem", // Adjust top to position it from the top
+                    fontSize: "1.5rem",
+                  }}
+                  onClick={trailerClickHandler}
+                >
+                  Trailer
+                </button>
+                <button
+                  className="btn btn-danger"
+                  style={{
+                    position: "absolute", // Set position to absolute
+                    bottom: "3rem", // Adjust top to position it from the top
+                    right: "30px", // Adjust right to position it from the right
+                    fontSize: "1.5rem",
+                  }}
+                  onClick={clickedDataBackBtnHandler}
+                >
+                  Back
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -242,6 +276,18 @@ function Nav() {
           },
         }}
       >
+        <button
+          className="btn btn-danger"
+          style={{
+            position: "absolute", // Set position to absolute
+            top: "10px", // Adjust top to position it from the top
+            left: "10px", // Adjust right to position it from the right
+            fontSize: "1.5rem",
+          }}
+          onClick={trailerBackBtnHandler}
+        >
+          Back
+        </button>
         <button
           type="button"
           className="btn-close close-btn"
