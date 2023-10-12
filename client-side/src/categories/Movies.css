@@ -51,7 +51,7 @@
 }
 
 .movie-card {
-  margin: 10px; /* Add space between movie cards */
+  margin: 20px; /* Add space between movie cards */
   transition: transform 0.2s; /* Add a smooth hover effect */
 
   .movie-poster-container {

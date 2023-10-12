@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Movies.css";
 import Modal from "react-modal";
 import Youtube from "react-youtube";
+import Pagination from "../pagination/Pagination";
 
 Modal.setAppElement("#root");
 
@@ -20,9 +21,17 @@ function Movies() {
     "Upcoming",
   ];
   const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const apiKey = "e4ea514e7e06ce24e90f01250baf128d"; // Replace with your actual API key
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+    setCurrentPage(1);
   };
 
   const closeModal = () => {
@@ -43,7 +52,7 @@ function Movies() {
 
   const fetchMovieTrailer = (id) => {
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=e4ea514e7e06ce24e90f01250baf128d&append_to_response=videos`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=videos`
     )
       .then((response) => response.json())
       .then((response) => {
@@ -53,112 +62,60 @@ function Movies() {
   };
 
   useEffect(() => {
+    const apiUrlTemplate = (category, page) => {
+      return `https://api.themoviedb.org/3/${category}?include_adult=false&include_video=true&language=en-US&page=${page}&sort_by=popularity.desc&api_key=${apiKey}`;
+    };
     if (selectedOption === "Discover") {
-      const datas = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
-        },
-      };
-
-      fetch(
-        "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=true&language=en-US&page=1&sort_by=popularity.desc",
-        datas
-      )
-        .then((response) => response.json())
-        .then((response) => setData(response.results))
-        .catch((err) => console.error(err));
-    } else if (selectedOption === "Trending") {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
-        },
-      };
-
-      fetch(
-        "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
-        options
-      )
+      fetch(apiUrlTemplate("discover/movie", currentPage))
         .then((response) => response.json())
         .then((response) => {
           setData(response.results);
+          setTotalPages(response.total_pages);
+        })
+        .catch((err) => console.error(err));
+    } else if (selectedOption === "Trending") {
+      fetch(apiUrlTemplate("trending/movie/day", currentPage))
+        .then((response) => response.json())
+        .then((response) => {
+          setData(response.results);
+          setTotalPages(response.total_pages);
         })
         .catch((err) => console.error(err));
     } else if (selectedOption === "Now Playing") {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
-        },
-      };
-
-      fetch(
-        "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
-        options
-      )
+      fetch(apiUrlTemplate("movie/now_playing", currentPage))
         .then((response) => response.json())
-        .then((response) => setData(response.results))
+        .then((response) => {
+          setData(response.results);
+          setTotalPages(response.total_pages);
+        })
         .catch((err) => console.error(err));
     } else if (selectedOption === "Popular") {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
-        },
-      };
-
-      fetch(
-        "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
-        options
-      )
+      fetch(apiUrlTemplate("movie/popular", currentPage))
         .then((response) => response.json())
-        .then((response) => setData(response.results))
+        .then((response) => {
+          setData(response.results);
+          setTotalPages(response.total_pages);
+        })
         .catch((err) => console.error(err));
     } else if (selectedOption === "Top Rated") {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
-        },
-      };
-
-      fetch(
-        "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
-        options
-      )
+      fetch(apiUrlTemplate("movie/top_rated", currentPage))
         .then((response) => response.json())
-        .then((response) => setData(response.results))
+        .then((response) => {
+          setData(response.results);
+          setTotalPages(response.total_pages);
+        })
         .catch((err) => console.error(err));
     } else if (selectedOption == "Upcoming") {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNGVhNTE0ZTdlMDZjZTI0ZTkwZjAxMjUwYmFmMTI4ZCIsInN1YiI6IjY1MjU3M2IxZWE4NGM3MDBjYTBkZjdlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xgAT0y0vFTJfz9DiT9osIniggrIg2ShMRxjgyxb7GPw",
-        },
-      };
-
-      fetch(
-        "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
-        options
-      )
+      fetch(apiUrlTemplate("movie/upcoming", currentPage))
         .then((response) => response.json())
-        .then((response) => setData(response.results))
+        .then((response) => {
+          setData(response.results);
+          setTotalPages(response.total_pages);
+        })
         .catch((err) => console.error(err));
     }
-  }, [selectedOption]);
+  }, [selectedOption, currentPage]);
+
   return (
     <div className="movies">
       <Modal
@@ -207,7 +164,7 @@ function Movies() {
             className="data-div"
           >
             <div style={{ flex: 2, marginBottom: "20px" }}>
-              <h2 className="overview-text">Overview</h2>
+              {/* <h2 className="overview-text">Overview</h2> */}
               <h3>{data.find((item) => item.id === editedDataId)?.overview}</h3>
             </div>
             <hr />
@@ -299,15 +256,15 @@ function Movies() {
                 <div className="movie-card">
                   <div className="movie-poster-container">
                     <img
-                      src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
+                      src={`https://image.tmdb.org/t/p/w300/${
+                        item.poster_path ? item.poster_path : item.backdrop_path
+                      }`}
                       alt={item.title}
                       className="displayed-image"
                       onClick={() => {
                         imageClickHandler(item.id);
-                        // trailerClickHandler(item.id);
                       }}
                     />
-                    <p className="movie-title">{item.title}</p>
                   </div>
                 </div>
               </div>
@@ -315,6 +272,11 @@ function Movies() {
           </div>
         </div>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        paginate={paginate}
+      />
     </div>
   );
 }
