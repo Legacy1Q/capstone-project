@@ -23,6 +23,7 @@ public class Movie {
   private String title;
   private String description;
   private String trailerUrl;
+  private String imageFilename;
   private String ageRating;
   private String studio;
   private String actor;
@@ -37,11 +38,12 @@ public class Movie {
   public Movie() {
   }
 
-  public Movie(String title, String description, String trailerUrl, String ageRating, String studio, String actor,
+  public Movie(String title, String description, String trailerUrl, String imageFilename, String ageRating, String studio, String actor,
       int releaseDate, String movieSystem, String browseByLanguage) {
     this.title = title;
     this.description = description;
     this.trailerUrl = trailerUrl;
+    this.imageFilename = imageFilename;
     this.ageRating = ageRating;
     this.studio = studio;
     this.actor = actor;
@@ -137,5 +139,14 @@ public class Movie {
   public void setBrowseByLanguage(String browseByLanguage) {
     this.browseByLanguage = browseByLanguage;
   }
+
+  public String getImageFilename() {
+    return this.imageFilename;
+  }
+
+  public void setImageFilename(String imageFilename) {
+    this.imageFilename = imageFilename;
+  }
+
 
 }

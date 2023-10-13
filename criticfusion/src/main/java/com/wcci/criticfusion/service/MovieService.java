@@ -34,6 +34,7 @@ public class MovieService {
   exsistingMovies.setTitle(updatedMovies.getTitle() == null ? exsistingMovies.getTitle() : updatedMovies.getTitle());
  exsistingMovies.setDescription(updatedMovies.getDescription() == null ? exsistingMovies.getDescription() : updatedMovies.getDescription());
  exsistingMovies.setTrailerUrl(updatedMovies.getTrailerUrl() == null ? exsistingMovies.getTrailerUrl() : updatedMovies.getTrailerUrl());
+ exsistingMovies.setImageFilename(updatedMovies.getImageFilename() == null ? exsistingMovies.getImageFilename() : updatedMovies.getImageFilename());
  exsistingMovies.setAgeRating(updatedMovies.getAgeRating() == null ? exsistingMovies.getAgeRating() : updatedMovies.getAgeRating());
  exsistingMovies.setMovieSystem(updatedMovies.getMovieSystem() == null ? exsistingMovies.getMovieSystem() : updatedMovies.getMovieSystem());
  exsistingMovies.setBrowseByLanguage(updatedMovies.getBrowseByLanguage() == null ? exsistingMovies.getBrowseByLanguage() : updatedMovies.getBrowseByLanguage());

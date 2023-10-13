@@ -31,11 +31,26 @@ function Home() {
     ...new Set(gameReviews.map((review) => review.games.id)),
   ];
   const selectedGame = games.find((game) => game.id === editedDataId);
-  let videoId;
+  const selectedMovie = movies.find((movie) => movie.id === editedDataId);
+  const selectedTv = tvs.find((tv) => tv.id === editedDataId);
+
+  let gameVideoId;
   if (selectedGame) {
     const trailerUrl = selectedGame.trailerUrl;
     const startIndex = trailerUrl.lastIndexOf("=") + 1;
-    videoId = trailerUrl.slice(startIndex);
+    gameVideoId = trailerUrl.slice(startIndex);
+  }
+  let movieVideoId;
+  if (selectedMovie) {
+    const trailerUrl = selectedMovie.trailerUrl;
+    const startIndex = trailerUrl.lastIndexOf("=") + 1;
+    movieVideoId = trailerUrl.slice(startIndex);
+  }
+  let tvVideoId;
+  if (selectedTv) {
+    const trailerUrl = selectedTv.trailerUrl;
+    const startIndex = trailerUrl.lastIndexOf("=") + 1;
+    tvVideoId = trailerUrl.slice(startIndex);
   }
 
   useEffect(() => {
@@ -211,6 +226,7 @@ function Home() {
   const closeModal = () => {
     setIsModalOpen(false);
     setIsTrailerModalOpen(false);
+    setModalDisplay(false);
   };
 
   return (
@@ -391,39 +407,34 @@ function Home() {
                 <div className="body__container__1__title">
                   <h1>Featured Movies</h1>
                 </div>
-                {movies.map((movie) => (
-                  <div className="inline image-container" key={movie.id}>
-                    <img className="image" src={movie.imageFilename} alt="" />
-                    <div className="overlay">
-                      <button
-                        className="button btn-trailer"
-                        onClick={() => window.open(movie.trailerUrl)}
-                      >
-                        Trailer
-                      </button>
-                      <button
-                        className="button btn-review"
+                {movies
+                  .sort((a, b) => b.id - a.id)
+                  .slice(0, 6)
+                  .map((movie) => (
+                    <div className="inline image-container" key={movie.id}>
+                      <img
+                        className="image"
+                        src={movie.imageFilename}
                         onClick={() => reviewHandler(movie, "MovieReview")}
-                      >
-                        Review
-                      </button>
+                        alt={movie.title}
+                      />
+                      <p>{movie.title}</p>
+                      {averageMovieRating.find(
+                        (rating, index) => uniqueMovieIds[index] === movie.id
+                      ) != null ? (
+                        <p>
+                          Rating:{" "}
+                          {averageMovieRating.find(
+                            (rating, index) =>
+                              uniqueMovieIds[index] === movie.id
+                          )}
+                          {" stars"}
+                        </p>
+                      ) : (
+                        <p>No reviews</p>
+                      )}
                     </div>
-                    <p>{movie.title}</p>
-                    {averageMovieRating.find(
-                      (rating, index) => uniqueMovieIds[index] === movie.id
-                    ) != null ? (
-                      <p>
-                        Rating:{" "}
-                        {averageMovieRating.find(
-                          (rating, index) => uniqueMovieIds[index] === movie.id
-                        )}
-                        {" stars"}
-                      </p>
-                    ) : (
-                      <p>No reviews</p>
-                    )}
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
@@ -436,39 +447,70 @@ function Home() {
                 {/* <Link to="/ahsoka">
                   <img src="./images/ahsoka 1440.jpg" alt="" />
                 </Link> */}
-                {tvs.map((tv) => (
-                  <div className="inline image-container" key={tv.id}>
-                    <img className="image" src={tv.imageFilename} alt="" />
-                    <div className="overlay">
-                      <button
-                        className="button btn-trailer"
-                        onClick={() => window.open(tv.trailerUrl)}
-                      >
-                        Trailer
-                      </button>
-                      <button
-                        className="button btn-review"
-                        onClick={() => reviewHandler(tv, "MovieReview")}
-                      >
-                        Review
-                      </button>
+                {tvs
+                  .sort((a, b) => b.id - a.id)
+                  .slice(0, 6)
+                  .map((tv) => (
+                    <div className="inline image-container" key={tv.id}>
+                      <img
+                        className="image"
+                        src={tv.imageFilename}
+                        onClick={() => reviewHandler(tv, "TvReview")}
+                        alt={tv.title}
+                      />
+                      <p>{tv.title}</p>
+                      {averageTvRating.find(
+                        (rating, index) => uniqueTvIds[index] === tv.id
+                      ) != null ? (
+                        <p>
+                          Rating:{" "}
+                          {averageTvRating.find(
+                            (rating, index) => uniqueTvIds[index] === tv.id
+                          )}{" "}
+                          {" stars"}
+                        </p>
+                      ) : (
+                        <p>No reviews</p>
+                      )}
                     </div>
-                    <p>{tv.title}</p>
-                    {averageTvRating.find(
-                      (rating, index) => uniqueTvIds[index] === tv.id
-                    ) != null ? (
-                      <p>
-                        Rating:{" "}
-                        {averageTvRating.find(
-                          (rating, index) => uniqueTvIds[index] === tv.id
-                        )}{" "}
-                        {" stars"}
-                      </p>
-                    ) : (
-                      <p>No reviews</p>
-                    )}
-                  </div>
-                ))}
+                  ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-12">
+              <div className="body__container__2">
+                <div className="body__container__2__title">
+                  <h1>Featured Games</h1>
+                </div>
+                {games
+                  .sort((a, b) => b.id - a.id)
+                  .slice(0, 6)
+                  .map((game) => (
+                    <div className="inline image-container" key={game.id}>
+                      <img
+                        className="image"
+                        src={game.imageFilename}
+                        onClick={() => reviewHandler(game, "GameReview")}
+                        alt={game.title}
+                      />
+                      <p>{game.title}</p>
+                      {averageGameRating.find(
+                        (rating, index) => uniqueGameIds[index] === game.id
+                      ) != null ? (
+                        <p>
+                          Rating:{" "}
+                          {averageGameRating.find(
+                            (rating, index) => uniqueGameIds[index] === game.id
+                          )}
+                          {" stars"}
+                        </p>
+                      ) : (
+                        <p>No reviews</p>
+                      )}
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -511,45 +553,8 @@ function Home() {
                 right: "10px", // Adjust right to position it from the right
               }}
             ></button>
-            {console.log(videoId)}
-            <Youtube videoId={videoId} />
+            <Youtube videoId={gameVideoId} />
           </Modal>
-          <div className="row">
-            <div className="col-12">
-              <div className="body__container__2">
-                <div className="body__container__2__title">
-                  <h1>Featured Games</h1>
-                </div>
-                {games
-                  .sort((a, b) => b.id - a.id)
-                  .slice(0, 6)
-                  .map((game) => (
-                    <div className="inline image-container" key={game.id}>
-                      <img
-                        className="image"
-                        src={game.imageFilename}
-                        onClick={() => reviewHandler(game, "GameReview")}
-                        alt=""
-                      />
-                      <p>{game.title}</p>
-                      {averageGameRating.find(
-                        (rating, index) => uniqueGameIds[index] === game.id
-                      ) != null ? (
-                        <p>
-                          Rating:{" "}
-                          {averageGameRating.find(
-                            (rating, index) => uniqueGameIds[index] === game.id
-                          )}
-                          {" stars"}
-                        </p>
-                      ) : (
-                        <p>No reviews</p>
-                      )}
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
