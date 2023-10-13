@@ -337,10 +337,10 @@ function Home() {
           <thead>
             <tr>
               <th scope="col" className="col-10">
-                Review
+                Reviews
               </th>
               <th scope="col" className="col-2">
-                Rating
+                Ratings
               </th>
             </tr>
           </thead>
@@ -358,6 +358,7 @@ function Home() {
           <tbody className={category == "TvReview" ? "" : "hide"}>
             {tvReviews
               .filter((tv) => tv.tv.id === editedDataId)
+              .sort((a, b) => b.id - a.id)
               .map((tv) => (
                 <tr key={tv.id}>
                   <td>{tv.review}</td>
@@ -368,6 +369,7 @@ function Home() {
           <tbody className={category == "GameReview" ? "" : "hide"}>
             {gameReviews
               .filter((game) => game.games.id === editedDataId)
+              .sort((a, b) => b.id - a.id)
               .map((game) => (
                 <tr key={game.id}>
                   <td>{game.review}</td>
@@ -553,7 +555,15 @@ function Home() {
                 right: "10px", // Adjust right to position it from the right
               }}
             ></button>
-            <Youtube videoId={gameVideoId} />
+            <Youtube
+              videoId={
+                category == "MovieReview"
+                  ? movieVideoId
+                  : category == "GameReview"
+                  ? gameVideoId
+                  : tvVideoId
+              }
+            />
           </Modal>
         </div>
       </div>
