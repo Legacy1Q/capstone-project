@@ -6,14 +6,17 @@ function Admin() {
   const [newData, setNewData] = useState({
     title: "",
     description: "",
+    imageFilename: "",
     trailerUrl: "",
   });
   const [editedDataId, setEditedDataId] = useState(null);
   const [editedData, setEditedData] = useState({
     title: "",
     description: "",
+    imageFilename: "",
+    trailerUrl: "",
   });
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
   const options = ["Movie", "Tv", "Game"];
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [displayForm, setDisplayForm] = useState("hide");
@@ -33,10 +36,10 @@ function Admin() {
     setSelectedOption(event.target.value);
   };
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    setSelectedFile(file);
-  };
+  // const handleFileSelect = (e) => {
+  //   const file = e.target.files[0];
+  //   setSelectedFile(file);
+  // };
 
   const handleAddButtonClick = (event) => {
     event.preventDefault();
@@ -61,8 +64,13 @@ function Admin() {
   async function addHandler(event) {
     event.preventDefault();
 
-    if (!newData.trailerUrl || !newData.title || !newData.description) {
-      alert("Please fill in all fields and select an image.");
+    if (
+      !newData.trailerUrl ||
+      !newData.title ||
+      !newData.imageFilename ||
+      !newData.description
+    ) {
+      alert("Please fill in all fields!");
       return;
     }
 
@@ -81,6 +89,7 @@ function Admin() {
       body: JSON.stringify({
         title: newData.title,
         description: newData.description,
+        imageFilename: newData.imageFilename,
         trailerUrl: newData.trailerUrl,
       }),
     });
@@ -91,19 +100,26 @@ function Admin() {
     const data = await response.json();
     alert("Added successfully!");
     setData((prevDatas) => [...prevDatas, data]);
-    setNewData({ title: "", description: "", trailerUrl: "" });
-    setSelectedFile(null);
+    setNewData({
+      title: "",
+      description: "",
+      imageFilename: "",
+      trailerUrl: "",
+    });
+    // setSelectedFile(null);
     cancelHandler();
   }
 
   async function updateHandler(event) {
     event.preventDefault();
+    console.log(editedData.imageFilename);
     if (
       !editedData.title ||
       !editedData.description ||
+      !editedData.imageFilename ||
       !editedData.trailerUrl
     ) {
-      return alert("Please fill in all fields.");
+      return alert("Please fill in all fields!");
     }
 
     const response = await fetch(
@@ -117,6 +133,7 @@ function Admin() {
         body: JSON.stringify({
           title: editedData.title,
           description: editedData.description,
+          imageFilename: editedData.imageFilename,
           trailerUrl: editedData.trailerUrl,
         }),
       }
@@ -146,6 +163,7 @@ function Admin() {
     setEditedData({
       title: data.title,
       description: data.description,
+      imageFilename: data.imageFilename,
       trailerUrl: data.trailerUrl,
     });
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons hide");
@@ -227,6 +245,21 @@ function Admin() {
           <input
             type="text"
             className="form-control form-control-md admin-form"
+            placeholder="Image Url"
+            id="floatingInput"
+            value={newData.imageFilename}
+            onInput={(e) =>
+              setNewData({ ...newData, imageFilename: e.target.value })
+            }
+          />
+          <label htmlFor="floatingInput" className="admin-label">
+            Image Url
+          </label>
+        </div>
+        <div className="form-floating mb-3">
+          <input
+            type="text"
+            className="form-control form-control-md admin-form"
             placeholder="Trailer Url"
             id="floatingInput"
             value={newData.trailerUrl}
@@ -238,13 +271,13 @@ function Admin() {
             Trailer Url
           </label>
         </div>
-        <div className="form-floating mb-3">
+        {/* <div className="form-floating mb-3">
           <input
             type="file"
             className="form-control form-control-md admin-form admin-file"
             onChange={handleFileSelect}
           />
-        </div>
+        </div> */}
         <button
           className="form-button button1 submit-button"
           onClick={addHandler}
@@ -296,6 +329,21 @@ function Admin() {
             <input
               type="text"
               className="form-control form-control-md admin-form"
+              placeholder="Image Url"
+              id="floatingInput"
+              value={editedData.imageFilename}
+              onChange={(e) =>
+                setEditedData({ ...editedData, imageFilename: e.target.value })
+              }
+            />
+            <label htmlFor="floatingInput" className="admin-label">
+              Image Url
+            </label>
+          </div>
+          <div className="form-floating mb-3">
+            <input
+              type="text"
+              className="form-control form-control-md admin-form"
               placeholder="Trailer Url"
               id="floatingInput"
               value={editedData.trailerUrl}
@@ -334,7 +382,10 @@ function Admin() {
               <th scope="col" className="col-5">
                 Description
               </th>
-              <th scope="col" className="col-3">
+              <th scope="col" className="col-2">
+                Image Url
+              </th>
+              <th scope="col" className="col-2">
                 Trailer Url
               </th>
               <th scope="col" className="col-1">
@@ -350,6 +401,7 @@ function Admin() {
                   <th scope="row">{item.id}</th>
                   <td key={item.id}>{item.title}</td>
                   <td>{item.description}</td>
+                  <td>{item.imageFilename}</td>
                   <td>{item.trailerUrl}</td>
                   <td>
                     <button

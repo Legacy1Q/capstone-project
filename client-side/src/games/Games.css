@@ -95,6 +95,19 @@
 .displayed-img {
   cursor: pointer;
   border-radius: 10px;
-  height: 100%;
+  height: 93%;
   width: 100%;
+}
+
+.btn-trailer {
+  margin-left: 1rem !important;
+}
+
+.text-h5 {
+  color: white !important;
+  padding-top: 0.5rem;
+}
+
+.description-text {
+  margin-bottom: 2.5rem;
 }

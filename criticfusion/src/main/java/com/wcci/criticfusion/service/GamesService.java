@@ -33,6 +33,7 @@ public Game updateGame(long id, Game updatedGames) {
   Game exsistingGames = findGamesById(id);
   exsistingGames.setTitle(updatedGames.getTitle() == null ? exsistingGames.getTitle() : updatedGames.getTitle());
   exsistingGames.setDescription(updatedGames.getDescription() == null ? exsistingGames.getDescription() : updatedGames.getDescription());
+  exsistingGames.setImageFilename(updatedGames.getImageFilename() == null ? exsistingGames.getImageFilename() : updatedGames.getImageFilename());
   exsistingGames.setTrailerUrl(updatedGames.getTrailerUrl() == null ? exsistingGames.getTrailerUrl() : updatedGames.getTrailerUrl());
   this.gamesRepository.save(exsistingGames);
   return exsistingGames;

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Rating from "react-rating-stars-component";
+import Youtube from "react-youtube";
 import "./Games.css";
 
 Modal.setAppElement("#root");
 
 function Games() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
   const [games, setGames] = useState([]);
@@ -16,6 +18,14 @@ function Games() {
   const uniqueGameIds = [
     ...new Set(gameReviews.map((review) => review.games.id)),
   ];
+  const selectedGame = games.find((game) => game.id === editedDataId);
+
+  let videoId;
+  if (selectedGame) {
+    const trailerUrl = selectedGame.trailerUrl;
+    const startIndex = trailerUrl.lastIndexOf("=") + 1;
+    videoId = trailerUrl.slice(startIndex);
+  }
 
   useEffect(() => {
     fetch("http://localhost:8080/games")
@@ -27,6 +37,10 @@ function Games() {
       .then((data) => setGameReviews(data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+
+  const trailerBackBtnHandler = () => {
+    setIsTrailerModalOpen(false);
+  };
 
   function submitHandler() {
     if (review == "" || rating == 0) {
@@ -76,12 +90,17 @@ function Games() {
     setEditedDataId(object.id);
   };
 
+  const trailerClickHandler = () => {
+    setIsTrailerModalOpen(true);
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setIsTrailerModalOpen(false);
   };
 
   async function gameReview() {
@@ -113,9 +132,9 @@ function Games() {
         onRequestClose={closeModal}
         style={{
           content: {
-            width: "60%",
+            width: "80%",
             margin: "auto",
-            height: "60%",
+            height: "80%",
           },
         }}
       >
@@ -130,6 +149,12 @@ function Games() {
             {modalDisplay ? "View reviews" : "Add reviews"}
           </button>
           <button
+            className="button modal-button float-start btn-trailer"
+            onClick={trailerClickHandler}
+          >
+            Trailer
+          </button>
+          <button
             type="button"
             className="btn-close float-end"
             onClick={() => {
@@ -141,6 +166,8 @@ function Games() {
             aria-label="Close"
           ></button>
         </h2>
+        <hr />
+        <h3 className="description-text">{selectedGame?.description}</h3>
         <div className={!modalDisplay ? "hide" : "form-floating mb-3"}>
           <input
             type="text"
@@ -164,6 +191,8 @@ function Games() {
           />
         </div>
         <h2 className={!modalDisplay ? "hide" : "rating-text"}>Rating</h2>
+        <hr />
+
         <table
           className={
             !modalDisplay
@@ -184,6 +213,7 @@ function Games() {
           <tbody>
             {gameReviews
               .filter((game) => game.games.id === editedDataId)
+              .sort((a, b) => b.id - a.id)
               .map((game) => (
                 <tr key={game.id}>
                   <td>{game.review}</td>
@@ -192,7 +222,6 @@ function Games() {
               ))}
           </tbody>
         </table>
-
         <button
           className={
             modalDisplay == false ? "hide" : "form-button button1 button-submit"
@@ -215,6 +244,48 @@ function Games() {
           Cancel
         </button>
       </Modal>
+      <Modal
+        isOpen={isTrailerModalOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            display: "flex", // Set display to flex
+            alignItems: "center", // Center vertically
+            justifyContent: "center",
+            width: "50%",
+            margin: "auto",
+            height: "60%",
+            overflow: "hidden",
+            // position: "relative",
+          },
+        }}
+      >
+        <button
+          className="btn btn-danger"
+          style={{
+            position: "absolute", // Set position to absolute
+            top: "10px", // Adjust top to position it from the top
+            left: "10px", // Adjust right to position it from the right
+            fontSize: "1.5rem",
+          }}
+          onClick={trailerBackBtnHandler}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          className="btn-close close-btn"
+          onClick={closeModal}
+          aria-label="Close"
+          style={{
+            position: "absolute", // Set position to absolute
+            top: "10px", // Adjust top to position it from the top
+            right: "10px", // Adjust right to position it from the right
+          }}
+        ></button>
+        {console.log(videoId)}
+        <Youtube videoId={videoId} />
+      </Modal>
       <h1>Games</h1>
       <div className="games__body">
         <div className="games__container">
@@ -224,13 +295,27 @@ function Games() {
                 <div className="game-card">
                   <div className="game-poster-container">
                     <img
-                      src="./images/starfield.jpg"
+                      src={item.imageFilename}
                       alt=""
                       className="displayed-img"
                       onClick={() => {
-                        reviewHandler(item.id);
+                        reviewHandler(item);
                       }}
                     />
+                    {/* <p>{item.title}</p> */}
+                    {averageGameRating.find(
+                      (rating, index) => uniqueGameIds[index] === item.id
+                    ) != null ? (
+                      <h5 className="text-h5">
+                        Average Rating:{" "}
+                        {averageGameRating.find(
+                          (rating, index) => uniqueGameIds[index] === item.id
+                        )}
+                        {" stars"}
+                      </h5>
+                    ) : (
+                      <h5 className="text-h5">No reviews</h5>
+                    )}
                   </div>
                 </div>
               </div>
