@@ -1,6 +1,7 @@
 import "./Merch.css";
 import { MyContext } from "../MyContext";
 import { useContext, useState } from "react";
+import Swal from "sweetalert2";
 
 function Merch() {
   const { cart, updateCart, merch, updateIsAddedToCart } =
@@ -15,11 +16,18 @@ function Merch() {
       ...prevQuantities,
       [id]: 0,
     }));
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Successfully added to cart!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const [localQuantities, setLocalQuantities] = useState(
     merch.reduce((quantities, item) => {
-      quantities[item.id] = 0;
+      quantities[item.id] = 1;
       return quantities;
     }, {})
   );
@@ -50,7 +58,7 @@ function Merch() {
                         }}
                       >
                         {[
-                          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
                         ].map((quantity) => (
                           <option key={quantity} value={quantity}>
                             {quantity}

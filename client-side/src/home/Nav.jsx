@@ -8,6 +8,7 @@ import Youtube from "react-youtube";
 import { useContext } from "react";
 import { MyContext } from "../MyContext";
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 
 function Nav() {
   const { adminEmail, updateAdminEmail, cart } = useContext(MyContext);
@@ -38,6 +39,13 @@ function Nav() {
 
   const LogoutHandler = () => {
     updateAdminEmail("");
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Logged out successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const closeModal = () => {
@@ -117,7 +125,7 @@ function Nav() {
           <h2>Movies related to: {searchQuery}</h2>
           <button
             type="button"
-            className="btn-close close-btn float-end"
+            className="btn-close close-btn float-end nav-button"
             onClick={closeModal}
             aria-label="Close"
           ></button>
@@ -164,7 +172,7 @@ function Nav() {
           </h2>
           <button
             type="button"
-            className="btn-close close-btn"
+            className="btn-close close-btn nav-button"
             onClick={closeModal}
             aria-label="Close"
           ></button>
@@ -233,7 +241,7 @@ function Nav() {
               <div>
                 {/* Click button to view trailer:{" "} */}
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary nav-button"
                   style={{
                     position: "absolute", // Set position to absolute
                     bottom: "3rem", // Adjust top to position it from the top
@@ -244,7 +252,7 @@ function Nav() {
                   Trailer
                 </button>
                 <button
-                  className="btn btn-danger"
+                  className="btn btn-danger nav-button"
                   style={{
                     position: "absolute", // Set position to absolute
                     bottom: "3rem", // Adjust top to position it from the top
@@ -277,7 +285,7 @@ function Nav() {
         }}
       >
         <button
-          className="btn btn-danger"
+          className="btn btn-danger nav-button"
           style={{
             position: "absolute", // Set position to absolute
             top: "10px", // Adjust top to position it from the top
@@ -290,7 +298,7 @@ function Nav() {
         </button>
         <button
           type="button"
-          className="btn-close close-btn"
+          className="btn-close close-btn nav-button"
           onClick={closeModal}
           aria-label="Close"
           style={{
@@ -337,7 +345,7 @@ function Nav() {
             />
 
             <button
-              className="relative z-[2] flex items-center rounded-r px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+              className="relative z-[2] flex items-center rounded-r px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg nav-button"
               type="button"
               onClick={() => {
                 fetchSearchedData();
@@ -365,11 +373,18 @@ function Nav() {
 
       {/* Additional Links */}
       <div className="nav__login">
-        {adminEmail ? adminEmail : <Link to="/login">Login</Link>}
-        <button className={adminEmail ? "" : "hide"} onClick={LogoutHandler}>
+        {adminEmail ? (
+          <p className="user">{adminEmail}</p>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
+        <button
+          className={adminEmail ? "logout-btn nav-button" : "hide"}
+          onClick={LogoutHandler}
+        >
           Logout
         </button>
-        <CircleIcon className="circle_icon" />
+        {/* <CircleIcon className="circle_icon" /> */}
         <span>
           <Link to="/cart">
             <ShoppingBagIcon />

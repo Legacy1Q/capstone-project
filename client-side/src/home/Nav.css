@@ -134,7 +134,7 @@
 }
 
 .row {
-  margin: 1rem 0 0 0;
+  margin: 1rem !important;
 }
 
 .searched-data-modal {
@@ -148,4 +148,17 @@
 
 button {
   margin: 0 !important;
+}
+
+.logout-btn {
+  margin: 0 1rem !important;
+  border-radius: 20px;
+  color: white;
+  background-color: rgb(255, 84, 84);
+  border: none;
+}
+
+.user {
+  color: rgb(255, 210, 210);
+  margin: 0;
 }
