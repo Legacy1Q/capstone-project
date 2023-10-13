@@ -236,24 +236,34 @@ function Home() {
           isModalOpen ? "home__carousel negative-index" : "home__carousel"
         }
       >
-        <div className="carousel__container" style={{ height: "50rem" }}>
+        <div
+          className="carousel__container"
+          style={{
+            height: "40rem",
+            width: "60rem",
+            margin: "0 0 0 15rem",
+          }}
+        >
           <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
               <Link to="/ahsoka">
-                <img src="./images/ahsoka.jpg" alt="" />
+                <img src={movies[0]?.imageFilename} alt={movies[0]?.title} />
               </Link>
             </Carousel.Item>
             <Carousel.Item>
-              <img src="./images/red dead 2.jpg" alt="" />
+              <img src={tvs[0]?.imageFilename} alt={tvs[0]?.title} />
             </Carousel.Item>
             <Carousel.Item>
-              <img src="./images/oppenheimer.jpeg" alt="" />
+              <img src={games[0]?.imageFilename} alt={games[0]?.title} />
             </Carousel.Item>
             <Carousel.Item>
-              <img src="./images/barbie.jpg" alt="" />
+              <img src={movies[1]?.imageFilename} alt={movies[1]?.title} />
             </Carousel.Item>
             <Carousel.Item>
-              <img src="./images/mortal kombat 1.jpg" alt="" />
+              <img src={tvs[1]?.imageFilename} alt={tvs[1]?.title} />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img src={games[1]?.imageFilename} alt={games[1]?.title} />
             </Carousel.Item>
           </Carousel>
         </div>
