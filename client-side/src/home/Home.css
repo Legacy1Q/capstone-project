@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   /* height: 100vh; */
+  /* max-width: none; */
 }
 
 .home__carousel {
@@ -54,16 +55,18 @@
 
 .body__container img {
   display: inline-block;
-  margin-right: 10px;
-  width: 150px;
-  height: 200px;
+  margin: 1rem;
+  width: 250px;
+  height: 400px;
   object-fit: cover;
+  border-radius: 15px;
 }
 
 .body__container img:hover {
   transform: scale(1.2);
   transition: transform 0.5s ease-in-out;
   box-shadow: 0 0 15px rgba(255, 254, 255, 0.5);
+  cursor: pointer;
 }
 
 .home {
@@ -114,7 +117,7 @@
   height: auto;
 }
 
-.overlay {
+/* .overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -131,7 +134,7 @@
 
 .overlay:hover {
   opacity: 1;
-}
+} */
 
 .button {
   background-color: #007bff;

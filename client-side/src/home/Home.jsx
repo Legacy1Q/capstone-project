@@ -4,6 +4,7 @@ import Carousel from "react-bootstrap/Carousel";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import Rating from "react-rating-stars-component";
+import Youtube from "react-youtube";
 
 Modal.setAppElement("#root");
 
@@ -21,6 +22,7 @@ function Home() {
   const [gameReviews, setGameReviews] = useState([]);
   const [tvReviews, setTvReviews] = useState([]);
   const [modalDisplay, setModalDisplay] = useState(false);
+  const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
   const uniqueMovieIds = [
     ...new Set(movieReviews.map((review) => review.movie.id)),
   ];
@@ -28,6 +30,13 @@ function Home() {
   const uniqueGameIds = [
     ...new Set(gameReviews.map((review) => review.games.id)),
   ];
+  const selectedGame = games.find((game) => game.id === editedDataId);
+  let videoId;
+  if (selectedGame) {
+    const trailerUrl = selectedGame.trailerUrl;
+    const startIndex = trailerUrl.lastIndexOf("=") + 1;
+    videoId = trailerUrl.slice(startIndex);
+  }
 
   useEffect(() => {
     fetch("http://localhost:8080/movies")
@@ -70,6 +79,14 @@ function Home() {
     setReview("");
     setModalDisplay(false);
   }
+
+  const trailerBackBtnHandler = () => {
+    setIsTrailerModalOpen(false);
+  };
+
+  const trailerClickHandler = () => {
+    setIsTrailerModalOpen(true);
+  };
 
   async function movieReview() {
     const response = await fetch("http://localhost:8080/addMovieReview", {
@@ -193,6 +210,7 @@ function Home() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setIsTrailerModalOpen(false);
   };
 
   return (
@@ -229,9 +247,9 @@ function Home() {
         onRequestClose={closeModal}
         style={{
           content: {
-            width: "60%",
+            width: "80%",
             margin: "auto",
-            height: "60%",
+            height: "80%",
           },
         }}
       >
@@ -250,6 +268,12 @@ function Home() {
             {modalDisplay ? "View reviews" : "Add reviews"}
           </button>
           <button
+            className="button modal-button float-start btn-trailer"
+            onClick={trailerClickHandler}
+          >
+            Trailer
+          </button>
+          <button
             type="button"
             className="btn-close float-end"
             onClick={() => {
@@ -261,6 +285,9 @@ function Home() {
             aria-label="Close"
           ></button>
         </h2>
+        <hr />
+        <h3 className="description-text">{selectedGame?.description}</h3>
+        <hr />
         <div className={!modalDisplay ? "hide" : "form-floating mb-3"}>
           <input
             type="text"
@@ -362,15 +389,11 @@ function Home() {
             <div className="col-12">
               <div className="body__container__1">
                 <div className="body__container__1__title">
-                  <h1>Movies</h1>
+                  <h1>Featured Movies</h1>
                 </div>
                 {movies.map((movie) => (
                   <div className="inline image-container" key={movie.id}>
-                    <img
-                      className="image"
-                      src="./images/oppenheimer2.webp"
-                      alt=""
-                    />
+                    <img className="image" src={movie.imageFilename} alt="" />
                     <div className="overlay">
                       <button
                         className="button btn-trailer"
@@ -408,18 +431,14 @@ function Home() {
             <div className="col-12">
               <div className="body__container__2">
                 <div className="body__container__2__title">
-                  <h1>TV</h1>
+                  <h1>Featured TV</h1>
                 </div>
                 {/* <Link to="/ahsoka">
                   <img src="./images/ahsoka 1440.jpg" alt="" />
                 </Link> */}
                 {tvs.map((tv) => (
                   <div className="inline image-container" key={tv.id}>
-                    <img
-                      className="image"
-                      src="./images/one piece 1440.jpg"
-                      alt=""
-                    />
+                    <img className="image" src={tv.imageFilename} alt="" />
                     <div className="overlay">
                       <button
                         className="button btn-trailer"
@@ -453,49 +472,81 @@ function Home() {
               </div>
             </div>
           </div>
+          <Modal
+            isOpen={isTrailerModalOpen}
+            onRequestClose={closeModal}
+            style={{
+              content: {
+                display: "flex", // Set display to flex
+                alignItems: "center", // Center vertically
+                justifyContent: "center",
+                width: "50%",
+                margin: "auto",
+                height: "60%",
+                overflow: "hidden",
+                // position: "relative",
+              },
+            }}
+          >
+            <button
+              className="btn btn-danger"
+              style={{
+                position: "absolute", // Set position to absolute
+                top: "10px", // Adjust top to position it from the top
+                left: "10px", // Adjust right to position it from the right
+                fontSize: "1.5rem",
+              }}
+              onClick={trailerBackBtnHandler}
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              className="btn-close close-btn"
+              onClick={closeModal}
+              aria-label="Close"
+              style={{
+                position: "absolute", // Set position to absolute
+                top: "10px", // Adjust top to position it from the top
+                right: "10px", // Adjust right to position it from the right
+              }}
+            ></button>
+            {console.log(videoId)}
+            <Youtube videoId={videoId} />
+          </Modal>
           <div className="row">
             <div className="col-12">
               <div className="body__container__2">
                 <div className="body__container__2__title">
-                  <h1>Games</h1>
+                  <h1>Featured Games</h1>
                 </div>
-                {games.map((game) => (
-                  <div className="inline image-container" key={game.id}>
-                    <img
-                      className="image"
-                      src="./images/starfield.jpg"
-                      alt=""
-                    />
-                    <div className="overlay">
-                      <button
-                        className="button btn-trailer"
-                        onClick={() => window.open(game.trailerUrl)}
-                      >
-                        Trailer
-                      </button>
-                      <button
-                        className="button btn-review"
+                {games
+                  .sort((a, b) => b.id - a.id)
+                  .slice(0, 6)
+                  .map((game) => (
+                    <div className="inline image-container" key={game.id}>
+                      <img
+                        className="image"
+                        src={game.imageFilename}
                         onClick={() => reviewHandler(game, "GameReview")}
-                      >
-                        Review
-                      </button>
+                        alt=""
+                      />
+                      <p>{game.title}</p>
+                      {averageGameRating.find(
+                        (rating, index) => uniqueGameIds[index] === game.id
+                      ) != null ? (
+                        <p>
+                          Rating:{" "}
+                          {averageGameRating.find(
+                            (rating, index) => uniqueGameIds[index] === game.id
+                          )}
+                          {" stars"}
+                        </p>
+                      ) : (
+                        <p>No reviews</p>
+                      )}
                     </div>
-                    <p>{game.title}</p>
-                    {averageGameRating.find(
-                      (rating, index) => uniqueGameIds[index] === game.id
-                    ) != null ? (
-                      <p>
-                        Rating:{" "}
-                        {averageGameRating.find(
-                          (rating, index) => uniqueGameIds[index] === game.id
-                        )}
-                        {" stars"}
-                      </p>
-                    ) : (
-                      <p>No reviews</p>
-                    )}
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
