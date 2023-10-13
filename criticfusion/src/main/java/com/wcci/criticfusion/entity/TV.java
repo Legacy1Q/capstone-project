@@ -17,6 +17,7 @@ public class Tv {
   private String title;
   private String description;
   private String trailerUrl;
+  private String imageFilename;
   private String ageRating;
   private int byDecade;
   private String actor;
@@ -27,11 +28,12 @@ public class Tv {
   public Tv() {
   }
 
-  public Tv(String title, String description, String trailerUrl, String ageRating, int byDecade, String actor,
+  public Tv(String title, String description, String trailerUrl, String imageFilename, String ageRating, int byDecade, String actor,
       int releaseDate, String tvViewing, String browseByLanguage) {
     this.title = title;
     this.description = description;
     this.trailerUrl = trailerUrl;
+    this.imageFilename = imageFilename;
     this.ageRating = ageRating;
     this.byDecade = byDecade;
     this.actor = actor;
@@ -120,5 +122,14 @@ public class Tv {
   public void setBrowseByLanguage(String browseByLanguage) {
     this.browseByLanguage = browseByLanguage;
   }
+
+  public String getImageFilename() {
+    return this.imageFilename;
+  }
+
+  public void setImageFilename(String imageFilename) {
+    this.imageFilename = imageFilename;
+  }
+
 
 }
