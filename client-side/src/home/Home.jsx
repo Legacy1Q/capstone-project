@@ -236,7 +236,7 @@ function Home() {
           isModalOpen ? "home__carousel negative-index" : "home__carousel"
         }
       >
-        <div className="carousel__container">
+        <div className="carousel__container" style={{ height: "50rem" }}>
           <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
               <Link to="/ahsoka">
