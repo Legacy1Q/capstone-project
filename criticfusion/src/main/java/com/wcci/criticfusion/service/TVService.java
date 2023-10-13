@@ -34,6 +34,7 @@ public class TvService {
     existingTV.setTitle(updatedTV.getTitle() == null? existingTV.getTitle() : updatedTV.getTitle());
     existingTV.setDescription(updatedTV.getDescription() == null? existingTV.getDescription() : updatedTV.getDescription());
     existingTV.setTrailerUrl(updatedTV.getTrailerUrl() == null ? existingTV.getTrailerUrl() : updatedTV.getTrailerUrl());
+    existingTV.setImageFilename(updatedTV.getImageFilename() == null ? existingTV.getImageFilename() : updatedTV.getImageFilename());
     existingTV.setAgeRating(updatedTV.getAgeRating() == null ? existingTV.getAgeRating() : updatedTV.getAgeRating());
     existingTV.setTvViewing(updatedTV.getTvViewing() == null ? existingTV.getTvViewing() : updatedTV.getTvViewing());
     existingTV.setBrowseByLanguage(updatedTV.getBrowseByLanguage() == null ? existingTV.getBrowseByLanguage() : updatedTV.getBrowseByLanguage());

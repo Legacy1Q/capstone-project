@@ -101,6 +101,7 @@ function Games() {
   const closeModal = () => {
     setIsModalOpen(false);
     setIsTrailerModalOpen(false);
+    setModalDisplay(false);
   };
 
   async function gameReview() {
