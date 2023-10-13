@@ -1,48 +1,113 @@
 /* Games.css */
 
 .games {
+  text-align: center;
+}
+
+.games h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  margin-top: 50px;
+  color: aliceblue;
+}
+
+.games__body {
+  padding: 2rem 0;
+}
+
+.games__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.games__container__1 img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 576px) {
+  .games__container__1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .games__container__1 img {
+    margin-bottom: 40px;
+    margin-left: 20px;
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+  }
+}
+
+.games__container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.game-card {
+  margin: 20px;
+  transition: transform 0.2s; /* Add a smooth hover effect */
+
+  .game-poster-container {
+    position: relative;
+    overflow: hidden;
+    height: 500px;
+    /* width: 100px; */
+
+    &:hover {
+      transform: scale(1.1); /* Make the image bigger on hover */
+    }
+
+    .game-poster {
+      max-width: 100%;
+      display: block;
+    }
+  }
+
+  .game-title {
     text-align: center;
   }
-  
-  .games h1 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    margin-top: 50px;
-    color: aliceblue;
-  }
-  
-  .games__body {
-    padding: 2rem 0;
-  }
-  
-  .games__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    margin-top: 100px;
-  }
-  
-  .games__container__1 img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  @media (min-width: 576px) {
-    .games__container__1 {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-  
-    .games__container__1 img {
-      margin-bottom: 40px;
-      margin-left: 20px;
-      width: 150px;
-        height: 200px;
-        object-fit: cover;
+}
 
-    }
-  }
-  
+.data-div p {
+  color: black !important;
+  font-size: 1.5rem;
+}
 
+.close-btn {
+  height: 3rem;
+  width: 3rem;
+}
+
+.overview-text {
+  text-align: center;
+}
+
+.modal-img {
+  border-radius: 20px;
+}
+
+.displayed-img {
+  cursor: pointer;
+  border-radius: 10px;
+  height: 93%;
+  width: 100%;
+}
+
+.btn-trailer {
+  margin-left: 1rem !important;
+}
+
+.text-h5 {
+  color: white !important;
+  padding-top: 0.5rem;
+}
+
+.description-text {
+  margin-bottom: 2.5rem;
+}
