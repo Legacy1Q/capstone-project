@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import "./Admin.css";
 
 function Admin() {
@@ -24,6 +25,7 @@ function Admin() {
   const [displayAddButton, setDisplayAddButton] = useState(
     "btn btn-primary btn-lg float-end buttons"
   );
+  const [displayCategories, setDisplayCategories] = useState("option");
 
   let endpoint;
   selectedOption == "Movie"
@@ -44,8 +46,9 @@ function Admin() {
   const handleAddButtonClick = (event) => {
     event.preventDefault();
     setDisplayDatas("hide");
+    setDisplayCategories("hide");
     setDisplayForm("");
-    setDisplayAddButton("btn btn-primary btn-lg float-end buttons hide");
+    setDisplayAddButton("hide");
   };
 
   const cancelHandler = () => {
@@ -53,6 +56,7 @@ function Admin() {
     setDisplayForm("hide");
     setEditedDataId(null);
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
+    setDisplayCategories("option");
   };
 
   async function fetchDatas() {
@@ -63,14 +67,19 @@ function Admin() {
 
   async function addHandler(event) {
     event.preventDefault();
-
     if (
       !newData.trailerUrl ||
       !newData.title ||
       !newData.imageFilename ||
       !newData.description
     ) {
-      alert("Please fill in all fields!");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please fill in all fields!",
+        showConfirmButton: true,
+        timer: 15000,
+      });
       return;
     }
 
@@ -98,7 +107,13 @@ function Admin() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    alert("Added successfully!");
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Added successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
     setData((prevDatas) => [...prevDatas, data]);
     setNewData({
       title: "",
@@ -119,7 +134,14 @@ function Admin() {
       !editedData.imageFilename ||
       !editedData.trailerUrl
     ) {
-      return alert("Please fill in all fields!");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please fill in all fields!",
+        showConfirmButton: true,
+        timer: 15000,
+      });
+      return;
     }
 
     const response = await fetch(
@@ -142,11 +164,17 @@ function Admin() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    alert("Updated successfully!");
+    setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
+    setDisplayCategories("option");
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Updated successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
     setDisplayDatas("");
     fetchDatas();
-    setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
     setEditedDataId(null);
   }
 
@@ -166,35 +194,50 @@ function Admin() {
       imageFilename: data.imageFilename,
       trailerUrl: data.trailerUrl,
     });
-    setDisplayAddButton("btn btn-primary btn-lg float-end buttons hide");
+    setDisplayAddButton("hide");
+    setDisplayCategories("hide");
   };
 
   const deleteHandler = (dataId) => {
-    const apiUrl =
-      "http://localhost:8080/delete" + selectedOption + "/" + dataId;
-    fetch(apiUrl, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    alert("Deleted successfully!");
-    fetchDatas();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const apiUrl =
+          "http://localhost:8080/delete" + selectedOption + "/" + dataId;
+        fetch(apiUrl, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+          })
+          .then(() => {
+            fetchDatas();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
   };
 
   return (
     <div className="admin">
       <h1>Admin</h1>
 
-      <div className="option">
+      <div className={displayCategories}>
         <h2 className="text">Categories: </h2>
         <select
           className="select"
@@ -279,7 +322,7 @@ function Admin() {
           />
         </div> */}
         <button
-          className="form-button button1 submit-button"
+          className="form-button button1 update-button"
           onClick={addHandler}
         >
           Submit
@@ -294,7 +337,7 @@ function Admin() {
 
       {editedDataId && (
         <div>
-          <h2>Edit Data</h2>
+          {/* <h2>Edit Data</h2> */}
           <div className="form-floating mb-3">
             <input
               type="text"
@@ -356,7 +399,7 @@ function Admin() {
             </label>
           </div>
           <button
-            className="form-button button1 submit-button"
+            className="form-button button1 update-button"
             onClick={updateHandler}
           >
             Update
@@ -373,9 +416,6 @@ function Admin() {
         <table className="table table-dark table-hover">
           <thead>
             <tr>
-              <th scope="col" className="col-1">
-                #
-              </th>
               <th scope="col" className="col-2">
                 Title
               </th>
@@ -398,14 +438,13 @@ function Admin() {
               .sort((a, b) => b.id - a.id)
               .map((item) => (
                 <tr key={item.id}>
-                  <th scope="row">{item.id}</th>
                   <td key={item.id}>{item.title}</td>
                   <td>{item.description}</td>
                   <td>{item.imageFilename}</td>
                   <td>{item.trailerUrl}</td>
                   <td>
                     <button
-                      className="btn btn-primary btn-sm buttons"
+                      className="btn btn-primary btn-sm buttons edit-btn"
                       onClick={() => editButtonHandler(item)}
                     >
                       Edit

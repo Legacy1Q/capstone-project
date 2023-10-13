@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { MyContext } from "../MyContext";
 import "./Login.css";
+import Swal from "sweetalert2";
 
 function Login() {
   const { updateAdminEmail } = useContext(MyContext);
@@ -35,10 +36,24 @@ function Login() {
     if (data.message == "Login Success!") {
       navigate("/");
       handleEmailUpdate(email);
-      alert("Login Success!");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Login Success!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
-      alert("Login Failed!");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Incorrect email or password!",
+        showConfirmButton: true,
+        timer: 15000,
+      });
+      setPassword("");
     }
+
     // data.message == "Login Success!" ? navigate("/") : alert("Login Failed!");
   }
 
@@ -62,9 +77,13 @@ function Login() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
-    console.log(data);
-    alert("Registered Successfully!");
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Registered Successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
     setAdminFullName("");
     setEmail("");
     setPassword("");
@@ -86,7 +105,13 @@ function Login() {
       setEmail(input);
       return true;
     }
-    alert("Invalid Email!");
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: "Invalid Email!",
+      showConfirmButton: true,
+      timer: 15000,
+    });
     return false;
   }
 

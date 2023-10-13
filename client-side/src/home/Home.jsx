@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import Rating from "react-rating-stars-component";
 import Youtube from "react-youtube";
+import Swal from "sweetalert2";
 
 Modal.setAppElement("#root");
 
@@ -82,15 +83,27 @@ function Home() {
 
   function submitHandler() {
     if (review == "" || rating == 0) {
-      return alert("Please enter a review or rating!");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please enter a review and rating!",
+        showConfirmButton: true,
+        timer: 15000,
+      });
+      return;
     }
     category == "MovieReview"
       ? movieReview()
       : category == "GameReview"
       ? gameReview()
       : tvReview();
-
-    alert("Added review successfully!");
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Added review successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
     setReview("");
     setModalDisplay(false);
   }

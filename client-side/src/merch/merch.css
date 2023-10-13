@@ -4,8 +4,7 @@
 
 .merch h1 {
   font-size: 2rem;
-  margin-top: 200px;
-  margin-bottom: -60px;
+  margin: 2rem;
   background: linear-gradient(to right, purple, red);
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
@@ -13,14 +12,14 @@
   font-size: 50px;
 }
 
-.merch__body {
+/* .merch__body {
   padding: 2rem 0;
-}
+} */
 
 .merch__container {
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 100px;
+  /* margin-top: 100px; */
 }
 
 .merch__container__1 img {
@@ -88,4 +87,8 @@
   select {
     width: 5rem;
   }
+}
+
+.row {
+  margin: 0;
 }

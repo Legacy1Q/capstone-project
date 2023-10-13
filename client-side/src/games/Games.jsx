@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Rating from "react-rating-stars-component";
 import Youtube from "react-youtube";
+import Swal from "sweetalert2";
 import "./Games.css";
 
 Modal.setAppElement("#root");
@@ -44,11 +45,24 @@ function Games() {
 
   function submitHandler() {
     if (review == "" || rating == 0) {
-      return alert("Please enter a review or rating!");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please enter a review and rating!",
+        showConfirmButton: true,
+        timer: 15000,
+      });
+      return;
     }
     gameReview();
 
-    alert("Added review successfully!");
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Added review successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
     setReview("");
     setModalDisplay(false);
   }
@@ -287,7 +301,7 @@ function Games() {
         {console.log(videoId)}
         <Youtube videoId={videoId} />
       </Modal>
-      <h1>Games</h1>
+      <h1 className="game-title">Games</h1>
       <div className="games__body">
         <div className="games__container">
           <div className="row">

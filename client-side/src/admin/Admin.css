@@ -50,17 +50,21 @@
   font-size: 2rem;
 }
 
-.submit-button {
+.update-button {
   width: 45%;
-  margin: 5rem 0.5rem 0 5rem;
+  margin: 3rem !important;
 }
 
 .cancel-button {
   width: 45%;
-  margin: 5rem 3rem 0 0.5rem;
+  margin: 2rem !important;
 }
 
 .cancel-button:hover {
   background-color: #ff4f4f;
   color: white;
+}
+
+.edit-btn {
+  margin-right: 0.5rem !important;
 }
