@@ -5,7 +5,7 @@ import "./HorrorMovie2023.css";
 function HorrorMovie2023() {
   return (
     <div className="HorrorMovie2023">
-      <h1>Top Horror Movies of 2023</h1>
+      <h1 className="h1-title">Top Horror Movies of 2023</h1>
       <p>
         2023 has been a standout year for enthusiasts of horror, and based on
         the critiques on this platform, here are the top-rated horror movies
@@ -16,11 +16,14 @@ function HorrorMovie2023() {
       </p>
       <article>
         <section>
-          <h2> Talk to Me</h2>
-          <img
-            src="../imageshorrormovie/700TalkToMe.jpg"
-            alt="Movie Image #1"
-          />
+          <h2 className="h2-text"> Talk to Me</h2>
+          <div className="img-div">
+            <img
+              src="../imageshorrormovie/700TalkToMe.jpg"
+              className="img"
+              alt="Movie Image #1"
+            />
+          </div>
           <p>
             Plot Synopsis: Talk to Me, a group of friends discovers a chilling
             method to conjure spirits using an embalmed hand. As they get
@@ -93,7 +96,7 @@ function HorrorMovie2023() {
             Recommendation Score: [9 out of 10]
           </p>
         </section>
-
+        {/* 
         <section>
           <h2>Movie Title #2</h2>
           <img src="" alt="Movie Image #2" />
@@ -104,7 +107,7 @@ function HorrorMovie2023() {
           <h2>Movie Title #3</h2>
           <img src="" alt="Movie Image #3" />
           <p>Movie review content...</p>
-        </section>
+        </section> */}
       </article>
     </div>
   );
