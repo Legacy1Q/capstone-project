@@ -34,7 +34,7 @@ public Merch updateMerch(long id, Merch updatedMerch) {
     exsistingMerch.setName(updatedMerch.getName() == null ? exsistingMerch.getName() : updatedMerch.getName());
     exsistingMerch.setName(updatedMerch.getName() == null ? exsistingMerch.getName() : updatedMerch.getName());
     exsistingMerch.setPrice(updatedMerch.getPrice());
-    exsistingMerch.setImage(updatedMerch.getImage());
+    exsistingMerch.setImageFilename(updatedMerch.getImageFilename());
     exsistingMerch.setIsAddedToCart(updatedMerch.getIsAddedToCart());
     exsistingMerch.setQuantity(updatedMerch.getQuantity());
     exsistingMerch.setIsFavorite(updatedMerch.getIsFavorite());

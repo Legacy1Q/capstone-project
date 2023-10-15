@@ -42,7 +42,4 @@ public Game updateGame(long id, Game updatedGames) {
 public void deleteGame(long id) {
   this.gamesRepository.deleteById(id);
 }
-
-
-
 }

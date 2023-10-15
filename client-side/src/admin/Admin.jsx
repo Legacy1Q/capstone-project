@@ -9,6 +9,8 @@ function Admin() {
     description: "",
     imageFilename: "",
     trailerUrl: "",
+    name: "",
+    price: "",
   });
   const [editedDataId, setEditedDataId] = useState(null);
   const [editedData, setEditedData] = useState({
@@ -16,9 +18,11 @@ function Admin() {
     description: "",
     imageFilename: "",
     trailerUrl: "",
+    name: "",
+    price: "",
   });
   // const [selectedFile, setSelectedFile] = useState(null);
-  const options = ["Movie", "Tv", "Game"];
+  const options = ["Movie", "Tv", "Game", "Merch"];
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [displayForm, setDisplayForm] = useState("hide");
   const [displayDatas, setDisplayDatas] = useState("");
@@ -32,7 +36,9 @@ function Admin() {
     ? (endpoint = "movies")
     : selectedOption == "Tv"
     ? (endpoint = "tv")
-    : (endpoint = "games");
+    : selectedOption == "Game"
+    ? (endpoint = "games")
+    : (endpoint = "merch");
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -65,82 +71,105 @@ function Admin() {
     setData(data);
   }
 
+  const sweetAlert = (icon, title, timer) => {
+    Swal.fire({
+      position: "top-end",
+      icon: icon,
+      title: title,
+      showConfirmButton: true,
+      timer: timer,
+    });
+    return;
+  };
+
   async function addHandler(event) {
     event.preventDefault();
-    if (
-      !newData.trailerUrl ||
-      !newData.title ||
-      !newData.imageFilename ||
-      !newData.description
-    ) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Please fill in all fields!",
-        showConfirmButton: true,
-        timer: 15000,
-      });
-      return;
+    if (selectedOption != "Merch") {
+      if (
+        !newData.trailerUrl ||
+        !newData.title ||
+        !newData.imageFilename ||
+        !newData.description
+      ) {
+        sweetAlert("error", "Please fill in all fields!", 15000);
+      }
+    } else {
+      if (!newData.name || !newData.price || !newData.imageFilename) {
+        sweetAlert("error", "Please fill in all fields!", 15000);
+      }
     }
-
-    // const formData = new FormData();
-    // formData.append("file", selectedFile);
-    // formData.append("title", newData.title);
-    // formData.append("description", newData.description);
-
+    let formData;
+    if (selectedOption !== "Merch") {
+      formData = {
+        title: newData.title,
+        description: newData.description,
+        imageFilename: newData.imageFilename,
+        trailerUrl: newData.trailerUrl,
+      };
+    } else {
+      formData = {
+        name: newData.name,
+        price: newData.price,
+        imageFilename: newData.imageFilename,
+      };
+    }
     const response = await fetch("http://localhost:8080/add" + selectedOption, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-type": "application/json; charset=UTF-8",
       },
-      //   body: formData,
-      body: JSON.stringify({
-        title: newData.title,
-        description: newData.description,
-        imageFilename: newData.imageFilename,
-        trailerUrl: newData.trailerUrl,
-      }),
+      body: JSON.stringify(formData),
     });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Added successfully!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    sweetAlert("success", "Added successfully!", 1500);
     setData((prevDatas) => [...prevDatas, data]);
     setNewData({
       title: "",
       description: "",
       imageFilename: "",
       trailerUrl: "",
+      name: "",
+      price: "",
     });
-    // setSelectedFile(null);
     cancelHandler();
   }
 
   async function updateHandler(event) {
     event.preventDefault();
-    if (
-      !editedData.title ||
-      !editedData.description ||
-      !editedData.imageFilename ||
-      !editedData.trailerUrl
-    ) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Please fill in all fields!",
-        showConfirmButton: true,
-        timer: 15000,
-      });
-      return;
+    if (selectedOption != "Merch") {
+      if (
+        !newData.trailerUrl ||
+        !newData.title ||
+        !newData.imageFilename ||
+        !newData.description
+      ) {
+        sweetAlert("error", "Please fill in all fields!", 15000);
+      }
+    } else {
+      if (!newData.name || !newData.price || !newData.imageFilename) {
+        sweetAlert("error", "Please fill in all fields!", 15000);
+      }
+    }
+
+    let formData;
+    if (selectedOption != "Merch") {
+      formData = {
+        title: editedData.title,
+        description: editedData.description,
+        imageFilename: editedData.imageFilename,
+        trailerUrl: editedData.trailerUrl,
+      };
+    } else {
+      formData = {
+        name: editedData.name,
+        price: editedData.price,
+        imageFilename: editedData.imageFilename,
+      };
     }
 
     const response = await fetch(
@@ -152,10 +181,7 @@ function Admin() {
           "Content-type": "application/json; charset=UTF-8",
         },
         body: JSON.stringify({
-          title: editedData.title,
-          description: editedData.description,
-          imageFilename: editedData.imageFilename,
-          trailerUrl: editedData.trailerUrl,
+          formData,
         }),
       }
     );
@@ -165,13 +191,7 @@ function Admin() {
     }
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
     setDisplayCategories("option");
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Updated successfully!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    sweetAlert("success", "Updated successfully!", 1500);
     setDisplayDatas("");
     fetchDatas();
     setEditedDataId(null);
@@ -192,6 +212,9 @@ function Admin() {
       description: data.description,
       imageFilename: data.imageFilename,
       trailerUrl: data.trailerUrl,
+      name: data.name,
+      price: data.name,
+      isAddedToCart: data.isAddedToCart,
     });
     setDisplayAddButton("hide");
     setDisplayCategories("hide");
@@ -261,26 +284,34 @@ function Admin() {
             className="form-control form-control-md admin-form"
             placeholder="Title"
             id="floatingInput"
-            value={newData.title}
-            onInput={(e) => setNewData({ ...newData, title: e.target.value })}
+            value={selectedOption != "Merch" ? newData.title : newData.name}
+            onInput={(e) => {
+              selectedOption != "Merch"
+                ? setNewData({ ...newData, title: e.target.value })
+                : setNewData({ ...newData, name: e.target.value });
+            }}
           />
           <label htmlFor="floatingInput" className="admin-label">
-            Title
+            {selectedOption != "Merch" ? "Title" : "Name"}
           </label>
         </div>
         <div className="form-floating mb-3">
           <input
-            type="text"
+            type={selectedOption != "Merch" ? "text" : "number"}
             className="form-control form-control-md admin-form"
-            placeholder="Description"
+            placeholder={selectedOption != "Merch" ? "Description" : "Price"}
             id="floatingInput"
-            value={newData.description}
-            onInput={(e) =>
-              setNewData({ ...newData, description: e.target.value })
+            value={
+              selectedOption != "Merch" ? newData.description : newData.price
             }
+            onInput={(e) => {
+              selectedOption != "Merch"
+                ? setNewData({ ...newData, description: e.target.value })
+                : setNewData({ ...newData, price: e.target.value });
+            }}
           />
           <label htmlFor="floatingInput" className="admin-label">
-            Description
+            {selectedOption != "Merch" ? "Description" : "Price"}
           </label>
         </div>
         <div className="form-floating mb-3">
@@ -298,7 +329,13 @@ function Admin() {
             Image Url
           </label>
         </div>
-        <div className="form-floating mb-3">
+        <div
+          className={
+            selectedOption === "Merch"
+              ? "form-floating mb-3 hide"
+              : "form-floating mb-3"
+          }
+        >
           <input
             type="text"
             className="form-control form-control-md admin-form"
@@ -313,13 +350,6 @@ function Admin() {
             Trailer Url
           </label>
         </div>
-        {/* <div className="form-floating mb-3">
-          <input
-            type="file"
-            className="form-control form-control-md admin-form admin-file"
-            onChange={handleFileSelect}
-          />
-        </div> */}
         <button
           className="form-button button1 update-button"
           onClick={addHandler}
@@ -336,35 +366,47 @@ function Admin() {
 
       {editedDataId && (
         <div>
-          {/* <h2>Edit Data</h2> */}
           <div className="form-floating mb-3">
             <input
               type="text"
               className="form-control form-control-md admin-form"
-              placeholder="Title"
+              placeholder={selectedOption != "Merch" ? "Title" : "Name"}
               id="floatingInput"
-              value={editedData.title}
-              onChange={(e) =>
-                setEditedData({ ...editedData, title: e.target.value })
+              value={
+                selectedOption != "Merch" ? editedData.title : editedData.name
               }
+              onChange={(e) => {
+                selectedOption != "Merch"
+                  ? setEditedData({ ...editedData, title: e.target.value })
+                  : setEditedData({ ...editedData, name: e.target.value });
+              }}
             />
             <label htmlFor="floatingInput" className="admin-label">
-              Title
+              {selectedOption != "Merch" ? "Title" : "Name"}
             </label>
           </div>
           <div className="form-floating mb-3">
             <input
-              type="text"
+              type={selectedOption != "Merch" ? "text" : "number"}
               className="form-control form-control-md admin-form"
-              placeholder="Description"
+              placeholder={selectedOption != "Merch" ? "Description" : "Price"}
               id="floatingInput"
-              value={editedData.description}
-              onChange={(e) =>
-                setEditedData({ ...editedData, description: e.target.value })
+              value={
+                selectedOption != "Merch"
+                  ? editedData.description
+                  : editedData.price
               }
+              onChange={(e) => {
+                selectedOption != "Merch"
+                  ? setEditedData({
+                      ...editedData,
+                      description: e.target.value,
+                    })
+                  : setEditedData({ ...editedData, price: e.target.value });
+              }}
             />
             <label htmlFor="floatingInput" className="admin-label">
-              Desription
+              {selectedOption != "Merch" ? "Desription" : "Price"}
             </label>
           </div>
           <div className="form-floating mb-3">
@@ -382,7 +424,13 @@ function Admin() {
               Image Url
             </label>
           </div>
-          <div className="form-floating mb-3">
+          <div
+            className={
+              selectedOption == "Merch"
+                ? "form-floating mb-3 hide"
+                : "form-floating mb-3"
+            }
+          >
             <input
               type="text"
               className="form-control form-control-md admin-form"
@@ -415,17 +463,29 @@ function Admin() {
         <table className="table table-dark table-hover">
           <thead>
             <tr>
-              <th scope="col" className="col-2">
-                Title
+              <th
+                scope="col"
+                className={selectedOption !== "Merch" ? "col-2" : "col-4"}
+              >
+                {selectedOption != "Merch" ? "Title" : "Name"}
               </th>
-              <th scope="col" className="col-5">
-                Description
+              <th
+                scope="col"
+                className={selectedOption !== "Merch" ? "col-5" : "col-2"}
+              >
+                {selectedOption != "Merch" ? "Description" : "Price"}
               </th>
-              <th scope="col" className="col-2">
+              <th
+                scope="col"
+                className={selectedOption != "Merch" ? "col-2" : "col-5"}
+              >
                 Image Url
               </th>
-              <th scope="col" className="col-2">
-                Trailer Url
+              <th
+                scope="col"
+                className={selectedOption !== "Merch" ? "col-2" : ""}
+              >
+                {selectedOption !== "Merch" ? "Trailer Url" : ""}
               </th>
               <th scope="col" className="col-1">
                 Actions
@@ -437,10 +497,14 @@ function Admin() {
               .sort((a, b) => b.id - a.id)
               .map((item) => (
                 <tr key={item.id}>
-                  <td key={item.id}>{item.title}</td>
-                  <td>{item.description}</td>
+                  <td key={item.id}>
+                    {selectedOption != "Merch" ? item.title : item.name}
+                  </td>
+                  <td>
+                    {selectedOption != "Merch" ? item.description : item.price}
+                  </td>
                   <td>{item.imageFilename}</td>
-                  <td>{item.trailerUrl}</td>
+                  <td>{selectedOption != "Merch" ? item.trailerUrl : ""}</td>
                   <td>
                     <button
                       className="btn btn-primary btn-sm buttons edit-btn"

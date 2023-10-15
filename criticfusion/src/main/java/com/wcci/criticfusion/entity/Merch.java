@@ -15,7 +15,7 @@ public class Merch {
   private Long Id;
   private String name;
   private double price;
-  private String image;
+  private String imageFilename;
   private boolean isAddedToCart;
   private int quantity;
   private boolean isFavorite;
@@ -23,10 +23,10 @@ public class Merch {
   public Merch() {
   }
 
-  public Merch(String name, double price, String image, boolean isAddedToCart, int quality, boolean isFavorite) {
+  public Merch(String name, double price, String imageFilename, boolean isAddedToCart, int quality, boolean isFavorite) {
     this.name = name;
     this.price = price;
-    this.image = image;
+    this.imageFilename = imageFilename;
     this.isAddedToCart = isAddedToCart;
     this.quantity = quality;
     this.isFavorite = isFavorite;
@@ -57,12 +57,12 @@ public class Merch {
         this.price = price;
     }
 
-    public String getImage() {
-        return this.image;
+    public String getImageFilename() {
+        return this.imageFilename;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageFilename(String imageFilename) {
+        this.imageFilename = imageFilename;
     }
 
     public boolean isIsAddedToCart() {
