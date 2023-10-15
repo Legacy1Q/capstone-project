@@ -16,35 +16,34 @@ import com.wcci.criticfusion.service.TvService;
 
 @RestController
 
-public class TvController {
+public class TVController {
 
     @Autowired
 
     TvService tvService;
 
     @GetMapping("/tv")
-    public List<Tv> getAllTV() {
+    public List<Tv> getAllTv() {
         return tvService.findAllTV();
     }
 
     @GetMapping("/tv/{id}")
-    public Tv getTVById(@PathVariable long id) {
+  public Tv getTvById(@PathVariable long id) {
     return tvService.findTVById(id);
-    }
+  }
 
     @PostMapping("/addTv")
-    public Tv addTV(@RequestBody Tv tv) {
+    public Tv addTv(@RequestBody Tv tv) {
         return tvService.addTV(tv);
     }
 
     @PutMapping("/updateTv/{id}")
-    public Tv updateTV(@PathVariable long id, @RequestBody Tv tv) {
-        return this.tvService.updateTV(id, tv);
-    }
+  public Tv updateTv(@PathVariable long id, @RequestBody Tv tv) {
+    return this.tvService.updateTV(id, tv);
+  }
 
-    @DeleteMapping("/deleteTv/{id}")
-    public void removeTV(@PathVariable long id) {
-        tvService.deleteTV(id);
-    }
-
+  @DeleteMapping("/deleteTv/{id}")
+  public void deleteTv(@PathVariable long id) {
+    this.tvService.deleteTV(id);
+  }
 }

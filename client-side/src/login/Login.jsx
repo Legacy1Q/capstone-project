@@ -105,6 +105,7 @@ function Login() {
     });
     setAdminFullName("");
     setEmail("");
+    setHideRegister(true);
     setPassword("");
   }
 
