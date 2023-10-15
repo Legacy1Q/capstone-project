@@ -325,7 +325,7 @@ function Home() {
           ></button>
         </h2>
         <hr />
-        <h3 className="description-text">{selectedGame?.description}</h3>
+        <h3 className="description-text">{selectedMovie?.description}</h3>
         <hr />
         <div className={!modalDisplay ? "hide" : "form-floating mb-3"}>
           <input

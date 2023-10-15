@@ -127,7 +127,6 @@ function Admin() {
 
   async function updateHandler(event) {
     event.preventDefault();
-    console.log(editedData.imageFilename);
     if (
       !editedData.title ||
       !editedData.description ||
