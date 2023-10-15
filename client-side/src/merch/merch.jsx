@@ -9,6 +9,7 @@ function Merch() {
   const [favoriteStatus, setFavoriteStatus] = useState({});
   const [loading, setLoading] = useState(true);
   const [merch, setMerch] = useState([]);
+  const [quantity, setQuantity] = useState(Array(merch.length).fill(1));
 
   useEffect(() => {
     fetch("http://localhost:8080/merch")
@@ -23,6 +24,59 @@ function Merch() {
       });
   }, []);
 
+  async function addToCart(quantity, merchId) {
+    try {
+      const response = await fetch("http://localhost:8080/cart");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      const doesCartExist = data.filter(
+        (c) => c.admin.id === 1 && c.merch.id === merchId
+      );
+      if (doesCartExist.length === 0) {
+        const response = await fetch("http://localhost:8080/addCart", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify({
+            quantity: quantity,
+            merch: {
+              id: merchId,
+            },
+            admin: {
+              id: 1,
+            },
+          }),
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      } else {
+        const response = await fetch(
+          `http://localhost:8080/updateCart/${doesCartExist[0].id}`,
+          {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify({
+              quantity: doesCartExist[0].quantity + quantity,
+            }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+  }
+
   const handleFavoriteStatus = (id) => {
     const newIsFavorite = !favoriteStatus[id];
     setFavoriteStatus((prevFavoriteStatus) => ({
@@ -34,10 +88,11 @@ function Merch() {
   const handleAddToCart = (id, quantity, type) => {
     updateCart(cart + quantity);
     updateIsAddedToCart(id, quantity, type);
-    // setLocalQuantities((prevQuantities) => ({
-    //   ...prevQuantities,
-    //   [id]: 0,
-    // }));
+    setQuantity((prevQuantities) => {
+      const updatedQuantities = [...prevQuantities];
+      updatedQuantities[id - 1] = 1; // Reset the quantity to 1
+      return updatedQuantities;
+    });
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -80,14 +135,18 @@ function Merch() {
                           <div className="text-div">
                             <select
                               id={`quantity-${m.id}`}
-                              // value={localQuantities[m.id]}
-                              // onChange={(e) => {
-                              //   const newQuantity = parseInt(e.target.value, 10);
-                              //   setLocalQuantities((prevQuantities) => ({
-                              //     ...prevQuantities,
-                              //     [m.id]: newQuantity,
-                              //   }));
-                              // }}
+                              value={quantity[m.id - 1]}
+                              onChange={(e) => {
+                                const newQuantity = parseInt(
+                                  e.target.value,
+                                  10
+                                );
+                                setQuantity((prevQuantities) => {
+                                  const updatedQuantities = [...prevQuantities];
+                                  updatedQuantities[m.id - 1] = newQuantity; // Update the specific merch item's quantity
+                                  return updatedQuantities;
+                                });
+                              }}
                             >
                               {[
                                 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
@@ -103,9 +162,10 @@ function Merch() {
                               onClick={() => {
                                 handleAddToCart(
                                   m.id,
-                                  // localQuantities[m.id],
+                                  quantity[m.id - 1],
                                   "add"
                                 );
+                                addToCart(quantity[m.id - 1], m.id);
                               }}
                             >
                               Add to Cart

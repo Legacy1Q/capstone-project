@@ -29,8 +29,7 @@ public class CartService{
 
  public Cart updateCart (long id, Cart updatedDetails) {
   Cart existingCart = findCartById(id);
-  existingCart.setTitle(updatedDetails.getTitle() == null? existingCart.getTitle() : updatedDetails.getTitle());
-  existingCart.setDescription(updatedDetails.getDescription() == null? existingCart.getDescription() : updatedDetails.getDescription());
+  existingCart.setQuantity(updatedDetails.getQuantity());
   this.cartRepository.save(existingCart);
   return existingCart;
  }

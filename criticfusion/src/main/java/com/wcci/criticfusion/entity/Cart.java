@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GenerationType;
 
 @Entity
@@ -13,40 +14,50 @@ public class Cart {
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
   @GenericGenerator(name = "native", strategy = "native")
   private Long Id;
-  private String title;
-  private String description;
+  private int quantity;
+  @ManyToOne
+  private Admin admin;
+  @ManyToOne
+  private Merch merch;
+  
   
   public Cart() {
   }
 
-  public Cart(String title, String description) {
-    this.title = title;
-    this.description = description;
+  public Cart(int quantity) {
+    this.quantity = quantity;
   }
-
 
   public Long getId() {
-    return Id;
+    return this.Id;
   }
 
-  public void setId(Long id) {
-    this.Id = id;
+  public void setId(Long Id) {
+    this.Id = Id;
   }
 
-  public String getTitle() {
-    return title;
+  public int getQuantity() {
+    return this.quantity;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
   }
 
-  public String getDescription() {
-    return description;
+  public Admin getAdmin() {
+    return this.admin;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setAdmin(Admin admin) {
+    this.admin = admin;
+  }
+
+  public Merch getMerch() {
+    return this.merch;
+  }
+
+  public void setMerch(Merch merch) {
+    this.merch = merch;
   }
 
 }
