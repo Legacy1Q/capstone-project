@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MyContext } from "../MyContext";
 import "./Login.css";
 import Swal from "sweetalert2";
@@ -13,13 +13,13 @@ function Login() {
   const [adminFullName, setAdminFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const inputRef = useRef(null);
 
   async function loginHandler(event) {
     event.preventDefault();
     const response = await fetch("http://localhost:8080/login", {
       method: "POST",
       headers: {
-        // "X-Api-Key": "54/p8rt+p9QhgeN9G/Z5Sg==wrJ1tX7OT2EAdJcR",
         Accept: "application/json",
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -32,7 +32,6 @@ function Login() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log(data);
     if (data.message == "Login Success!") {
       navigate("/");
       handleEmailUpdate(email);
@@ -59,8 +58,28 @@ function Login() {
 
   async function registrationHandler(event) {
     event.preventDefault();
+    if (!adminFullName || !email || !password) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please input Full name, Email, and Password!",
+        showConfirmButton: true,
+        timer: 15000,
+      });
+      return;
+    }
     if (!emailHandler(email)) {
-      return console.log("Invalid Email!");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Invalid Email!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 1800);
+      return;
     }
     const response = await fetch("http://localhost:8080/addAdmin", {
       method: "POST",
@@ -95,6 +114,9 @@ function Login() {
 
   const clickHandler = () => {
     setHideRegister(!hideRegister);
+    setEmail("");
+    setPassword("");
+    setAdminFullName("");
   };
 
   function emailHandler(input) {
@@ -105,13 +127,6 @@ function Login() {
       setEmail(input);
       return true;
     }
-    Swal.fire({
-      position: "top-end",
-      icon: "error",
-      title: "Invalid Email!",
-      showConfirmButton: true,
-      timer: 15000,
-    });
     return false;
   }
 
@@ -190,11 +205,12 @@ function Login() {
                     <input
                       type="email"
                       className="form-control form-control-sm"
+                      ref={inputRef}
                       placeholder="Email"
                       id="floatingInput"
                       value={email}
                       onInput={(e) => setEmail(e.target.value)}
-                      onBlur={(e) => emailHandler(e.target.value)}
+                      // onBlur={(e) => emailHandler(e.target.value, false)}
                     />
                     <label htmlFor="floatingInput">Email</label>
                   </div>

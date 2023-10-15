@@ -298,7 +298,6 @@ function Games() {
             right: "10px", // Adjust right to position it from the right
           }}
         ></button>
-        {console.log(videoId)}
         <Youtube videoId={videoId} />
       </Modal>
       <h1 className="game-title">Games</h1>
