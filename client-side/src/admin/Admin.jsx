@@ -4,24 +4,21 @@ import "./Admin.css";
 
 function Admin() {
   const [data, setData] = useState([]);
-  const [newData, setNewData] = useState({
+  const defaultValues = {
     title: "",
     description: "",
     imageFilename: "",
     trailerUrl: "",
     name: "",
-    price: "",
+    price: 0,
+  };
+  const [newData, setNewData] = useState({
+    defaultValues,
   });
   const [editedDataId, setEditedDataId] = useState(null);
   const [editedData, setEditedData] = useState({
-    title: "",
-    description: "",
-    imageFilename: "",
-    trailerUrl: "",
-    name: "",
-    price: "",
+    defaultValues,
   });
-  // const [selectedFile, setSelectedFile] = useState(null);
   const options = ["Movie", "Tv", "Game", "Merch"];
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [displayForm, setDisplayForm] = useState("hide");
@@ -44,11 +41,6 @@ function Admin() {
     setSelectedOption(event.target.value);
   };
 
-  // const handleFileSelect = (e) => {
-  //   const file = e.target.files[0];
-  //   setSelectedFile(file);
-  // };
-
   const handleAddButtonClick = (event) => {
     event.preventDefault();
     setDisplayDatas("hide");
@@ -61,6 +53,7 @@ function Admin() {
     setDisplayDatas("");
     setDisplayForm("hide");
     setEditedDataId(null);
+    setNewData(defaultValues);
     setDisplayAddButton("btn btn-primary btn-lg float-end buttons");
     setDisplayCategories("option");
   };
@@ -79,7 +72,6 @@ function Admin() {
       showConfirmButton: true,
       timer: timer,
     });
-    return;
   };
 
   async function addHandler(event) {
@@ -92,10 +84,17 @@ function Admin() {
         !newData.description
       ) {
         sweetAlert("error", "Please fill in all fields!", 15000);
+        return;
       }
     } else {
-      if (!newData.name || !newData.price || !newData.imageFilename) {
+      if (
+        !newData.name ||
+        !newData.price ||
+        !newData.imageFilename ||
+        newData.price == 0
+      ) {
         sweetAlert("error", "Please fill in all fields!", 15000);
+        return;
       }
     }
     let formData;
@@ -134,25 +133,28 @@ function Admin() {
       imageFilename: "",
       trailerUrl: "",
       name: "",
-      price: "",
+      price: 0,
     });
     cancelHandler();
   }
 
   async function updateHandler(event) {
     event.preventDefault();
+    console.log(editedData.name, editedData.price, editedData.imageFilename);
     if (selectedOption != "Merch") {
       if (
-        !newData.trailerUrl ||
-        !newData.title ||
-        !newData.imageFilename ||
-        !newData.description
+        !editedData.trailerUrl ||
+        !editedData.title ||
+        !editedData.imageFilename ||
+        !editedData.description
       ) {
         sweetAlert("error", "Please fill in all fields!", 15000);
+        return;
       }
     } else {
-      if (!newData.name || !newData.price || !newData.imageFilename) {
+      if (!editedData.name || !editedData.price || !editedData.imageFilename) {
         sweetAlert("error", "Please fill in all fields!", 15000);
+        return;
       }
     }
 
@@ -180,9 +182,7 @@ function Admin() {
           Accept: "application/json",
           "Content-type": "application/json; charset=UTF-8",
         },
-        body: JSON.stringify({
-          formData,
-        }),
+        body: JSON.stringify(formData),
       }
     );
 
@@ -213,7 +213,7 @@ function Admin() {
       imageFilename: data.imageFilename,
       trailerUrl: data.trailerUrl,
       name: data.name,
-      price: data.name,
+      price: data.price,
       isAddedToCart: data.isAddedToCart,
     });
     setDisplayAddButton("hide");
