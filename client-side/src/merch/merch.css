@@ -22,10 +22,36 @@
   /* margin-top: 100px; */
 }
 
+.merch-card {
+  margin: 20px;
+  transition: transform 0.2s; /* Add a smooth hover effect */
+
+  .merch-poster-container {
+    position: relative;
+    overflow: hidden;
+    height: 500px;
+    /* width: 100px; */
+
+    &:hover {
+      transform: scale(1.1); /* Make the image bigger on hover */
+    }
+
+    .merch-poster {
+      max-width: 100%;
+      display: block;
+    }
+  }
+
+  .merch-title {
+    text-align: center;
+  }
+}
+
 .merch__container__1 img {
   max-width: 100%;
   height: auto;
   margin-bottom: 1rem;
+  cursor: pointer;
 }
 
 @media (min-width: 576px) {
