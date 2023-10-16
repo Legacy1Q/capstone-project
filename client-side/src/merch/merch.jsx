@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 function Merch() {
-  const { cart, updateCart, updateIsAddedToCart } = useContext(MyContext);
+  // const { cart, updateCart, updateIsAddedToCart } = useContext(MyContext);
 
   const [favoriteStatus, setFavoriteStatus] = useState({});
   const [loading, setLoading] = useState(true);
@@ -86,8 +86,8 @@ function Merch() {
   };
 
   const handleAddToCart = (id, quantity, type) => {
-    updateCart(cart + quantity);
-    updateIsAddedToCart(id, quantity, type);
+    // updateCart(cart + quantity);
+    // updateIsAddedToCart(id, quantity, type);
     setQuantity((prevQuantities) => {
       const updatedQuantities = [...prevQuantities];
       updatedQuantities[id - 1] = 1; // Reset the quantity to 1

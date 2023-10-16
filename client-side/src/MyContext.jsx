@@ -4,14 +4,14 @@ const MyContext = createContext();
 
 const MyProvider = ({ children }) => {
   const [adminEmail, setAdminEmail] = useState(null);
-  const [cart, setCart] = useState(0);
+  // const [cart, setCart] = useState(0);
   const updateAdminEmail = (updateValue) => {
     setAdminEmail(updateValue);
   };
 
-  const updateCart = (updateValue) => {
-    setCart(updateValue);
-  };
+  // const updateCart = (updateValue) => {
+  //   setCart(updateValue);
+  // };
 
   const [merch, setMerch] = useState([
     {
@@ -201,8 +201,8 @@ const MyProvider = ({ children }) => {
       value={{
         adminEmail,
         updateAdminEmail,
-        cart,
-        updateCart,
+        // cart,
+        // updateCart,
         merch,
         updateIsAddedToCart,
       }}

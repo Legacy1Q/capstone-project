@@ -1,19 +1,95 @@
 import Button from "react-bootstrap/Button";
 import "./Cart.css";
 import { Link } from "react-router-dom";
-import { MyContext } from "../MyContext";
-import { useContext, useState } from "react";
+import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 function Cart() {
-  const { cart, updateCart, merch, updateIsAddedToCart } =
-    useContext(MyContext);
-  const filteredMerch = merch.filter((item) => item.isAddedToCart === true);
-  const [localQuantities, setLocalQuantities] = useState(
-    filteredMerch.reduce((quantities, item) => {
-      quantities[item.id] = item.quantity;
-      return quantities;
-    }, {})
-  );
+  const [cart, setCart] = useState([]);
+
+  const handleQuantityChange = (itemId, newQuantity) => {
+    const updatedCart = cart.map((item) =>
+      item.id === itemId ? { ...item, quantity: newQuantity } : item
+    );
+    if (newQuantity === 0) {
+      const isConfirmed = removeFromCart(itemId);
+      if (!isConfirmed) {
+        return;
+      }
+    } else {
+      updateCart(itemId, newQuantity);
+    }
+    // const idToRemove = updatedCart.id;
+    const newCart = updatedCart.filter((item) => item.quantity > 0);
+    setCart(newCart);
+  };
+
+  async function updateCart(itemId, newQuantity) {
+    const response = await fetch(`http://localhost:8080/updateCart/${itemId}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        quantity: newQuantity,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  }
+
+  const removeFromCart = (itemId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const apiUrl = "http://localhost:8080/deleteCart" + "/" + itemId;
+        fetch(apiUrl, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+          })
+          .then(() => {
+            fetchCart();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+        Swal.fire("Removed!", "Item has been removed.", "success");
+      } else {
+        return false;
+      }
+    });
+  };
+
+  function fetchCart() {
+    fetch("http://localhost:8080/cart")
+      .then((response) => response.json())
+      .then((data) => {
+        setCart(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
 
   return (
     <div className="cart">
@@ -21,35 +97,23 @@ function Cart() {
       <div className="merch__body">
         <div className="merch__container">
           <div className="row">
-            {filteredMerch.map((item) => (
+            {cart.map((item) => (
               <div className="col-6 col-md-3" key={item.id}>
                 <div className="merch__container__1">
                   <div>
-                    <img src={item.image} alt="" />
-                    <p className="text-div">{item.name}</p>
-                    <p className="text-div">${item.price}</p>
+                    <img src={item.merch.imageFilename} alt="" />
+                    <p className="text-div">{item.merch.name}</p>
+                    <p className="text-div">
+                      Total: ${item.merch.price * item.quantity}
+                    </p>
                     <div className="text-div">
                       <select
                         id={`quantity-${item.id}`}
                         className="cart-select"
-                        value={localQuantities[item.id] || 0}
+                        value={item.quantity || 0}
                         onChange={(e) => {
-                          const newQuantity = parseInt(e.target.value, 10);
-                          const itemId = item.id;
-                          setLocalQuantities((prevQuantities) => ({
-                            ...prevQuantities,
-                            [itemId]: newQuantity,
-                          }));
-                          updateIsAddedToCart(itemId, newQuantity, "update");
-                          const totalQuantity = merch.reduce(
-                            (sum, merchItem) =>
-                              sum +
-                              (merchItem.id === itemId
-                                ? newQuantity
-                                : merchItem.quantity),
-                            0
-                          );
-                          updateCart(totalQuantity);
+                          const newQuantity = Number(e.target.value);
+                          handleQuantityChange(item.id, newQuantity);
                         }}
                       >
                         {[
@@ -68,7 +132,7 @@ function Cart() {
           </div>
         </div>
       </div>
-      <div className={cart === 0 ? "cart__container" : "hide"}>
+      <div className={cart.length === 0 ? "cart__container" : "hide"}>
         <h2>Your Cart is Empty</h2>
         <div className="cart__buttons">
           <Link to="/">
