@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import CircleIcon from "@mui/icons-material/Circle";
 import Youtube from "react-youtube";
 import { useContext } from "react";
 import { MyContext } from "../MyContext";
@@ -11,24 +10,36 @@ import Modal from "react-modal";
 import Swal from "sweetalert2";
 
 function Nav() {
-  const { adminEmail, updateAdminEmail, cart } = useContext(MyContext);
+  const { adminEmail, updateAdminEmail, cartTotal, fetchCartTotal } =
+    useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedData, setSearchData] = useState([]);
   const [editedDataId, setEditedDataId] = useState(null);
   const [movieTrailer, setMovieTrailer] = useState(null);
   const [isSearchedDataModalOpen, setIsSearchedDataModalOpen] = useState(false);
   const [isClickedDataModalOpen, setIsClickedDataModalOpen] = useState(false);
+  // const [cartTotal, setCartTotal] = useState(0);
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
   const apiKey = "e4ea514e7e06ce24e90f01250baf128d"; // Replace with your actual API key
-  // const navigate = useNavigate();
 
-  // const handleSearch = async () => {
-  //   if (searchQuery.toLowerCase() === "ahsoka") {
-  //     navigate(`/ahsoka`);
-  //   } else {
-  //     alert("Media not found");
-  //   }
-  // };
+  // function fetchCart() {
+  //   fetch("http://localhost:8080/cart")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const filteredData = data
+  //         .filter((c) => c.admin.id === 1)
+  //         .reduce((sum, item) => sum + item.quantity, 0);
+  //       console.log(filteredData);
+  //       setCartTotal(filteredData);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }
+
+  // useEffect(() => {
+  //   fetchCart();
+  // }, []);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -46,6 +57,7 @@ function Nav() {
       showConfirmButton: false,
       timer: 1500,
     });
+    fetchCartTotal();
   };
 
   const closeModal = () => {
@@ -388,7 +400,7 @@ function Nav() {
         <span>
           <Link to="/cart">
             <ShoppingBagIcon />
-            <p className="cart-count">{cart}</p>
+            <p className="cart-count">{cartTotal}</p>
           </Link>
         </span>
       </div>

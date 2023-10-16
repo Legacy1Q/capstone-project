@@ -1,10 +1,12 @@
 import Button from "react-bootstrap/Button";
 import "./Cart.css";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Swal from "sweetalert2";
+import { MyContext } from "../MyContext";
 
 function Cart() {
+  const { fetchCartTotal } = useContext(MyContext);
   const [cart, setCart] = useState([]);
 
   const handleQuantityChange = (itemId, newQuantity) => {
@@ -22,6 +24,7 @@ function Cart() {
     // const idToRemove = updatedCart.id;
     const newCart = updatedCart.filter((item) => item.quantity > 0);
     setCart(newCart);
+    fetchCartTotal();
   };
 
   async function updateCart(itemId, newQuantity) {
@@ -38,6 +41,7 @@ function Cart() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    fetchCartTotal();
   }
 
   const removeFromCart = (itemId) => {
@@ -65,6 +69,7 @@ function Cart() {
           })
           .then(() => {
             fetchCart();
+            fetchCartTotal();
           })
           .catch((error) => {
             console.error("Error:", error);
