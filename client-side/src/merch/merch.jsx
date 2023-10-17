@@ -100,7 +100,7 @@ function Merch() {
 
   const handleAddToCart = (id, qty) => {
     addToCart(qty, id);
-    // revertQuantityValue();
+    revertQuantityValue();
 
     fetchCartTotal();
     Swal.fire({
@@ -116,16 +116,6 @@ function Merch() {
     <div className="merch">
       <h1>Cinematic Loot & Game Swag: Shop Movie, TV, and Video Game Gear</h1>
       <div className="merch__body">
-        <button
-          className="add-to-cart-button float-end"
-          onClick={() => {
-            handleAddToCart();
-            // m.id,
-            // quantity[m.id] === 1 ? quantity[m.id] : quantity
-          }}
-        >
-          Add to Cart
-        </button>
         <div className="merch__container">
           {loading ? (
             <p>Loading...</p>
@@ -166,7 +156,19 @@ function Merch() {
                                 </option>
                               ))}
                             </select>
-
+                            <button
+                              className="add-to-cart-button float-end"
+                              onClick={() => {
+                                handleAddToCart(
+                                  m.id,
+                                  quantity[m.id] === 1
+                                    ? quantity[m.id]
+                                    : quantity
+                                );
+                              }}
+                            >
+                              Add to Cart
+                            </button>
                             <button
                               className="favorite-button"
                               onClick={() => {
