@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { MyContext } from "../MyContext";
 
 function Cart() {
-  const { fetchCartTotal } = useContext(MyContext);
+  const { currentUser, fetchCartTotal } = useContext(MyContext);
   const [cart, setCart] = useState([]);
 
   const handleQuantityChange = (itemId, newQuantity) => {
@@ -82,10 +82,16 @@ function Cart() {
   };
 
   function fetchCart() {
+    let userId;
+    if (currentUser === null) {
+      userId = 0;
+    } else {
+      userId = currentUser.id;
+    }
     fetch("http://localhost:8080/cart")
       .then((response) => response.json())
       .then((data) => {
-        setCart(data);
+        setCart(data.filter((x) => x.admin.id === userId));
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

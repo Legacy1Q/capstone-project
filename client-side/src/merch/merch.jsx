@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 function Merch() {
-  const { fetchCartTotal } = useContext(MyContext);
+  const { currentUser, fetchCartTotal } = useContext(MyContext);
 
   const [favoriteStatus, setFavoriteStatus] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,7 +44,7 @@ function Merch() {
       }
       const data = await response.json();
       const doesCartExist = data.filter(
-        (c) => c.admin.id === 1 && c.merch.id === merchId
+        (c) => c.admin.id === 100 && c.merch.id === merchId
       );
       if (doesCartExist.length === 0) {
         const response = await fetch("http://localhost:8080/addCart", {
