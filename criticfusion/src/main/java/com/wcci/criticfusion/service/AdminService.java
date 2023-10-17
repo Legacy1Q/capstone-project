@@ -31,6 +31,16 @@ public class AdminService implements AdminIService{
     return this.adminRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id is not found."));
   }
 
+  public boolean isExistingEmail(String email) {
+    List<Admin> existingDatas = getAllAdmin();
+    for(Admin admin : existingDatas) {
+        if(admin.getEmail().equals(email)) {
+            return true;
+        }
+    }
+    return false;
+  }
+
  public Admin updateAdmin (long id, AdminDto updatedAdminDto) {
   Admin existingAdmin = findAdminById(id);
   existingAdmin.setFullName(updatedAdminDto.getFullName() == null? existingAdmin.getFullName() : updatedAdminDto.getFullName());
@@ -45,14 +55,18 @@ public class AdminService implements AdminIService{
     }
 
     @Override
-    public String addAdmin(AdminDto adminDto) {
+    public LoginResponse addAdmin(AdminDto adminDto) {
+
+        if (isExistingEmail(adminDto.getEmail())) {
+            return new LoginResponse("Email is already used!", false);
+        }
         Admin admin = new Admin(
             adminDto.getFullName(),
             adminDto.getEmail(),
             this.passwordEncoder.encode(adminDto.getPassword())
             );
         adminRepository.save(admin);
-        return admin.getFullName();
+        return new LoginResponse("Registered", true);
     }
 
     @Override

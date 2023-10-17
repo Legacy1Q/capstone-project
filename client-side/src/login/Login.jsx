@@ -96,17 +96,31 @@ function Login() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Registered Successfully!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    setAdminFullName("");
-    setEmail("");
-    setHideRegister(true);
-    setPassword("");
+    const data = await response.json();
+    if (data.message === "Registered!") {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Registered Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setAdminFullName("");
+      setEmail("");
+      setHideRegister(true);
+      setPassword("");
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Email is already used!",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 3300);
+    }
   }
 
   const handleEmailUpdate = (email) => {

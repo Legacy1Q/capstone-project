@@ -43,9 +43,10 @@ public class AdminController {
         adminService.deleteAdmin(id);
     }
     @PostMapping("/addAdmin")
-    public AdminDto addAdmin(@RequestBody AdminDto adminDto) {
-        adminService.addAdmin(adminDto);
-        return adminDto;
+    public ResponseEntity<?> addAdmin(@RequestBody AdminDto adminDto) {
+        LoginResponse loginResponse = adminService.addAdmin(adminDto);
+        return ResponseEntity.ok(loginResponse);
+        // return adminDto;
     }
 
     @PostMapping("/login")
