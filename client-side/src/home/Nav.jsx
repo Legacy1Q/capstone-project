@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 import SearchIcon from "@mui/icons-material/Search";
@@ -18,24 +18,8 @@ function Nav() {
   const [movieTrailer, setMovieTrailer] = useState(null);
   const [isSearchedDataModalOpen, setIsSearchedDataModalOpen] = useState(false);
   const [isClickedDataModalOpen, setIsClickedDataModalOpen] = useState(false);
-  // const [cartTotal, setCartTotal] = useState(0);
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
   const apiKey = "e4ea514e7e06ce24e90f01250baf128d"; // Replace with your actual API key
-
-  // function fetchCart() {
-  //   fetch("http://localhost:8080/cart")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       const filteredData = data
-  //         .filter((c) => c.admin.id === 1)
-  //         .reduce((sum, item) => sum + item.quantity, 0);
-  //       console.log(filteredData);
-  //       setCartTotal(filteredData);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // }
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -65,14 +49,12 @@ function Nav() {
   const trailerClickHandler = () => {
     setIsTrailerModalOpen(true);
     setIsSearchedDataModalOpen(false);
-    // setIsClickedDataModalOpen(false);
   };
 
   function imageClickHandler(id) {
     setEditedDataId(id);
     setIsClickedDataModalOpen(true);
     fetchMovieTrailer(id);
-    // setIsSearchedDataModalOpen(false);
   }
 
   const clickedDataBackBtnHandler = () => {
@@ -169,7 +151,6 @@ function Nav() {
             margin: "auto",
             height: "90%",
             overflow: "hidden",
-            // zIndex: 10,
           },
         }}
       >
@@ -208,7 +189,6 @@ function Nav() {
             className="data-div"
           >
             <div style={{ flex: 2, marginBottom: "20px" }}>
-              {/* <h2 className="overview-text">Overview</h2> */}
               <h3>
                 {
                   searchedData.find((item) => item.id === editedDataId)
@@ -247,7 +227,6 @@ function Nav() {
                 }
               </p>
               <div>
-                {/* Click button to view trailer:{" "} */}
                 <button
                   className="btn btn-primary nav-button"
                   style={{
@@ -392,11 +371,11 @@ function Nav() {
         >
           Logout
         </button>
-        {/* <CircleIcon className="circle_icon" /> */}
         <span>
           <Link to="/cart">
             <ShoppingBagIcon />
             <p className="cart-count">{cartTotal}</p>
+            {fetchCartTotal()}
           </Link>
         </span>
       </div>

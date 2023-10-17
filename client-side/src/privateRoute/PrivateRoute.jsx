@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { MyContext } from "../MyContext";
 
 const PrivateRoutes = () => {
-  const { adminEmail } = useContext(MyContext);
-  return adminEmail ? <Outlet /> : <Navigate to="/login" />;
+  const { currentUser } = useContext(MyContext);
+  return currentUser ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoutes;

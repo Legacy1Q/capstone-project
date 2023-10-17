@@ -37,6 +37,8 @@ function Merch() {
   }, [merch]);
 
   async function addToCart(quantity, merchId) {
+    let userId;
+    currentUser === null ? (userId = 0) : (userId = currentUser.id);
     try {
       const response = await fetch("http://localhost:8080/cart");
       if (!response.ok) {
@@ -44,7 +46,7 @@ function Merch() {
       }
       const data = await response.json();
       const doesCartExist = data.filter(
-        (c) => c.admin.id === 100 && c.merch.id === merchId
+        (c) => c.admin.id === userId && c.merch.id === merchId
       );
       if (doesCartExist.length === 0) {
         const response = await fetch("http://localhost:8080/addCart", {

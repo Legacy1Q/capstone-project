@@ -7,17 +7,20 @@ const MyProvider = ({ children }) => {
   const [cartTotal, setCartTotal] = useState(0);
   const updateCurrentUser = (updateValue) => {
     setCurrentUser(updateValue);
+    fetchCartTotal();
   };
 
   // const updateCart = (updateValue) => {
   //   setCart(updateValue);
   // };
   function fetchCartTotal() {
+    let userId;
+    currentUser === null ? (userId = 0) : (userId = currentUser.id);
     fetch("http://localhost:8080/cart")
       .then((response) => response.json())
       .then((data) => {
         const filteredData = data
-          .filter((c) => c.admin.id === 1)
+          .filter((c) => c.admin.id === userId)
           .reduce((sum, item) => sum + item.quantity, 0);
         setCartTotal(filteredData);
       })
@@ -26,9 +29,9 @@ const MyProvider = ({ children }) => {
       });
   }
 
-  useEffect(() => {
-    fetchCartTotal();
-  }, []);
+  // useEffect(() => {
+  //   fetchCartTotal();
+  // }, []);
 
   const [merch, setMerch] = useState([
     {
