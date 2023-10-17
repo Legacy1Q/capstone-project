@@ -140,7 +140,6 @@ function Admin() {
 
   async function updateHandler(event) {
     event.preventDefault();
-    console.log(editedData.name, editedData.price, editedData.imageFilename);
     if (selectedOption != "Merch") {
       if (
         !editedData.trailerUrl ||

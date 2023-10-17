@@ -4,11 +4,12 @@ import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 function Merch() {
-  const { cart, updateCart, updateIsAddedToCart } = useContext(MyContext);
+  const { fetchCartTotal } = useContext(MyContext);
 
-  const [favoriteStatus, setFavoriteStatus] = useState({});
+  const [favoriteStatus, setFavoriteStatus] = useState([]);
   const [loading, setLoading] = useState(true);
   const [merch, setMerch] = useState([]);
+  const [quantity, setQuantity] = useState({});
 
   useEffect(() => {
     fetch("http://localhost:8080/merch")
@@ -23,6 +24,72 @@ function Merch() {
       });
   }, []);
 
+  function revertQuantityValue() {
+    const initialQuantities = merch.reduce((quantities, item) => {
+      quantities[item.id] = 1;
+      return quantities;
+    }, {});
+    setQuantity(initialQuantities);
+  }
+
+  useEffect(() => {
+    revertQuantityValue();
+  }, [merch]);
+
+  async function addToCart(quantity, merchId) {
+    try {
+      const response = await fetch("http://localhost:8080/cart");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      const doesCartExist = data.filter(
+        (c) => c.admin.id === 1 && c.merch.id === merchId
+      );
+      if (doesCartExist.length === 0) {
+        const response = await fetch("http://localhost:8080/addCart", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify({
+            quantity: quantity,
+            merch: {
+              id: merchId,
+            },
+            admin: {
+              id: 1,
+            },
+          }),
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      } else {
+        const response = await fetch(
+          `http://localhost:8080/updateCart/${doesCartExist[0].id}`,
+          {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify({
+              quantity: doesCartExist[0].quantity + quantity,
+            }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+    fetchCartTotal();
+  }
+
   const handleFavoriteStatus = (id) => {
     const newIsFavorite = !favoriteStatus[id];
     setFavoriteStatus((prevFavoriteStatus) => ({
@@ -31,13 +98,11 @@ function Merch() {
     }));
   };
 
-  const handleAddToCart = (id, quantity, type) => {
-    updateCart(cart + quantity);
-    updateIsAddedToCart(id, quantity, type);
-    // setLocalQuantities((prevQuantities) => ({
-    //   ...prevQuantities,
-    //   [id]: 0,
-    // }));
+  const handleAddToCart = (id, qty) => {
+    addToCart(qty, id);
+    revertQuantityValue();
+
+    fetchCartTotal();
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -46,13 +111,6 @@ function Merch() {
       timer: 1500,
     });
   };
-
-  // const [localQuantities, setLocalQuantities] = useState(
-  //   merch.reduce((quantities, item) => {
-  //     quantities[item.id] = 1;
-  //     return quantities;
-  //   }, {})
-  // );
 
   return (
     <div className="merch">
@@ -80,14 +138,14 @@ function Merch() {
                           <div className="text-div">
                             <select
                               id={`quantity-${m.id}`}
-                              // value={localQuantities[m.id]}
-                              // onChange={(e) => {
-                              //   const newQuantity = parseInt(e.target.value, 10);
-                              //   setLocalQuantities((prevQuantities) => ({
-                              //     ...prevQuantities,
-                              //     [m.id]: newQuantity,
-                              //   }));
-                              // }}
+                              value={quantity[m.id]}
+                              onChange={(e) => {
+                                const newQuantity = parseInt(
+                                  e.target.value,
+                                  10
+                                );
+                                setQuantity(newQuantity);
+                              }}
                             >
                               {[
                                 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
@@ -99,12 +157,13 @@ function Merch() {
                               ))}
                             </select>
                             <button
-                              className="add-to-cart-button"
+                              className="add-to-cart-button float-end"
                               onClick={() => {
                                 handleAddToCart(
                                   m.id,
-                                  // localQuantities[m.id],
-                                  "add"
+                                  quantity[m.id] === 1
+                                    ? quantity[m.id]
+                                    : quantity
                                 );
                               }}
                             >

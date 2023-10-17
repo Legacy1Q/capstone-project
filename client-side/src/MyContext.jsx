@@ -1,17 +1,34 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 const MyContext = createContext();
 
 const MyProvider = ({ children }) => {
   const [adminEmail, setAdminEmail] = useState(null);
-  const [cart, setCart] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
   const updateAdminEmail = (updateValue) => {
     setAdminEmail(updateValue);
   };
 
-  const updateCart = (updateValue) => {
-    setCart(updateValue);
-  };
+  // const updateCart = (updateValue) => {
+  //   setCart(updateValue);
+  // };
+  function fetchCartTotal() {
+    fetch("http://localhost:8080/cart")
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredData = data
+          .filter((c) => c.admin.id === 1)
+          .reduce((sum, item) => sum + item.quantity, 0);
+        setCartTotal(filteredData);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
+
+  useEffect(() => {
+    fetchCartTotal();
+  }, []);
 
   const [merch, setMerch] = useState([
     {
@@ -201,8 +218,8 @@ const MyProvider = ({ children }) => {
       value={{
         adminEmail,
         updateAdminEmail,
-        cart,
-        updateCart,
+        cartTotal,
+        fetchCartTotal,
         merch,
         updateIsAddedToCart,
       }}
