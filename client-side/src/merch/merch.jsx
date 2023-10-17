@@ -61,7 +61,7 @@ function Merch() {
               id: merchId,
             },
             admin: {
-              id: 1,
+              id: userId,
             },
           }),
         });
