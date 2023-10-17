@@ -3,10 +3,10 @@ import { createContext, useEffect, useState } from "react";
 const MyContext = createContext();
 
 const MyProvider = ({ children }) => {
-  const [adminEmail, setAdminEmail] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [cartTotal, setCartTotal] = useState(0);
-  const updateAdminEmail = (updateValue) => {
-    setAdminEmail(updateValue);
+  const updateCurrentUser = (updateValue) => {
+    setCurrentUser(updateValue);
   };
 
   // const updateCart = (updateValue) => {
@@ -216,8 +216,8 @@ const MyProvider = ({ children }) => {
   return (
     <MyContext.Provider
       value={{
-        adminEmail,
-        updateAdminEmail,
+        currentUser,
+        updateCurrentUser,
         cartTotal,
         fetchCartTotal,
         merch,

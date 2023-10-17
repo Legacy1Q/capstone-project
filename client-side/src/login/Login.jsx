@@ -6,7 +6,7 @@ import "./Login.css";
 import Swal from "sweetalert2";
 
 function Login() {
-  const { updateAdminEmail } = useContext(MyContext);
+  const { updateCurrentUser } = useContext(MyContext);
   const navigate = useNavigate();
   const [hideRegister, setHideRegister] = useState(true);
 
@@ -34,7 +34,7 @@ function Login() {
     const data = await response.json();
     if (data.message == "Login Success!") {
       navigate("/");
-      handleEmailUpdate(email);
+      handleCurrentUser(email);
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -123,8 +123,13 @@ function Login() {
     }
   }
 
-  const handleEmailUpdate = (email) => {
-    updateAdminEmail(email);
+  const handleCurrentUser = (email) => {
+    fetch("http://localhost:8080/admins")
+      .then((response) => response.json())
+      .then((data) => {
+        updateCurrentUser(...data.filter((x) => x.email === email));
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   };
 
   const clickHandler = () => {

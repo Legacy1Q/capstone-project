@@ -10,7 +10,7 @@ import Modal from "react-modal";
 import Swal from "sweetalert2";
 
 function Nav() {
-  const { adminEmail, updateAdminEmail, cartTotal, fetchCartTotal } =
+  const { currentUser, updateCurrentUser, cartTotal, fetchCartTotal } =
     useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedData, setSearchData] = useState([]);
@@ -37,10 +37,6 @@ function Nav() {
   //     });
   // }
 
-  // useEffect(() => {
-  //   fetchCart();
-  // }, []);
-
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       fetchSearchedData();
@@ -49,7 +45,7 @@ function Nav() {
   };
 
   const LogoutHandler = () => {
-    updateAdminEmail("");
+    updateCurrentUser(null);
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -380,18 +376,18 @@ function Nav() {
         <Link to="/games">Games</Link>
         <Link to="/collection/MovieShelfCollections">Collections</Link>
         <Link to="/merch">Merch</Link>
-        {adminEmail && <Link to="/admin">Admin</Link>}
+        {currentUser && <Link to="/admin">Admin</Link>}
       </div>
 
       {/* Additional Links */}
       <div className="nav__login">
-        {adminEmail ? (
-          <p className="user">{adminEmail}</p>
+        {currentUser ? (
+          <p className="user">{currentUser?.fullName}</p>
         ) : (
           <Link to="/login">Login</Link>
         )}
         <button
-          className={adminEmail ? "logout-btn nav-button" : "hide"}
+          className={currentUser ? "logout-btn nav-button" : "hide"}
           onClick={LogoutHandler}
         >
           Logout
