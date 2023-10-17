@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 function Merch() {
-  const { fetchCartTotal } = useContext(MyContext);
+  const { currentUser, fetchCartTotal } = useContext(MyContext);
 
   const [favoriteStatus, setFavoriteStatus] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,6 +37,8 @@ function Merch() {
   }, [merch]);
 
   async function addToCart(quantity, merchId) {
+    let userId;
+    currentUser === null ? (userId = 0) : (userId = currentUser.id);
     try {
       const response = await fetch("http://localhost:8080/cart");
       if (!response.ok) {
@@ -44,7 +46,7 @@ function Merch() {
       }
       const data = await response.json();
       const doesCartExist = data.filter(
-        (c) => c.admin.id === 1 && c.merch.id === merchId
+        (c) => c.admin.id === userId && c.merch.id === merchId
       );
       if (doesCartExist.length === 0) {
         const response = await fetch("http://localhost:8080/addCart", {
@@ -59,7 +61,7 @@ function Merch() {
               id: merchId,
             },
             admin: {
-              id: 1,
+              id: userId,
             },
           }),
         });

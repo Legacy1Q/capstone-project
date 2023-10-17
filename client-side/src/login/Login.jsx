@@ -6,7 +6,7 @@ import "./Login.css";
 import Swal from "sweetalert2";
 
 function Login() {
-  const { updateAdminEmail } = useContext(MyContext);
+  const { updateCurrentUser } = useContext(MyContext);
   const navigate = useNavigate();
   const [hideRegister, setHideRegister] = useState(true);
 
@@ -34,7 +34,7 @@ function Login() {
     const data = await response.json();
     if (data.message == "Login Success!") {
       navigate("/");
-      handleEmailUpdate(email);
+      handleCurrentUser(email);
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -96,21 +96,40 @@ function Login() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Registered Successfully!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    setAdminFullName("");
-    setEmail("");
-    setHideRegister(true);
-    setPassword("");
+    const data = await response.json();
+    if (data.message === "Registered!") {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Registered Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setAdminFullName("");
+      setEmail("");
+      setHideRegister(true);
+      setPassword("");
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Email is already used!",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 3300);
+    }
   }
 
-  const handleEmailUpdate = (email) => {
-    updateAdminEmail(email);
+  const handleCurrentUser = (email) => {
+    fetch("http://localhost:8080/admins")
+      .then((response) => response.json())
+      .then((data) => {
+        updateCurrentUser(...data.filter((x) => x.email === email));
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   };
 
   const clickHandler = () => {

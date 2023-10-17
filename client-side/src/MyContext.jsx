@@ -3,21 +3,24 @@ import { createContext, useEffect, useState } from "react";
 const MyContext = createContext();
 
 const MyProvider = ({ children }) => {
-  const [adminEmail, setAdminEmail] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [cartTotal, setCartTotal] = useState(0);
-  const updateAdminEmail = (updateValue) => {
-    setAdminEmail(updateValue);
+  const updateCurrentUser = (updateValue) => {
+    setCurrentUser(updateValue);
+    fetchCartTotal();
   };
 
   // const updateCart = (updateValue) => {
   //   setCart(updateValue);
   // };
   function fetchCartTotal() {
+    let userId;
+    currentUser === null ? (userId = 0) : (userId = currentUser.id);
     fetch("http://localhost:8080/cart")
       .then((response) => response.json())
       .then((data) => {
         const filteredData = data
-          .filter((c) => c.admin.id === 1)
+          .filter((c) => c.admin.id === userId)
           .reduce((sum, item) => sum + item.quantity, 0);
         setCartTotal(filteredData);
       })
@@ -26,9 +29,9 @@ const MyProvider = ({ children }) => {
       });
   }
 
-  useEffect(() => {
-    fetchCartTotal();
-  }, []);
+  // useEffect(() => {
+  //   fetchCartTotal();
+  // }, []);
 
   const [merch, setMerch] = useState([
     {
@@ -216,8 +219,8 @@ const MyProvider = ({ children }) => {
   return (
     <MyContext.Provider
       value={{
-        adminEmail,
-        updateAdminEmail,
+        currentUser,
+        updateCurrentUser,
         cartTotal,
         fetchCartTotal,
         merch,
