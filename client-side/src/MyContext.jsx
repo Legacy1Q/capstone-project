@@ -5,6 +5,7 @@ const MyContext = createContext();
 const MyProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [cartTotal, setCartTotal] = useState(0);
+  const [guestCart, setGuestCart] = useState([{}]);
   const updateCurrentUser = (updateValue) => {
     setCurrentUser(updateValue);
     fetchCartTotal();
@@ -16,6 +17,9 @@ const MyProvider = ({ children }) => {
   function fetchCartTotal() {
     let userId;
     currentUser === null ? (userId = 0) : (userId = currentUser.id);
+    if (userId === 0) {
+      return;
+    }
     fetch("http://localhost:8080/cart")
       .then((response) => response.json())
       .then((data) => {
@@ -27,6 +31,12 @@ const MyProvider = ({ children }) => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+  }
+
+  function updateGuestCart(quantity, merchId) {
+    setGuestCart({ quantity: quantity, merchId: merchId });
+
+    // console.log(guestCart);
   }
 
   // useEffect(() => {
@@ -225,6 +235,8 @@ const MyProvider = ({ children }) => {
         fetchCartTotal,
         merch,
         updateIsAddedToCart,
+        guestCart,
+        updateGuestCart,
       }}
     >
       {children}

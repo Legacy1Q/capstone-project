@@ -27,7 +27,7 @@
 }
 
 .cart__buttons Button {
-  margin-right: 20px; /* Adjust this value to add space between buttons */
+  margin-right: 20px !important; /* Adjust this value to add space between buttons */
 }
 
 .cart-select {

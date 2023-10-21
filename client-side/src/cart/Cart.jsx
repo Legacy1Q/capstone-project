@@ -84,6 +84,9 @@ function Cart() {
   function fetchCart() {
     let userId;
     currentUser === null ? (userId = 0) : (userId = currentUser.id);
+    if (userId === 0) {
+      return;
+    }
     fetch("http://localhost:8080/cart")
       .then((response) => response.json())
       .then((data) => {
