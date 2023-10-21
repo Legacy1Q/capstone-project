@@ -1,10 +1,13 @@
 import "./Merch.css";
 import { MyContext } from "../MyContext";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function Merch() {
-  const { currentUser, fetchCartTotal } = useContext(MyContext);
+  const { currentUser, fetchCartTotal, guestCart, updateGuestCart } =
+    useContext(MyContext);
+  const navigate = useNavigate();
 
   const [favoriteStatus, setFavoriteStatus] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,60 +39,92 @@ function Merch() {
     revertQuantityValue();
   }, [merch]);
 
+  const isItemExisting = (merchId) => {
+    const filteredCart = guestCart.filter((x) => x.id === merchId);
+    return filteredCart.length > 0;
+  };
+
   async function addToCart(quantity, merchId) {
-    let userId;
-    currentUser === null ? (userId = 0) : (userId = currentUser.id);
-    try {
-      const response = await fetch("http://localhost:8080/cart");
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      const doesCartExist = data.filter(
-        (c) => c.admin.id === userId && c.merch.id === merchId
-      );
-      if (doesCartExist.length === 0) {
-        const response = await fetch("http://localhost:8080/addCart", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify({
-            quantity: quantity,
-            merch: {
-              id: merchId,
-            },
-            admin: {
-              id: userId,
-            },
-          }),
-        });
+    const userId = currentUser ? currentUser.id : null;
+    if (userId !== null) {
+      try {
+        const response = await fetch("http://localhost:8080/cart");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-      } else {
-        const response = await fetch(
-          `http://localhost:8080/updateCart/${doesCartExist[0].id}`,
-          {
-            method: "PUT",
+        const data = await response.json();
+        const doesCartExist = data.filter(
+          (c) => c.admin.id === userId && c.merch.id === merchId
+        );
+        if (doesCartExist.length === 0) {
+          const response = await fetch("http://localhost:8080/addCart", {
+            method: "POST",
             headers: {
               Accept: "application/json",
               "Content-type": "application/json; charset=UTF-8",
             },
             body: JSON.stringify({
-              quantity: doesCartExist[0].quantity + quantity,
+              quantity: quantity,
+              merch: {
+                id: merchId,
+              },
+              admin: {
+                id: userId,
+              },
             }),
+          });
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
-        );
+        } else {
+          const response = await fetch(
+            `http://localhost:8080/updateCart/${doesCartExist[0].id}`,
+            {
+              method: "PUT",
+              headers: {
+                Accept: "application/json",
+                "Content-type": "application/json; charset=UTF-8",
+              },
+              body: JSON.stringify({
+                quantity: doesCartExist[0].quantity + quantity,
+              }),
+            }
+          );
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+      fetchCartTotal();
+    } else {
+      try {
+        const response = await fetch(`http://localhost:8080/merch/${merchId}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        if (!isItemExisting(merchId)) {
+          const newItem = { data };
+          updateGuestCart(quantity, [...guestCart, newItem]);
+          // console.log(guestCart);
+        } else {
+          const updatedCart = guestCart.map((item) =>
+            item.id === data.id
+              ? { ...item, quantity: item.quantity + quantity }
+              : item
+          );
+          updateGuestCart(quantity, updatedCart);
+          // console.log(guestCart);
+        }
+        // if (!response.ok) {
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching cart data:", error);
     }
-    fetchCartTotal();
   }
 
   const handleFavoriteStatus = (id) => {
@@ -101,6 +136,16 @@ function Merch() {
   };
 
   const handleAddToCart = (id, qty) => {
+    if (currentUser === null) {
+      Swal.fire({
+        position: "top-end",
+        icon: "warning",
+        title: "Please login first!",
+        showConfirmButton: true,
+        timer: 15000,
+      });
+      return navigate("/login");
+    }
     addToCart(qty, id);
     revertQuantityValue();
 
