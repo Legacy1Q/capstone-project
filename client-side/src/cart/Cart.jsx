@@ -90,7 +90,7 @@ function Cart() {
     fetch("http://localhost:8080/cart")
       .then((response) => response.json())
       .then((data) => {
-        setCart(data.filter((x) => x.admin.id === userId));
+        setCart(data.filter((x) => x.admin?.id === userId));
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

@@ -24,7 +24,7 @@ const MyProvider = ({ children }) => {
       .then((response) => response.json())
       .then((data) => {
         const filteredData = data
-          .filter((c) => c.admin.id === userId)
+          .filter((c) => c.admin?.id === userId)
           .reduce((sum, item) => sum + item.quantity, 0);
         setCartTotal(filteredData);
       })

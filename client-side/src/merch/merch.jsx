@@ -54,7 +54,7 @@ function Merch() {
         }
         const data = await response.json();
         const doesCartExist = data.filter(
-          (c) => c.admin.id === userId && c.merch.id === merchId
+          (c) => c.admin?.id === userId && c.merch?.id === merchId
         );
         if (doesCartExist.length === 0) {
           const response = await fetch("http://localhost:8080/addCart", {
