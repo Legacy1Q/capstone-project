@@ -32,14 +32,14 @@ const MyProvider = ({ children }) => {
   }
 
   function updateGuestCart(quantity, merch, isFromCart) {
+    const merchId = isFromCart ? merch.merch.id : merch.id;
     const filteredCart = guestCart
-      ? guestCart.filter((x) => x.id === merch.id)
+      ? guestCart.filter((x) => x.merch.id === merchId)
       : [];
-
     if (filteredCart.length > 0) {
       // The item is already in the guestCart
       const updatedCart = guestCart.map((item) => {
-        if (item.id === merch.id) {
+        if (item.merch.id === merchId) {
           return {
             ...item,
             quantity: isFromCart ? quantity : item.quantity + quantity,
@@ -50,7 +50,6 @@ const MyProvider = ({ children }) => {
       setGuestCart(updatedCart);
     } else {
       setGuestCart([...guestCart, { quantity: quantity, merch: { ...merch } }]);
-      // setGuestCart([...guestCart, { ...merch, quantity }]);
     }
   }
 

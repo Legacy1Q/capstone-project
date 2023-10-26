@@ -1,13 +1,11 @@
 import "./Merch.css";
 import { MyContext } from "../MyContext";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function Merch() {
   const { currentUser, fetchCartTotal, guestCart, updateGuestCart } =
     useContext(MyContext);
-  const navigate = useNavigate();
 
   const [favoriteStatus, setFavoriteStatus] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -100,9 +98,7 @@ function Merch() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
         updateGuestCart(quantity, data, false);
-        console.log(guestCart);
       } catch (error) {
         console.error("Error fetching cart data:", error);
       }
@@ -118,16 +114,6 @@ function Merch() {
   };
 
   const handleAddToCart = (id, qty) => {
-    // if (currentUser === null) {
-    //   Swal.fire({
-    //     position: "top-end",
-    //     icon: "warning",
-    //     title: "Please login first!",
-    //     showConfirmButton: true,
-    //     timer: 15000,
-    //   });
-    //   return navigate("/login");
-    // }
     addToCart(qty, id);
     revertQuantityValue();
 
