@@ -53,6 +53,11 @@ const MyProvider = ({ children }) => {
     }
   }
 
+  function removeGuestCart(merchId) {
+    const newGuestCart = guestCart.filter((x) => x.id !== merchId);
+    setGuestCart(newGuestCart);
+  }
+
   const updateIsAddedToCart = (id, quantity, type) => {
     const updatedMerch = [...merch];
     const itemIndex = id - 1;
@@ -92,6 +97,7 @@ const MyProvider = ({ children }) => {
         updateIsAddedToCart,
         guestCart,
         updateGuestCart,
+        removeGuestCart,
       }}
     >
       {children}

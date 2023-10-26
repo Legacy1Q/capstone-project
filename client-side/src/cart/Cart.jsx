@@ -6,8 +6,13 @@ import Swal from "sweetalert2";
 import { MyContext } from "../MyContext";
 
 function Cart() {
-  const { currentUser, fetchCartTotal, guestCart, updateGuestCart } =
-    useContext(MyContext);
+  const {
+    currentUser,
+    fetchCartTotal,
+    guestCart,
+    updateGuestCart,
+    removeGuestCart,
+  } = useContext(MyContext);
   const [cart, setCart] = useState([]);
 
   const handleQuantityChange = (merch, newQuantity) => {
@@ -63,25 +68,30 @@ function Cart() {
       confirmButtonText: "Yes, remove it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrl = "http://localhost:8080/deleteCart" + "/" + itemId;
-        fetch(apiUrl, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
+        if (currentUser) {
+          const apiUrl = "http://localhost:8080/deleteCart" + "/" + itemId;
+          fetch(apiUrl, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
           })
-          .then(() => {
-            fetchCart();
-            fetchCartTotal();
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+            })
+            .then(() => {
+              fetchCart();
+              fetchCartTotal();
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+          // Swal.fire("Removed!", "Item has been removed.", "success");
+        } else {
+          removeGuestCart(itemId);
+        }
         Swal.fire("Removed!", "Item has been removed.", "success");
       } else {
         return false;
