@@ -49,7 +49,8 @@ const MyProvider = ({ children }) => {
       });
       setGuestCart(updatedCart);
     } else {
-      setGuestCart([...guestCart, { ...merch, quantity }]);
+      setGuestCart([...guestCart, { quantity: quantity, merch: { ...merch } }]);
+      // setGuestCart([...guestCart, { ...merch, quantity }]);
     }
   }
 

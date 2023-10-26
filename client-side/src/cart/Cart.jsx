@@ -14,6 +14,7 @@ function Cart() {
     removeGuestCart,
   } = useContext(MyContext);
   const [cart, setCart] = useState([]);
+  const logicalCart = currentUser ? cart : guestCart;
 
   const handleQuantityChange = (merch, newQuantity) => {
     const updatedCart = cart.map((item) =>
@@ -125,53 +126,38 @@ function Cart() {
       <div className="merch__body">
         <div className="merch__container">
           <div className="row">
-            {currentUser
-              ? cart
-              : guestCart.map((item) => (
-                  <div className="col-6 col-md-3" key={item.id}>
-                    <div className="merch__container__1">
-                      <div>
-                        <img
-                          src={
-                            currentUser
-                              ? item.merch.imageFilename
-                              : item.imageFilename
-                          }
-                          alt=""
-                        />
-                        <p className="text-div">
-                          {currentUser ? item.merch.name : item.name}
-                        </p>
-                        <p className="text-div">
-                          Total: $
-                          {currentUser
-                            ? item.merch.price * item.quantity
-                            : item.price * item.quantity}
-                        </p>
-                        <div className="text-div">
-                          <select
-                            id={`quantity-${item.id}`}
-                            className="cart-select"
-                            value={item.quantity || 0}
-                            onChange={(e) => {
-                              const newQuantity = Number(e.target.value);
-                              handleQuantityChange(item, newQuantity);
-                            }}
-                          >
-                            {[
-                              0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-                              15,
-                            ].map((quantity) => (
-                              <option key={quantity} value={quantity}>
-                                {quantity}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
+            {logicalCart.map((item) => (
+              <div className="col-6 col-md-3" key={item.id}>
+                <div className="merch__container__1">
+                  <div>
+                    <img src={item.merch.imageFilename} alt="" />
+                    <p className="text-div">{item.merch.name}</p>
+                    <p className="text-div">
+                      Total: ${item.merch.price * item.quantity}
+                    </p>
+                    <div className="text-div">
+                      <select
+                        id={`quantity-${item.id}`}
+                        className="cart-select"
+                        value={item.quantity || 0}
+                        onChange={(e) => {
+                          const newQuantity = Number(e.target.value);
+                          handleQuantityChange(item, newQuantity);
+                        }}
+                      >
+                        {[
+                          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                        ].map((quantity) => (
+                          <option key={quantity} value={quantity}>
+                            {quantity}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
-                ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
