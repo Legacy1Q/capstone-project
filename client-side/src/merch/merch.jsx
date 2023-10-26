@@ -39,11 +39,6 @@ function Merch() {
     revertQuantityValue();
   }, [merch]);
 
-  const isItemExisting = (merchId) => {
-    const filteredCart = guestCart.filter((x) => x.id === merchId);
-    return filteredCart.length > 0;
-  };
-
   async function addToCart(quantity, merchId) {
     const userId = currentUser ? currentUser.id : null;
     if (userId !== null) {
@@ -105,22 +100,9 @@ function Merch() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        if (!isItemExisting(merchId)) {
-          const newItem = { data };
-          updateGuestCart(quantity, [...guestCart, newItem]);
-          // console.log(guestCart);
-        } else {
-          const updatedCart = guestCart.map((item) =>
-            item.id === data.id
-              ? { ...item, quantity: item.quantity + quantity }
-              : item
-          );
-          updateGuestCart(quantity, updatedCart);
-          // console.log(guestCart);
-        }
-        // if (!response.ok) {
-        //   throw new Error(`HTTP error! status: ${response.status}`);
-        // }
+        console.log(data);
+        updateGuestCart(quantity, data, false);
+        console.log(guestCart);
       } catch (error) {
         console.error("Error fetching cart data:", error);
       }
@@ -136,16 +118,16 @@ function Merch() {
   };
 
   const handleAddToCart = (id, qty) => {
-    if (currentUser === null) {
-      Swal.fire({
-        position: "top-end",
-        icon: "warning",
-        title: "Please login first!",
-        showConfirmButton: true,
-        timer: 15000,
-      });
-      return navigate("/login");
-    }
+    // if (currentUser === null) {
+    //   Swal.fire({
+    //     position: "top-end",
+    //     icon: "warning",
+    //     title: "Please login first!",
+    //     showConfirmButton: true,
+    //     timer: 15000,
+    //   });
+    //   return navigate("/login");
+    // }
     addToCart(qty, id);
     revertQuantityValue();
 

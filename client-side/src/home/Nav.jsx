@@ -10,8 +10,13 @@ import Modal from "react-modal";
 import Swal from "sweetalert2";
 
 function Nav() {
-  const { currentUser, updateCurrentUser, cartTotal, fetchCartTotal } =
-    useContext(MyContext);
+  const {
+    currentUser,
+    updateCurrentUser,
+    cartTotal,
+    fetchCartTotal,
+    guestCart,
+  } = useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedData, setSearchData] = useState([]);
   const [editedDataId, setEditedDataId] = useState(null);
@@ -20,6 +25,7 @@ function Nav() {
   const [isClickedDataModalOpen, setIsClickedDataModalOpen] = useState(false);
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
   const apiKey = "e4ea514e7e06ce24e90f01250baf128d"; // Replace with your actual API key
+  // const guestCartTotal = guestCart
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -375,7 +381,11 @@ function Nav() {
         <span>
           <Link to="/cart">
             <ShoppingBagIcon />
-            <p className="cart-count">{cartTotal}</p>
+            <p className="cart-count">
+              {currentUser
+                ? cartTotal
+                : guestCart.reduce((sum, item) => sum + item.quantity, 0)}
+            </p>
             {fetchCartTotal()}
           </Link>
         </span>

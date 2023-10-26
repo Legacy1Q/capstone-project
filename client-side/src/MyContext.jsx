@@ -5,7 +5,8 @@ const MyContext = createContext();
 const MyProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [cartTotal, setCartTotal] = useState(0);
-  const [guestCart, setGuestCart] = useState([{}]);
+  const [guestCart, setGuestCart] = useState([]);
+  const [merch, setMerch] = useState([]);
   const updateCurrentUser = (updateValue) => {
     setCurrentUser(updateValue);
     fetchCartTotal();
@@ -30,17 +31,27 @@ const MyProvider = ({ children }) => {
       });
   }
 
-  function updateGuestCart(quantity, merchId) {
-    setGuestCart({ quantity: quantity, merchId: merchId });
+  function updateGuestCart(quantity, merch, isFromCart) {
+    const filteredCart = guestCart
+      ? guestCart.filter((x) => x.id === merch.id)
+      : [];
 
-    // console.log(guestCart);
+    if (filteredCart.length > 0) {
+      // The item is already in the guestCart
+      const updatedCart = guestCart.map((item) => {
+        if (item.id === merch.id) {
+          return {
+            ...item,
+            quantity: isFromCart ? quantity : item.quantity + quantity,
+          };
+        }
+        return item;
+      });
+      setGuestCart(updatedCart);
+    } else {
+      setGuestCart([...guestCart, { ...merch, quantity }]);
+    }
   }
-
-  // useEffect(() => {
-  //   fetchCartTotal();
-  // }, []);
-
-  const [merch, setMerch] = useState([]);
 
   const updateIsAddedToCart = (id, quantity, type) => {
     const updatedMerch = [...merch];
