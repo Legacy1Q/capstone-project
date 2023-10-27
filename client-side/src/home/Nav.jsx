@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Nav.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
@@ -10,9 +10,13 @@ import Modal from "react-modal";
 import Swal from "sweetalert2";
 
 function Nav() {
-  const { currentUser, updateCurrentUser, cartTotal, fetchCartTotal } =
-    useContext(MyContext);
-  const navigate = useNavigate();
+  const {
+    currentUser,
+    updateCurrentUser,
+    cartTotal,
+    fetchCartTotal,
+    guestCart,
+  } = useContext(MyContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedData, setSearchData] = useState([]);
   const [editedDataId, setEditedDataId] = useState(null);
@@ -21,6 +25,7 @@ function Nav() {
   const [isClickedDataModalOpen, setIsClickedDataModalOpen] = useState(false);
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
   const apiKey = "e4ea514e7e06ce24e90f01250baf128d"; // Replace with your actual API key
+  // const guestCartTotal = guestCart
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -31,7 +36,6 @@ function Nav() {
 
   const LogoutHandler = () => {
     updateCurrentUser(null);
-    navigate("/login");
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -46,6 +50,7 @@ function Nav() {
     setIsSearchedDataModalOpen(false);
     setIsTrailerModalOpen(false);
     setIsClickedDataModalOpen(false);
+    setSearchQuery("");
   };
 
   const trailerClickHandler = () => {
@@ -376,7 +381,11 @@ function Nav() {
         <span>
           <Link to="/cart">
             <ShoppingBagIcon />
-            <p className="cart-count">{cartTotal}</p>
+            <p className="cart-count">
+              {currentUser
+                ? cartTotal
+                : guestCart.reduce((sum, item) => sum + item.quantity, 0)}
+            </p>
             {fetchCartTotal()}
           </Link>
         </span>

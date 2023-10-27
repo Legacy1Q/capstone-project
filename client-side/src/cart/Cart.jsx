@@ -6,20 +6,29 @@ import Swal from "sweetalert2";
 import { MyContext } from "../MyContext";
 
 function Cart() {
-  const { currentUser, fetchCartTotal } = useContext(MyContext);
+  const {
+    currentUser,
+    fetchCartTotal,
+    guestCart,
+    updateGuestCart,
+    removeGuestCart,
+  } = useContext(MyContext);
   const [cart, setCart] = useState([]);
+  const logicalCart = currentUser ? cart : guestCart;
 
-  const handleQuantityChange = (itemId, newQuantity) => {
+  const handleQuantityChange = (merch, newQuantity) => {
     const updatedCart = cart.map((item) =>
-      item.id === itemId ? { ...item, quantity: newQuantity } : item
+      item.id === merch.id ? { ...item, quantity: newQuantity } : item
     );
     if (newQuantity === 0) {
-      const isConfirmed = removeFromCart(itemId);
+      const isConfirmed = removeFromCart(
+        currentUser ? merch.id : merch.merch.id
+      );
       if (!isConfirmed) {
         return;
       }
     } else {
-      updateCart(itemId, newQuantity);
+      updateCart(merch, newQuantity);
     }
     // const idToRemove = updatedCart.id;
     const newCart = updatedCart.filter((item) => item.quantity > 0);
@@ -27,21 +36,28 @@ function Cart() {
     fetchCartTotal();
   };
 
-  async function updateCart(itemId, newQuantity) {
-    const response = await fetch(`http://localhost:8080/updateCart/${itemId}`, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        quantity: newQuantity,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  async function updateCart(merch, newQuantity) {
+    if (currentUser) {
+      const response = await fetch(
+        `http://localhost:8080/updateCart/${merch.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify({
+            quantity: newQuantity,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      fetchCartTotal();
+    } else {
+      updateGuestCart(newQuantity, merch, true);
     }
-    fetchCartTotal();
   }
 
   const removeFromCart = (itemId) => {
@@ -55,25 +71,30 @@ function Cart() {
       confirmButtonText: "Yes, remove it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrl = "http://localhost:8080/deleteCart" + "/" + itemId;
-        fetch(apiUrl, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
+        if (currentUser) {
+          const apiUrl = "http://localhost:8080/deleteCart" + "/" + itemId;
+          fetch(apiUrl, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
           })
-          .then(() => {
-            fetchCart();
-            fetchCartTotal();
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+            })
+            .then(() => {
+              fetchCart();
+              fetchCartTotal();
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+          // Swal.fire("Removed!", "Item has been removed.", "success");
+        } else {
+          removeGuestCart(itemId);
+        }
         Swal.fire("Removed!", "Item has been removed.", "success");
       } else {
         return false;
@@ -90,7 +111,7 @@ function Cart() {
     fetch("http://localhost:8080/cart")
       .then((response) => response.json())
       .then((data) => {
-        setCart(data.filter((x) => x.admin.id === userId));
+        setCart(data.filter((x) => x.admin?.id === userId));
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -107,7 +128,7 @@ function Cart() {
       <div className="merch__body">
         <div className="merch__container">
           <div className="row">
-            {cart.map((item) => (
+            {logicalCart.map((item) => (
               <div className="col-6 col-md-3" key={item.id}>
                 <div className="merch__container__1">
                   <div>
@@ -123,7 +144,7 @@ function Cart() {
                         value={item.quantity || 0}
                         onChange={(e) => {
                           const newQuantity = Number(e.target.value);
-                          handleQuantityChange(item.id, newQuantity);
+                          handleQuantityChange(item, newQuantity);
                         }}
                       >
                         {[
