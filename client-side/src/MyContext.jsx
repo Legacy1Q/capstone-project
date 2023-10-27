@@ -54,7 +54,7 @@ const MyProvider = ({ children }) => {
   }
 
   function removeGuestCart(merchId) {
-    const newGuestCart = guestCart.filter((x) => x.id !== merchId);
+    const newGuestCart = guestCart.filter((x) => x.merch.id !== merchId);
     setGuestCart(newGuestCart);
   }
 

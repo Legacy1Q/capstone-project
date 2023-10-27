@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 function Merch() {
-  const { currentUser, fetchCartTotal, guestCart, updateGuestCart } =
+  const { currentUser, fetchCartTotal, updateGuestCart } =
     useContext(MyContext);
 
   const [favoriteStatus, setFavoriteStatus] = useState([]);

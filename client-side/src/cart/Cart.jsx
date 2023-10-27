@@ -21,7 +21,9 @@ function Cart() {
       item.id === merch.id ? { ...item, quantity: newQuantity } : item
     );
     if (newQuantity === 0) {
-      const isConfirmed = removeFromCart(merch.id);
+      const isConfirmed = removeFromCart(
+        currentUser ? merch.id : merch.merch.id
+      );
       if (!isConfirmed) {
         return;
       }
