@@ -9,5 +9,21 @@
       "addWords": true,
       "scope": "workspace"
     }
-  }
+  },
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "MySQL81",
+      "database": "mysql",
+      "username": "root",
+      "password": "qwerty"
+    }
+  ]
 }

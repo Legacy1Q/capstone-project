@@ -259,24 +259,22 @@ function Home() {
         >
           <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
-              <Link to="/ahsoka">
-                <img src={movies[0]?.imageFilename} alt={movies[0]?.title} />
-              </Link>
+              <img src={movies[0]?.imageFilename} alt={movies[0]?.title} onClick={() => reviewHandler(movies, "MovieReview")}/>
             </Carousel.Item>
             <Carousel.Item>
-              <img src={tvs[0]?.imageFilename} alt={tvs[0]?.title} />
+              <img src={tvs[0]?.imageFilename} alt={tvs[0]?.title} onClick={() => reviewHandler(tvs, "TvReview")}/>
             </Carousel.Item>
             <Carousel.Item>
-              <img src={games[0]?.imageFilename} alt={games[0]?.title} />
+              <img src={games[0]?.imageFilename} alt={games[0]?.title} onClick={() => reviewHandler(games, "GameReview")}/>
             </Carousel.Item>
             <Carousel.Item>
-              <img src={movies[1]?.imageFilename} alt={movies[1]?.title} />
+              <img src={movies[1]?.imageFilename} alt={movies[1]?.title} onClick={() => reviewHandler(movies, "MovieReview")}/>
             </Carousel.Item>
             <Carousel.Item>
-              <img src={tvs[1]?.imageFilename} alt={tvs[1]?.title} />
+              <img src={tvs[1]?.imageFilename} alt={tvs[1]?.title} onClick={() => reviewHandler(tvs, "TvReview")}/>
             </Carousel.Item>
             <Carousel.Item>
-              <img src={games[1]?.imageFilename} alt={games[1]?.title} />
+              <img src={games[1]?.imageFilename} alt={games[1]?.title} onClick={() => reviewHandler(games, "GameReview")}/>
             </Carousel.Item>
           </Carousel>
         </div>
